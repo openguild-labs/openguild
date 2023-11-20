@@ -1,22 +1,38 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Next.js Starter Blog',
-  author: 'Tails Azimuth',
-  headerTitle: 'TailwindBlog',
-  description: 'A blog created with Next.js and Tailwind.css',
+  title: 'The Low Levelers',
+  author: 'Tin Chung',
+  headerTitle: 'lowlevelers.com',
+  description: 'Programming hub for passionate low-level enthusiasts',
+  expandedDescription:
+    "TheLowLevelers is a non-profit community made by Vietnameses for Vietnamese programmer who are interested in low-level programming. In Vietname, we are taught to approach problems with instant and narrow solutions. And we don't think it is a right way to study. Hence, we design this community on top of the First Principle Thinking mindset to break down the subtlety of complex computer systems in a comprehensive way.",
+  blogSectionDescription:
+    'Read our latest research & blog posts to learn more about what are we building',
+  focusTopics: [
+    {
+      title: 'Blockchain',
+      description:
+        'To catch up with the latest development in distributed system, blockchain is in our priority R&D queue. There are thousands of smart contract tutorial development out there, but only a tiny number of tutorials for blockchain engineering.',
+    },
+    {
+      title: 'Reverse Engineering',
+      description:
+        'We break down and implement retro gaming consoles like Nintendo Switch and Nintendo Entertainment System (NES) experimetally to deep dive into the architecture of its subtle system',
+    },
+  ],
   language: 'en-us',
-  theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  theme: 'dark', // system, dark or light
+  siteUrl: 'https://lowlevelers.com',
+  siteRepo: 'https://github.com/lowlevelers/lowlevelhub.com',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
-  mastodon: 'https://mastodon.social/@mastodonuser',
+  // mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'address@yoursite.com',
-  github: 'https://github.com',
-  twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
+  github: 'https://github.com/lowlevelers',
+  // twitter: 'https://twitter.com/Twitter',
+  // facebook: 'https://facebook.com',
+  // youtube: 'https://youtube.com',
+  // linkedin: 'https://www.linkedin.com',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
