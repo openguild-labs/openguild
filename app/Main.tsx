@@ -84,7 +84,7 @@ export default function Home({ posts }) {
             {siteMetadata.focusTopics.map((topic) => (
               <div
                 key={topic.title}
-                className="my-5 max-w-sm overflow-hidden rounded bg-gray-900 shadow-lg"
+                className="mx-3 my-5 max-w-sm overflow-hidden rounded bg-gray-900 shadow-lg"
               >
                 <div className="px-6 py-4">
                   <div className="mb-2 text-xl font-bold">{topic.title}</div>
