@@ -30,7 +30,7 @@ const siteMetadata = {
   siteUrl: 'https://lowlevelers.com',
   siteRepo: 'https://github.com/lowlevelers/lowlevelhub.com',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '/static/images/banner.png',
   // mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'address@yoursite.com',
   github: 'https://github.com/lowlevelers',
