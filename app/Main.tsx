@@ -98,6 +98,20 @@ export default function Home({ posts }) {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            How to contribute to the community?
+          </h1>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+            LowLevelers is open-source and everyone can contribute to the site. Blog data is stored
+            in <span className="font-bold text-primary-500">data/blog</span>. To contribute, please
+            create a pull request (PR) following the guidelides to submit a new markdown file to the
+            path above.
+          </p>
+          <div className="lg:flex lg:justify-evenly"></div>
+        </div>
+      </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Experimental Projects
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">

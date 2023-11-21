@@ -1,0 +1,72 @@
+---
+title: 'Data Representation and Layout in Rust'
+date: '2023-11-22'
+tags: ['technical', 'language', 'rust']
+draft: false
+summary: Chip8 emulator is quite popular and I don't want to write another article to guide you on how to make a Chip8 emulator. This blog is more like my personal programming log that gives insight into how I link my knowledge in other parts into making the emulator.
+---
+
+To read more about this topic, please visit the [Rustonomicon documentation site](https://doc.rust-lang.org/nomicon/data.html)
+
+# Rust - Data Representation and Layout
+
+In the realm of low-level programming, the intricacies of data representation significantly influence how byte data is aligned in memory. Rust, with its emphasis on control and safety, provides two primary representations: `repr(rust)` and `repr(C)`. The former instructs the compiler to align data structures in the default "Rust" way.
+
+## Unraveling struct Sizes in Rust
+
+Determining the size of a struct in Rust requires an understanding of how Rust handles alignment and padding. The compiler strategically introduces padding to ensure that each field is properly aligned, resulting in an overall type size that is a multiple of its alignment.
+
+Consider the following example:
+
+```rust
+struct A {
+    a: u8,
+    b: u32,
+    c: u16,
+}
+```
+
+Assuming a target aligning primitives to their respective sizes, this struct will be 32-bit aligned. The compiler may insert padding as needed:
+
+```rust
+struct A {
+    a: u8,
+    _pad1: [u8; 3], // to align `b`
+    b: u32,
+    c: u16,
+    _pad2: [u8; 2], // to make the overall size a multiple of 4
+}
+```
+
+Alternatively, the padding might be arranged differently:
+
+```rust
+struct A {
+    b: u32,
+    c: u16,
+    a: u8,
+    _pad: u8,
+}
+```
+
+## The Intricacies of Struct Field Order and Size
+
+It's crucial to recognize that altering the order of struct fields can result in a different data structure size due to the interplay of data alignment and padding. Rust's meticulous handling of memory ensures optimal performance but demands a nuanced understanding of how data is organized.
+
+## Navigating Tagged Unions
+
+Tagged unions, a powerful concept in low-level programming, allow a single memory address to represent different data types based on a provided tag. Enums in Rust, such as:
+
+```rust
+enum Foo {
+    A(u32),
+    B(u64),
+    C(u8),
+}
+```
+
+The actual layout, accounting for the size and position of the `tag`, requires a more nuanced understanding. Mastery of how Rust represents enums is essential for effectively working with tagged unions.
+
+## Conclusion
+
+In Rust, delving into the intricacies of data representation and layout is fundamental for writing efficient, low-level code. A keen awareness of how the compiler aligns and pads data structures, coupled with an understanding of tagged unions, empowers developers to harness Rust's capabilities for optimal performance.
