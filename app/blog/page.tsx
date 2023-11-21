@@ -7,11 +7,11 @@ const POSTS_PER_PAGE = 5
 
 export const metadata = genPageMetadata({ title: 'Blog' })
 
-export const filterByTags = (posts: CoreContent<Blog>[], tags: string[]) => {
-  return posts.filter((post) =>
-    post.tags.some((tag) => tags.some((_tag) => _tag.toLowerCase() === tag.toLowerCase()))
-  )
-}
+// const filterByTags = (posts: CoreContent<Blog>[], tags: string[]) => {
+//   return posts.filter((post) =>
+//     post.tags.some((tag) => tags.some((_tag) => _tag.toLowerCase() === tag.toLowerCase()))
+//   )
+// }
 
 export default function BlogPage() {
   const posts = allCoreContent(sortPosts(allBlogs))
@@ -27,7 +27,7 @@ export default function BlogPage() {
 
   return (
     <ListLayout
-      posts={filterByTags(posts, ['announcement'])}
+      posts={posts}
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
       title="All Posts"
