@@ -1,0 +1,41 @@
+---
+title: 'Substrate là gì?'
+date: '2023-11-23'
+tags: ['technical', 'blockchain', 'polkadot', 'lang-vn']
+draft: false
+summary: Chip8 emulator is quite popular and I don't want to write another article to guide you on how to make a Chip8 emulator. This blog is more like my personal programming log that gives insight into how I link my knowledge in other parts into making the emulator.
+---
+
+_Language_: Vietnamese
+
+# Substrate là gì?
+
+## Khái niệm của blockchain node
+
+Nếu bạn có từng xem qua khái quát kiến trúc của blockchain Polkadot, bạn chắc sẽ ít nhất một lần nghe về các **nút Substrate (Substrate Node)**. Trước khi bàn tới khái niệm của Substrate, các bạn sẽ cần hiểu về cấu tạo của một mạng blockchain. Nếu như bạn chưa biết, đối với một mạng blockchain thì **Node** là một trong các thành phần quan trọng nhất.
+
+Xét ở góc độ Web 2, Node bản chất là các máy tính tập hợp với nhau và giao tiếp thông qua các giao thức mạng ngang hàng (peer-to-peer) cùng với hệ thống đồng thuận mạnh mẽ là yếu tố khiến mạng blockchain khác với mạng Internet thông thường. Sự khác biệt lớn nhất đến từ khả năng phi tập trung (**decentralization**) mà blockchain mang lại.
+
+Nếu bạn từng nghe về [_"Vạn lý trường thành trên không gian mạng"_ ](https://www.thegioididong.com/tin-tuc/tim-hieu-ve-van-ly-truong-thanh-tren-mang-cua-trun-516952) của Trung Quốc thì bạn sẽ thấy rõ được tầm quan trọng của việc truy cập thông tin trên Internet không dưới sự thao túng của bên thứ 3 là yếu tố cần thiết cho tương lai bền vững và minh bạch của _World Wide Web_.
+
+## Vậy Substrate là gì?
+
+Substrate là một _bộ công cụ phát triển phần mềm (SDK - Software Development Kit)_ được cung cấp bởi Parity Technologies nhằm hỗ trợ phát triển các nút blockchain với khả năng cấu hình và mở rộng dễ dàng không phụ thuộc vào trạng thái của giao thức mạng blockchain.
+
+Đối với các giải pháp Layer 1 như Ethereum hay Solana, việc mở rộng luôn là một vấn đề nan giải khi các virtual machine như EVM của Ethereum và Sealevel của Solana được thiết kế theo một giao thức đồng thuận cố định. Với **Ethereum là Proof of Stake (PoS)** và Solana là **Proof of History (PoH)**. Vậy nếu giải pháp mà doanh nghiệp cần phải được xây dựng trên một blockchain sử dụng **Proof of Authority (PoA)**, họ sẽ phải làm gì?
+
+Do đó, Substrate cung cấp khả năng để xây dựng các _blockchain chuyên dụng (application-specific blockchains)_ từ các thành phần riêng biệt và dễ dàng mở rộng. Các blockchain chuyên dụng được xây dựng bằng Substrate có thể chạy như một máy chủ độc lập hoặc song song với các chuỗi khác để chia sẻ tính bảo mật từ hệ sinh thái Polkadot.
+
+> Đây là khái niệm về Parachain mà chúng ta sẽ đào sau hơn trong các bài viết tiếp theo
+
+## Kiến trúc của Substrate Node
+
+![fig](/static/images/polkadot/substrate_anatomy.png)
+
+Một Substrate Node bao gồm 3 thành phần chính
+
+- `libp2p`: [**Lip2p**](https://libp2p.io/implementations/) là tập hợp các thư viện, giao thức và công cụ để xây dựng giao tiếp của một substrate node với các node trong cùng hệ sinh thái. Mình sẽ có một bài phân tích công nghệ và mã nguồn libp2p sâu hơn.
+- `wasm`: WASM có vẻ cũng không còn quá xa lạ với anh em lập trình Rust. Để hiểu được lý do vì sao Polkadot và Substrate lại sử dụng WASM và Rust thì bên cạnh các khả năng ưu việt về hiệu năng và memory safety. WASM cho phép các file binary biên dịch có thể được thực thi trên bất kì nền tảng nào mà không chịu ảnh hưởng của các kiến trúc không tương thích từ chip.
+- `GRANDPA`: Với bất kì blockchain nào thì thuật toán đồng thuận (consensus algoritm) là hoàn toàn cần thiết để bảo đảm các trạng thái và thay đổi trên blockchain được bản đảm và bền vững. Với Polkadot, GRANPA (**G**HOST-based **R**ecursive **AN**cestor **D**eriving **P**refix **A**greement) được triển khai cho cơ chế **Block Finality** của Relay Chain trên Polkadot.
+
+> Relay chain là blockchain trung tâm của mạng Polkadot. Tất cả validators của Polkadot stake DOT trên Relay Chain và xác thực giao dịch trên Relay Chain.
