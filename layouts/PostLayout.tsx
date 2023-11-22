@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog, Authors } from 'contentlayer/generated'
@@ -9,6 +10,8 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import FlowViewContainer from '@/components/FlowViewContainer'
+import FlowData from '../data/flow/flow-data.json'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 const discussUrl = (path) =>
@@ -29,9 +32,57 @@ interface LayoutProps {
   children: ReactNode
 }
 
+type FlowData = {
+  name: string
+  type: string
+  value: FlowData[]
+}
+
+const primaryNodeStyle = 'font-bold bg-primary-600 text-gray-100 border-gray-900'
+const normalNodeStyle = 'font-bold bg-gray-700 text-gray-100'
+const defaultPosition = { x: 0, y: 0 }
+
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
   const { filePath, path, slug, date, title, tags } = content
   const basePath = path.split('/')[0]
+
+  const flowData: FlowData[] = FlowData[slug]
+
+  const collectNodes = (data: FlowData[]) => {
+    let nodes: any[] = []
+    for (const node of data) {
+      nodes = nodes.concat([
+        {
+          id: node.name,
+          className: node.type === 'primary' ? primaryNodeStyle : normalNodeStyle,
+          data: {
+            label: node.name,
+          },
+          position: defaultPosition,
+        },
+        ...collectNodes(node.value),
+      ])
+    }
+    return nodes
+  }
+
+  const collectEdges = (data: FlowData[]) => {
+    let edges: any[] = []
+    for (const node of data) {
+      for (const leaf of node.value) {
+        edges = edges.concat([
+          {
+            id: `${node.name} ${leaf.name}`,
+            source: node.name,
+            target: leaf.name,
+            animated: true,
+          },
+          ...collectEdges(node.value),
+        ])
+      }
+    }
+    return edges
+  }
 
   return (
     <SectionContainer>
@@ -39,6 +90,15 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
+            <div className="my-6" style={{ marginBottom: 50 }}>
+              {FlowData[slug] && (
+                <FlowViewContainer
+                  title={title}
+                  edges={collectEdges(flowData)}
+                  nodes={collectNodes(flowData)}
+                />
+              )}
+            </div>
             <div className="space-y-1 text-center">
               <dl className="space-y-10">
                 <div>
