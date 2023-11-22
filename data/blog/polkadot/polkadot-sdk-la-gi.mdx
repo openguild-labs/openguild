@@ -1,0 +1,54 @@
+---
+title: 'Polkadot SDK là gì?'
+date: '2023-11-9'
+tags: ['technical', 'blockchain', 'polkadot', 'lang-vn']
+draft: false
+summary: 'Polkadot SDK là một bộ công cụ phát triển phần mềm cung cấp tất cả những tài nguyên cần thiết để bắt đầu xây dựng và phát triển trên mạng Polkadot, nền tảng blockchain đã chuỗi (multi-chain) cho phép các blockchain khác nhau cùng vận hành và chia sẻ thông tin một cách an toàn và dễ dàng mở rộng. Polkadot SDK bao gồm 3 thành phần cốt lõi: Polkadot, Substrate và Cumulus'
+---
+
+_Language_: Vietnamese
+
+# Polkadot SDK là gì?
+
+Github Repo: https://github.com/paritytech/polkadot-sdk
+
+## Dành cho các nhà phát triển cũ
+
+Nếu bạn đã biết đến Polkadot từ trước, bạn sẽ quen thuộc với bộ công cụ phát triển Substrate để phát triển các solochain và parachain trên Polkadot. Tuy nhiên, Polkadot đã có những thay đổi đáng kể về mặt quảng bá nhằm giúp nhà phát triển dễ dàng hơn trong việc tiếp cận với các công cụ. Thông báo của Polkadot.
+
+> We have recently made significant changes to our repository structure. In order to streamline our development process and foster better contributions, we have merged three separate repositories Cumulus, Substrate and Polkadot into this repository. Read more about the changes [here](https://polkadot-public.notion.site/Polkadot-SDK-FAQ-fbc4cecc2c46443fb37b9eeec2f0d85f).
+
+Tạm dịch
+
+> Gần đây, chúng tôi đã có những thay đổi đáng kể để tái cơ cấu lại các repository. Nhằm tăng tính hiệu quả của quy trình phát triển và thúc đẩy những đóng góp tốt hơn, chúng tôi đã hợp nhất 3 mã nguồn riêng biệt của Cumulus, Substrate và Polkadot vào 1 repository chung.
+
+Bạn có thể đọc thêm về các thay đổi tại đây: [Đọc thêm về Polkadot SDK](https://polkadot-public.notion.site/Polkadot-SDK-FAQ-fbc4cecc2c46443fb37b9eeec2f0d85f)
+
+## Về Polkadot SDK
+
+Polkadot SDK là một bộ công cụ phát triển phần mềm cung cấp tất cả những tài nguyên cần thiết để bắt đầu xây dựng và phát triển trên mạng Polkadot, nền tảng blockchain đã chuỗi (multi-chain) cho phép các blockchain khác nhau cùng vận hành và chia sẻ thông tin một cách an toàn và dễ dàng mở rộng. Polkadot SDK bao gồm 3 thành phần cốt lõi:
+
+### Polkadot và tập hợp các runtimes
+
+[Polkadot](https://github.com/paritytech/polkadot-sdk/blob/master/polkadot): Mã nguồn của node cho [mạng Polkadot](https://polkadot.network/) được viết bằng Rust, sử dụng Substrate. Repository này bao gồm các runtimes cho Polkadot, Kusama, Westend và Rococo networks.
+
+- **Polkadot:** production network hay mainnet của toàn bộ hệ sinh thái.
+- **Kusama:** canary network, đây là môi trường gần như là "_sinh đôi_" của Polkadot. Được sử dụng để làm môi trường thử. Theo đó, nhiều [dApp](https://vn.beincrypto.com/learn/dapps-la-gi-ung-phi-tap-trung-tot-nhat-2020/) sẽ được khởi chạy trên Kusama trước khi ổn định và chính thức cập nhật lên mạng chính Polkadot.
+- **Westend** và **Rococo** là mạng testnet của Polkadot. Để phân biệt dễ nhất với Kusama, bạn sẽ cần KSM (token của mạng Kusama) để làm phí thực thi giao dịch, tuy nhiên với các testnet như Westend hay Rococo, thì bạn hoàn toàn không cần.
+  Sự khác biệt giữa testnet và Kusama canary network là về giá trị kinh tế của các token và hợp đồng giao dịch. Với testnet, các tương tác và token không có giá trị về mặt kinh tế, tuy nhiên, điều này hoàn toàn trái ngược trên Kusama. Vì vậy, các cải tiến mới của một dApp có thể xác thực giá trị kinh tế mang lại ngay khi còn trên môi trường thử của Kusama.
+
+### Substrate
+
+Substrate là một _bộ công cụ phát triển phần mềm (SDK - Software Development Kit)_ được cung cấp bởi Parity Technologies nhằm hỗ trợ phát triển các nút blockchain với khả năng cấu hình và mở rộng dễ dàng không phụ thuộc vào trạng thái của giao thức mạng blockchain.
+
+Đọc thêm về ["Substrate là gì?" của TheLowLevelers tại đây](https://lowlevelers.com/blog/polkadot/polkadot-sdk-substrate)
+
+![fig](/static/images/polkadot/substrate-la-gi.png)
+
+### Cumulus
+
+Cumulus tập hợp các công cụ để giúp bạn xây dựng cách Polkadot Parachain bằng Substrate. Repository của Cumulus bao gồm các công cụ để hỗ trợ bạn chạy những thành phần thiết yếu xoay quan việc phát triển Parachain như:
+
+- **Zombienet**: Được sử dụng để spin up các _mạng local (local networks)_ cho mục đích kiểm thử.
+- Template cho **Parachain** và **Relay Chain**
+- Runtime cho **Asset Hub**

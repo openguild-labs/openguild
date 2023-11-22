@@ -1,0 +1,79 @@
+---
+title: 'Polkadot Guide: Chạy Substrate node trên máy tính của bạn'
+date: '2023-11-13'
+tags: ['technical', 'blockchain', 'polkadot', 'substrate', 'lang-vn']
+draft: false
+summary: Hướng dẫn làm sao để chạy một local substrate node để bắt đầu phát triển một solochain hoặc blockchain trong hệ sinh thái của Polkadot
+---
+
+_Language_: Vietnamese
+
+# Polkadot Guide: Chạy Substrate node trên máy tính của bạn
+
+Để bắt đầu phát triển node bằng Substrate, bạn bắt buộc phải khởi tạo một node trên máy tính cá nhân (local) hoặc trên một VPS (Virtual Private Server: Mạng cá nhân ảo).
+
+## Bài viết liên quan
+
+- [Polkadot SDK là gì?](https://lowlevelers.com/blog/polkadot/polkadot-sdk-la-gi)
+- [Polkadot SDK: Substrate](https://lowlevelers.com/blog/polkadot/polkadot-sdk-substrate)
+
+## Các bước chuẩn bị
+
+### Cài đặt Rust
+
+- Máy của bạn đã được cài đặt Rust và toolchain phù hợp. Để cài đặt Rust, bạn có thể làm theo [hướng dẫn ở đây](https://www.rust-lang.org/tools/install)
+
+Sau khi cài đặt, bạn hãy giúp mình chạy các command sau để kiểm tra xem Rust đã được cài đặt chưa nhé. (các phiên bản chỉ là ví dụ, có thể khác trên máy bạn.)
+
+> Nếu sử dụng MacOS thì mình khuyên bạn nên cài đặt `cargo` và `rust` theo các phiên bản dưới đây vì `substrate-node-template` chưa được tối ưu trên chip Apple Silion (M1 trở đi) của MacOS
+
+```rust
+❯ cargo --version
+cargo 1.76.0-nightly (71cd3a926 2023-11-20)
+❯ rustc --version
+rustc 1.76.0-nightly (3a85a5cfe 2023-11-20)
+❯ rustup --version
+rustup 1.25.2 (17db695f1 2023-02-01)
+```
+
+### Thêm `wasm32-unknown-unknown` vào Rust toolchain
+
+- Rust toolchain và target phù hợp: Mã nguồn của Substrate tương thích với binary target cho [`wasm32-unknown-unknown`](https://doc.rust-lang.org/rustc/platform-support/wasm64-unknown-unknown.html). Để thêm `wasm32-unknown-unknown` target vào build script của Rust, bạn có thể chạy câu lệnh sau:
+
+```shell
+rustup target add wasm32-unknown-unknown
+```
+
+Sau đó để kiểm tra xem target đã được thêm vào toolchain hay chưa, bạn có thể chạy câu lệnh
+
+```shell
+rustup show
+```
+
+Và đây là output từ câu lệnh trên
+
+```shell
+Default host: aarch64-apple-darwin
+rustup home:  /Users/chungquantin/.rustup
+
+installed toolchains
+--------------------
+
+stable-aarch64-apple-darwin
+nightly-2020-08-19-x86_64-apple-darwin
+nightly-aarch64-apple-darwin (default)
+
+installed targets for active toolchain
+--------------------------------------
+
+aarch64-apple-darwin
+wasm32-unknown-unknown
+
+active toolchain
+----------------
+
+nightly-aarch64-apple-darwin (overridden by '/Users/chungquantin/Developer/substrate-node/rust-toolchain.toml')
+rustc 1.76.0-nightly (3a85a5cfe 2023-11-20)
+```
+
+Nếu `wasm32-unknown-unknown` được hiển thị ở phần `installed targets for active toolchain`, có nghĩa là bạn đã thành công thêm target vào toolchain. Để giải thích cho việc setup vừa rồi thì mã nguồn của Substrate node được thiết kế để biên dịch sang WebAssembly hỗ trợ cho `32-bit memory`.
