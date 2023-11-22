@@ -77,3 +77,45 @@ rustc 1.76.0-nightly (3a85a5cfe 2023-11-20)
 ```
 
 Nếu `wasm32-unknown-unknown` được hiển thị ở phần `installed targets for active toolchain`, có nghĩa là bạn đã thành công thêm target vào toolchain. Để giải thích cho việc setup vừa rồi thì mã nguồn của Substrate node được thiết kế để biên dịch sang WebAssembly hỗ trợ cho `32-bit memory`.
+
+## Chạy local Substrate node
+
+Tải mã nguồn của [`substrate-node-template`](https://github.com/timlrx/tailwind-nextjs-starter-blog.git)
+
+```
+git clone https://github.com/substrate-developer-hub/substrate-node-template
+cd substrate-node-template
+```
+
+Sau khi bạn đã `cd` vào `substrate-node-template` chạy
+
+```
+cargo build --release
+```
+
+Sau đó chạy file binary đã được biên dịch
+
+```
+./target/release/node-template --dev
+```
+
+Nếu chạy node thành công, trên `terminal` sẽ hiển thị các thông tin này
+
+```
+2023-11-22 22:22:16 Substrate Node
+2023-11-22 22:22:16 ✌️  version 4.0.0-dev-41ad4a6c9d7
+2023-11-22 22:22:16 ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2023
+2023-11-22 22:22:16 📋 Chain specification: Local Testnet
+2023-11-22 22:22:16 🏷  Node name: acid-sea-0519
+2023-11-22 22:22:16 👤 Role: FULL
+2023-11-22 22:22:16 💾 Database: RocksDb at /Users/chungquantin/Library/Application Support/node-template/chains/local_testnet/db/full
+2023-11-22 22:22:17 🔨 Initializing Genesis block/state (state: 0x6880…c472, header-hash: 0x0d80…ce87)
+2023-11-22 22:22:17 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
+2023-11-22 22:22:17 Using default protocol ID "sup" because none is configured in the chain specs
+2023-11-22 22:22:17 🏷  Local node identity is: 12D3KooWSaDfHMHYYLNMDMfb1CHAufuL4BHsJ4UdhT5Rh5aAnV98
+2023-11-22 22:22:17 💻 Operating system: macos
+2023-11-22 22:22:17 💻 CPU architecture: aarch64
+2023-11-22 22:22:17 📦 Highest known block at #0
+2023-11-22 22:22:17 〽️ Prometheus exporter started at 127.0.0.1:9615
+2023-11-22 22:22:17 Running JSON-RPC server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
+```
