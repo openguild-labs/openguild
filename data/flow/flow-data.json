@@ -28,6 +28,57 @@
       ]
     }
   ],
+  "polkadot/code-breakdown-substrate-node": [
+    {
+      "name": "Substrate Node",
+      "type": "primary",
+      "value": [
+        {
+          "name": "Node",
+          "type": "normal",
+          "value": [
+            {
+              "name": "Full Network",
+              "type": "normal",
+              "value": [
+                {
+                  "name": "Chain Specification",
+                  "type": "normal",
+                  "value": []
+                },
+                {
+                  "name": "Telemetry",
+                  "type": "normal",
+                  "value": []
+                },
+                {
+                  "name": "GRANDPA",
+                  "type": "normal",
+                  "value": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Runtime",
+          "type": "normal",
+          "value": []
+        },
+        {
+          "name": "Pallet",
+          "type": "normal",
+          "value": [
+            {
+              "name": "FRAME pallets",
+              "type": "normal",
+              "value": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "polkadot/polkadot-sdk-la-gi": [
     {
       "name": "Polkadot SDK",

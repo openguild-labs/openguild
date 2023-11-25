@@ -1,0 +1,247 @@
+---
+title: 'Code Breakdown: Substrate Node'
+date: '2023-11-24'
+tags: ['technical', 'blockchain', 'polkadot', 'substrate', 'code-breakdown', 'lang-vn']
+draft: false
+summary: Sơ lược về kiến trúc của Substrate Node và phân tích mã nguồn. Mã nguồn của Substrate Node bao gồm 3 thành phần cốt lõi là node, runtime và pallet.
+images: ['/static/images/thumbnail-code-breakdown-substrate.png']
+---
+
+# Code Breakdown: Substrate Node
+
+Đôi lời về Code Breakdown - Đây là series mà TheLowLevelers tách và phân tích mã nguồn của các dự án mã nguồn mở nhằm để đem đến các bạn một góc nhìn chi tiết nhất về những gì xảy ra trong các dòng code.
+
+_Language_: Vietnamese
+
+## Bài viết liên quan
+
+- [Polkadot SDK - Substrate](https://lowlevelers.com/blog/polkadot/polkadot-sdk-substrate)
+- [Substrate Documentation - Architecture and Rust libraries](https://docs.substrate.io/learn/architecture/)
+- [Build a substrate node from scratch](https://polkadot.study/tutorials/substrate-in-bits/docs/Build%20a%20substrate%20node%20from%20scratch%20part%201)
+
+## Khái quát hạ tầng của Blockchain
+
+Blockchain là mạng lưới tập hợp các máy tính con khác nhau liên kết và giao tiếp, chia sẻ thông tin thông qua mạng lưới. Xét trên tư duy nguyên bản, thì Blockchain bản chất là mạng Internet mà chúng ta đang sử dụng hằng ngày hiện tại tuy nhiên với những cái tiến đột phá hơn về mặt bảo mật và kinh tế số. Ở một khía cạnh khác, bạn có thể xem [blockchain là state machine phi tập trung](https://www.linkedin.com/pulse/blockchain-like-state-machine-smart-contracts-vincenzo-pio-langella/).
+
+Blockchain cung cấp khả năng cho người dùng submit giao dịch. Các giao dịch không được thực thi sẽ được lưu trữ ở [transaction pool](https://iq.opengenus.org/bitcoin-transaction-pool/#:~:text=A%20transaction%20pool%20is%20a,propagation%20across%20the%20entire%20blockchain.) và blockchain có logic để xử lý các giao dịch này, kiểm tra và cập nhật kho lưu trữ dựa trên các trạng thái được thay đổi bởi các giao dịch này. Để các giao dịch được xác thức và chấp thuận bởi toàn bộ mạng lưới, cơ chế đồng thuận của các node trong mạng lưới là yêu tố bắt buộc.
+
+Các máy tính tham gia trở thành một phần của mạng lưới blockchain được gọi là các **node**. Và trong Polkadot, các node này sẽ được xây dựng bằng [Polkadot SDK - Substrate](https://lowlevelers.com/blog/polkadot/polkadot-sdk-substrate).của bộ công cụ phát triển [Polkadot SDK](https://lowlevelers.com/blog/polkadot/polkadot-sdk-la-gi)
+
+## Kiến trúc của Substrate
+
+### Cấu trúc của `substrate-node-template`
+
+Substrate node bao gồm hai thành phần chính:
+
+- **Core client** and **Outer node services**: Đóng vai trò xử lý các hoạt động của mạng lưới như là tìm kiếm các node trong cùng mạng lưới **(peer node)**, quản lý các yêu cầu giao dịch **(transaction requests)**, đạt được sự đồng thuận giữa các peers và phản hồi tới các **RPC calls**
+
+Outer node đóng vai trò tìm kiếm các node ngang hàng (peer discovery), [transaction pooling](https://iq.opengenus.org/bitcoin-transaction-pool/#:~:text=A%20transaction%20pool%20is%20a,propagation%20across%20the%20entire%20blockchain.), đồng thuận (consensus)...[đọc thêm](https://docs.substrate.io/learn/runtime-development/)
+
+Nhìn qua mã nguồn của `substrate-node-template`, ta có thể thấy được Substrate bao gồm 3 package chín
+
+- `node/` : Mã nguồn chính của một substrate node, bao gồm client và các outer node servic
+  Node bao gồm các khả năng Networking được phát triển trên `libp2p`, cung cấp đồng thuận và là một RPC server. Node đóng vai trò tham gia vào mạng lưới blockchain và và trung gian cho giao tiếp giữa phái Client và Runtime.
+
+- `runtime/` : Mã nguồn chính của runtime cho Substrate Node, chứa các logic chính của một blockchain bao gồm các vai trò như xác thực node và thực thi các thay đổi trạng thái của mạng lưới.
+
+Runtime cho Substrate Node bao gồm tất cả các business logic cho việc thực thi giao dịch, lưu trữ các trạng thái thay đổi và tương tác với các outer node.
+
+- `pallet/` : Runtime được cấu thành bởi các [FRAME pallets](https://github.com/paritytech/substrate/tree/master/frame), bạn có thể đọc thêm tại [đây](https://docs.substrate.io/reference/frame-pallets/)
+
+FRAME pallets là các module và thư viện hỗ trợ mà bạn có thể sử dụng để phát triển các logic cho Runtime tuỳ vào bài toán mà blockchain của bạn đang cố gắng giải quyết.
+
+### Tập hợp các loại thư viện cốt lõi của Substrate
+
+Trong Substrate, chúng ta bao gồm 3 loại tập hợp thư viện chính:
+
+- **Sustrate Core** (`sc_*`): Thư viện cốt lõi (Core client libraries) cho các **outer node services**
+  Như đã nói trước đó về vai trò của các outer node, `core client libraries` sẽ bao gồm các thư viện chủ yếu về networking, consensus hay block execution như: `sc_blockchain`, `sc_rpc`, `sc_service`, `sc_offchain`, `sc_network
+- `frame_*`: **FRAME libraries** dành cho \*_Runtime_-
+- **Substrate Primitive** (`sp_*`): Các Primitive libraries dùng để triển khai các hàm thức nền tảng (underlying functions) và interface cho giao tiếp giữa các thư viện với nhau.
+
+Vì Substrate Node được xây lên từ rất nhiều thành phần thư viện khác nhau, nếu bạn muốn tìm hiểu thêm, bạn có thể xem qua các thư viện [tại đây](https://paritytech.github.io/polkadot-sdk/master/polkadot_service/index.html)
+
+### Giải thích mã nguồn của Node
+
+#### Upstream dependencies
+
+```toml
+sc-cli = thư viện của Substrate CLI
+
+sp-core = thư viện cung cấp các Substrate type
+
+sc-executor = thư viện đóng vai trò thực thi và xử lý các lệnh được gửi đến runtime
+
+sc-network = thư viện mạng ngang hàng cụ thể cho Substrate
+
+sc-service = thư viện lõi của Substrate chứa logic để chạy network, client...và quản lý giao tiếp giữa các dịch vụ
+
+sc-telemetry = thư viện chính cho telemetry service của Substrate, hầu hết các hệ thống micro-service đều sẽ có telemetry để đóng vai trò là bác sĩ chuẩn đoán và thông báo khi hệ thống có lỗi.
+
+sc-transaction-pool = mã nguồn của substrate transaction pool
+
+sc-transaction-pool-api = thư viện client API để tương tác với transaction pool
+
+sc-offchain = chứa các Substrate offchain workers
+
+sc-statement-store = nơi lưu trữ các statement
+
+sc-consensus-aura = giao thức đồng thuận Authority Round (Aura) của Substrate
+
+sp-consensus-aura = thư viện primitive cho Authority Round (Aura)
+
+sc-consensus = tổng hợp các mã nguồn cho các cơ chế đồng thuận phổ biến
+
+sc-consensus-grandpa = dùng để tích hợp đồng thuận GRANDPA vào Substrate
+
+sp-consensus-grandpa = thư viện primitive để tích hợp GRANDPA
+
+sc-client-api = giao diện client của Substrate
+
+sp-runtime = gồm lượng lớn types và utilities được sử dụng trong Substrate runtime
+
+sp-io = gồm các giao diện để runtime giao tiếp với thế giới bên ngoài
+
+sp-timestamp = dùng cho timestamps
+
+frame-system = system pallets
+
+pallet-transaction-payment = pallet này gồm các basic logic để trả phí tối thiếu cho giao địch được thực thi
+```
+
+#### Cấu trúc folder `node/`
+
+- `benchmarking.rs`: Dùng để **benchmarking** Substrate node
+- `chain_spec.rs`: Mã nguồn cho **chain specification**, bao gồm các thông tin của mạng blockchain mà Substrate node kết nối đến hay trạng thái căn bản mà các nodes phải chấp thuận để sản sinh blocks.
+
+```rust
+/// Specialized `ChainSpec`. This is a specialization of the general Substrate ChainSpec type.
+pub type ChainSpec = sc_service::GenericChainSpec<RuntimeGenesisConfig>;
+```
+
+Ví dụ đây Chain Specification cấu hình cho môi trường development
+
+```rust
+pub fn development_config() -> Result<ChainSpec, String> {
+	let wasm_binary = WASM_BINARY.ok_or_else(|| "Development wasm not available".to_string())?;
+
+	// Bạn có thể check qua mã nguồn của hàm from_genesis() để hiểu ý nghĩa của từng parameters
+	Ok(ChainSpec::from_genesis(
+		// name: tên của chain
+		"Development",
+		// id: id của chain
+		"dev",
+		// chain_type: loại chain
+		ChainType::Development,
+		move || {
+			// testnet_genesis(): cấu hình trạng thái căn bản của storage cho FRAME modules
+			testnet_genesis(
+				wasm_binary,
+				// Initial PoA authorities
+				vec![authority_keys_from_seed("Alice")],
+				// Sudo account
+				get_account_id_from_seed::<sr25519::Public>("Alice"),
+				// Pre-funded accounts
+				vec![
+					get_account_id_from_seed::<sr25519::Public>("Alice"),
+					get_account_id_from_seed::<sr25519::Public>("Bob"),
+					get_account_id_from_seed::<sr25519::Public>("Alice//stash"),
+					get_account_id_from_seed::<sr25519::Public>("Bob//stash"),
+				],
+				true,
+			)
+		},
+		// Bootnodes
+		vec![],
+		// Telemetry
+		None,
+		// Protocol ID
+		None,
+		None,
+		// Properties
+		None,
+		// Extensions
+		None,
+	))
+}
+```
+
+- `cli.rs`: Bao gồm các subcommand cho CLI của Substrate. Cũng không quá khác biệt với một CLI app thông thường
+- `command.rs`: Các hàm thực thi logic tương ứng với các subcommand đã được khai báo trong `cli.rs`
+- `rpc.rs`: Tập hợp các hàm RPC cụ thể của node
+- `service.rs`: Mã nguồn khởi tạo **executor**, **network**, **client**, consensus và kết nối với chain từ specification ở `chain_spec.rs`.
+  Trong source code của `service.rs` bạn sẽ thấy có 2 hàm chính là `new_partial()` và `new_full()`. Trong đó, `new_full()` sẽ gọi `new_partial()` để xây dựng dịch vụ cho full client, `new_partial()` thì gồm các logic chính sau:
+
+1. Khởi tạo telemetry service từ các các thông tin từ `chain_spec.rs` và **spawn telemetry service** trên **worker** được khởi tạo
+
+```rust
+// 63 -72
+let telemetry = config
+		.telemetry_endpoints
+		.clone()
+		.filter(|x| !x.is_empty())
+		.map(|endpoints| -> Result<_, sc_telemetry::Error> {
+			// Khởi tạo worker cho telemetry service với bufer size là 16
+			let worker = TelemetryWorker::new(16)?;
+			let telemetry = worker.handle().new_telemetry(endpoints);
+			Ok((worker, telemetry))
+		})
+		.transpose()?;
+
+...
+
+// 83 - 86
+let telemetry = telemetry.map(|(worker, telemetry)| {
+	task_manager.spawn_handle().spawn("telemetry", None, worker.run());
+	telemetry
+});
+```
+
+2. Khởi tạo **transaction pool**
+
+```rust
+// 90 -96
+let transaction_pool = sc_transaction_pool::BasicPool::new_full(
+		config.transaction_pool.clone(),
+		config.role.is_authority().into(),
+		config.prometheus_registry(),
+		task_manager.spawn_essential_handle(),
+		client.clone(),
+	);
+```
+
+3. **Import block** từ đồng thuận **GRANDPA**
+
+```rust
+// 98 -103
+let (grandpa_block_import, grandpa_link) = sc_consensus_grandpa::block_import(
+		client.clone(),
+		&client,
+		select_chain.clone(),
+		telemetry.as_ref().map(|x| x.handle()),
+	)?;
+```
+
+4.  Sau đó, ở hàm `new_full()`, Network hoàn thiện sẽ được cấu hình qua
+
+```rust
+// 155
+let mut net_config = sc_network::config::FullNetworkConfiguration::new(&config.network);
+
+...
+
+// 171 - 181
+let (network, system_rpc_tx, tx_handler_controller, network_starter, sync_service) =
+		sc_service::build_network(sc_service::BuildNetworkParams {
+			config: &config,
+			net_config,
+			client: client.clone(),
+			transaction_pool: transaction_pool.clone(),
+			spawn_handle: task_manager.spawn_handle(),
+			import_queue,
+			block_announce_validator_builder: None,
+			warp_sync_params: Some(WarpSyncParams::WithProvider(warp_sync)),
+		})?;
+```
+
+Phần còn lại của hàm `new_full()` được giải thích và comment khá kỹ trong code. Ở phần sau, đồng thuận GRANDPA sẽ được cấu hình và khởi tạo cùng với thuật toán đồng thuận Authority Round (Aura).

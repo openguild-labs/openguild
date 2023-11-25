@@ -73,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+      <meta property="og:image" content="<generated>" />
       <body
         suppressHydrationWarning={true}
         className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white"

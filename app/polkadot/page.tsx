@@ -2,10 +2,10 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
-import NewsletterForm from 'pliny/ui/NewsletterForm'
-import projectsData from '@/data/projectsData'
-import Card from '@/components/Card'
-import Marquee from 'react-fast-marquee'
+// import NewsletterForm from 'pliny/ui/NewsletterForm'
+// import projectsData from '@/data/projectsData'
+// import Card from '@/components/Card'
+// import Marquee from 'react-fast-marquee'
 import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import Image from 'next/image'
@@ -153,7 +153,7 @@ export default function PolkadotMainPage() {
           {!posts.length && 'No posts found.'}
           {posts
             .filter((post) => post.tags.includes('polkadot') && post.tags.includes('lang-vn'))
-            .slice(0, MAX_DISPLAY)
+            // .slice(0, MAX_DISPLAY)
             .map((post) => {
               const { slug, date, title, summary, tags } = post
               return (
