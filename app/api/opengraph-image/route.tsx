@@ -1,8 +1,10 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 // pages/api/opengraph-image/[...slug].ts
 import { Authors, allAuthors, allBlogs } from 'contentlayer/generated'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextApiResponse } from 'next'
+import { ImageResponse, NextRequest, NextResponse } from 'next/server'
 import nodeHtmlToImage from 'node-html-to-image'
 import { coreContent } from 'pliny/utils/contentlayer'
 
@@ -25,6 +27,60 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 }
 
+const ThumbnailComponent = ({ post, authorDetails }) => {
+  return (
+    <div
+      className="no-styles"
+      style={{
+        justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        boxSizing: 'border-box',
+        fontFamily: 'Arial, Helvetica, sans-serif',
+        backgroundColor: 'no-repeat #111827',
+        backgroundSize: 'cover',
+        width: '1200px',
+        height: '630px',
+        overflow: 'hidden',
+        flexDirection: 'column',
+        cursor: 'pointer',
+        padding: '25px 55px',
+        textAlign: 'center',
+      }}
+    >
+      <h1 style={{ color: 'white', fontSize: '2em', fontWeight: 'bold', margin: '10px 0' }}>
+        {post.title}
+      </h1>
+      <p style={{ fontSize: '1.5em', color: 'rgb(120, 120, 150)', margin: '0px' }}>
+        By {authorDetails.map((author) => author.name).join(',')}
+      </p>
+      <p
+        style={{
+          marginTop: '5px',
+          maxWidth: '70%',
+          fontSize: '1.3em',
+          color: 'rgb(120, 120, 150)',
+        }}
+      >
+        {post.summary?.slice(0, 250).trim()}
+      </p>
+      <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+        <img
+          src="https://lowlevelers.com/_next/image?url=%2Fstatic%2Fimages%2Flogo.png&w=48&q=75"
+          style={{ borderRadius: '50%', width: '40px', height: '40px' }}
+        />
+        <p style={{ color: 'white', margin: '0px 20px', fontSize: 'smaller', fontWeight: 'bold' }}>
+          lowlevelers.com
+        </p>
+        <img
+          src="https://lowlevelers.com/_next/image?url=%2Fstatic%2Fimages%2Fpolkadot%2Fpolkadot-logo.png&w=48&q=75"
+          style={{ borderRadius: '50%', width: '40px', height: '40px' }}
+        />
+      </div>
+    </div>
+  )
+}
+
 async function generateOpengraphImage(slugs: string[]) {
   const slug = decodeURI(slugs.join('/') || '')
   const post = allBlogs.find((p) => p.slug === slug)
@@ -40,7 +96,7 @@ async function generateOpengraphImage(slugs: string[]) {
   const renderThumbnail = () => {
     return `<div
         class="no-styles"
-        style="justify-content:center;display:flex;align-items:center;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;background:no-repeat #111827;background-size:cover;width:100%;aspect-ratio:1;overflow:hidden;flex-direction:column;cursor:pointer; padding:25px 55px;"
+        style="justify-content:center;display:flex;align-items:center;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;background:no-repeat #111827;background-size:cover;width:1200px;height:630px;overflow:hidden;flex-direction:column;cursor:pointer; padding:25px 55px;"
       >
         <div style="text-align:center;margin-bottom:20px">
           <h1 style="color:white;font-size:25px;font-weight:bold;margin:10px 0;">
@@ -77,7 +133,16 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
   const params = searchParams.get('slug')
   if (!params) throw new Error('No params found')
-  // Set the content type and return the HTML string as the opengraph image
-  const { url } = await generateOpengraphImage(params.split(','))
-  return NextResponse.json({ url }, { status: 200 })
+
+  const slug = decodeURI(params.split(',').join('/') || '')
+  const post = allBlogs.find((p) => p.slug === slug)
+  const authorList = post?.authors || ['default']
+  const authorDetails = authorList.map((author) => {
+    const authorResults = allAuthors.find((p) => p.slug === author)
+    return coreContent(authorResults as Authors)
+  })
+  if (!post) {
+    throw new Error('No post found')
+  }
+  return new ImageResponse(<ThumbnailComponent authorDetails={authorDetails} post={post} />)
 }

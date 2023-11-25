@@ -47,7 +47,7 @@ export async function generateMetadata({
       width: 1200,
       height: 630,
       type: 'image/png',
-      url: `/opengraph/blog/${slug}`,
+      url: `/api/opengraph-image?slug=${params.slug.join(',')}`,
     },
   ]
 
@@ -116,6 +116,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev}>
+        <img src={`/api/opengraph-image?slug=${params.slug.join(',')}`} alt={'Thumbnail'} />
         <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
       </Layout>
     </>
