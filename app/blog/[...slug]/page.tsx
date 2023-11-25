@@ -42,9 +42,7 @@ export async function generateMetadata({
   const modifiedAt = new Date(post.lastmod || post.date).toISOString()
   const authors = authorDetails.map((author) => author.name)
   const response = await fetch(
-    `${'http://localhost:3000' || siteMetadata.siteUrl}/api/opengraph-image?slug=${params.slug.join(
-      ','
-    )}`
+    `${siteMetadata.siteUrl}/api/opengraph-image?slug=${params.slug.join(',')}`
   )
   const { url } = (await response.json()) as any
   const ogImages = [
