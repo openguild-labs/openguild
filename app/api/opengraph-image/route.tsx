@@ -6,11 +6,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import nodeHtmlToImage from 'node-html-to-image'
 import { coreContent } from 'pliny/utils/contentlayer'
 
-export const buildBase64DataUrl = (data: string) => {
+const buildBase64DataUrl = (data: string) => {
   return `data:image/jpeg;base64,${data}`
 }
 
-export const bufferToUint8Array = (bufferData: Buffer) => {
+const bufferToUint8Array = (bufferData: Buffer) => {
   return new Uint8Array(
     bufferData.buffer,
     bufferData.byteOffset,
