@@ -43,7 +43,11 @@ export async function generateMetadata({
   const authors = authorDetails.map((author) => author.name)
   const ogImages = [
     {
-      url: `${siteMetadata.siteUrl}/opengraph/blog/${slug}`,
+      alt: `${siteMetadata.title} | ${post.title}`,
+      width: 1200,
+      height: 630,
+      type: 'image/png',
+      url: `/opengraph/blog/${slug}`,
     },
   ]
 
