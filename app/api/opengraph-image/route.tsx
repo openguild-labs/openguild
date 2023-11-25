@@ -1,17 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 // pages/api/opengraph-image/[...slug].ts
-
-import siteMetadata from '@/data/siteMetadata'
 import { Authors, allAuthors, allBlogs } from 'contentlayer/generated'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 import nodeHtmlToImage from 'node-html-to-image'
 import { coreContent } from 'pliny/utils/contentlayer'
-import ReactDOMServer from 'react-dom/server'
-
-export function renderReactComponent(component: React.ReactElement): string {
-  return ReactDOMServer.renderToString(component)
-}
 
 export const buildBase64DataUrl = (data: string) => {
   return `data:image/jpeg;base64,${data}`
@@ -80,9 +73,11 @@ async function generateOpengraphImage(slugs: string[]) {
   return { url: buildBase64DataUrl(image.toString('base64')), data: uint8Array, image }
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams
+  const params = searchParams.get('slug')
+  if (!params) throw new Error('No params found')
   // Set the content type and return the HTML string as the opengraph image
-  res.setHeader('Content-Type', 'image/jpeg')
-  const { image } = await generateOpengraphImage(req.query.slug as string[])
-  res.status(200).send(image)
+  const { url } = await generateOpengraphImage(params.split(','))
+  return NextResponse.json({ url }, { status: 200 })
 }

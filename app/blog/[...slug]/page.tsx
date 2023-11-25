@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 import 'css/prism.css'
 import 'katex/dist/katex.css'
@@ -40,9 +41,15 @@ export async function generateMetadata({
   const publishedAt = new Date(post.date).toISOString()
   const modifiedAt = new Date(post.lastmod || post.date).toISOString()
   const authors = authorDetails.map((author) => author.name)
+  const response = await fetch(
+    `${'http://localhost:3000' || siteMetadata.siteUrl}/api/opengraph-image?slug=${params.slug.join(
+      ','
+    )}`
+  )
+  const { url } = (await response.json()) as any
   const ogImages = [
     {
-      url: siteMetadata.siteUrl + `/api/opengraph-image/${encodeURIComponent(slug)}`,
+      url: url,
     },
   ]
 
