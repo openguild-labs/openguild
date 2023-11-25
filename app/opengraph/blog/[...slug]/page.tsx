@@ -11,14 +11,12 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 }
 
-export const size = {
+const size = {
   width: 1200,
   height: 630,
 }
 
-export const contentType = 'image/png'
-
-import React from 'react'
+const contentType = 'image/png'
 
 const ThumbnailComponent = ({ post, authorDetails }) => {
   return (
