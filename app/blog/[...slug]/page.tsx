@@ -116,7 +116,12 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev}>
-        <img src={`/api/opengraph-image?slug=${params.slug.join(',')}`} alt={'Thumbnail'} />
+        <img
+          style={{ width: '100%', aspectRatio: 1200 / 630 }}
+          width={1200}
+          src={`/api/opengraph-image?slug=${params.slug.join(',')}`}
+          alt={'Thumbnail'}
+        />
         <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
       </Layout>
     </>
