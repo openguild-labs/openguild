@@ -144,5 +144,8 @@ export async function GET(req: NextRequest) {
   if (!post) {
     throw new Error('No post found')
   }
-  return new ImageResponse(<ThumbnailComponent authorDetails={authorDetails} post={post} />)
+  return new ImageResponse(<ThumbnailComponent authorDetails={authorDetails} post={post} />, {
+    width: 1200,
+    height: 630,
+  })
 }
