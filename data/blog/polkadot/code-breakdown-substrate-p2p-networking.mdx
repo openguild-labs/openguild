@@ -1,0 +1,142 @@
+---
+title: 'Code Breakdown @ Substrate P2P Networking'
+date: '2023-11-28'
+authors: ['1-tin-chung']
+tags: ['technical', 'blockchain', 'polkadot', 'substrate', 'code-breakdown', 'lang-vn']
+draft: false
+summary: Sơ lược về kiến trúc mạng ngang hàng của Substrate Node và một số cơ chế tìm các node ngang hàng trong cùng một mạng lưới.
+---
+
+# Code Breakdown @ Substrate P2P Networking
+
+## Yêu cầu
+
+- [Code Breakdown @ Substrate Node](https://lowlevelers.com/blog/polkadot/code-breakdown-substrate-node)
+
+## Bài viết liên quan
+
+- [Crate `sc_network` documentation](https://paritytech.github.io/polkadot-sdk/master/sc_network/index.html)
+- [Introduction to libp2p - Proto School](https://proto.school/introduction-to-libp2p/01)
+- [Why libp2p? - Parity Technologies](https://www.parity.io/blog/why-libp2p)
+
+## Khái quát kiến trúc mạng của Polkadot
+
+Vì theo đúng tính chất của một mạng phi tập trung, Polkadot không phụ thuộc vào bất kỳ **Central Authoriy (CA)** hoặc bất kỳ tố chức nào vân hành và hoạt động. Giao thức mạng của Polkadot được đựa trên tập hợp các giao thức mở, bao gồm cả những giao thức sử dụng `libp2p` làm nền tảng.
+
+- `libp2p`: [**Lip2p**](https://libp2p.io/implementations/) là tập hợp các thư viện, giao thức và công cụ để xây dựng giao tiếp của một substrate node với các node trong cùng hệ sinh thái. Mình sẽ có một bài phân tích công nghệ và mã nguồn **libp2p** sâu hơn.
+- `libp2p`: [Polkadot Host](https://wiki.polkadot.network/docs/learn-polkadot-host) sử dụng hệ thống addressing của `libp2p` để xác định và kết nối với các node ngang hàng khác
+
+> Polkadot Host hay còn được xem là Polkadot Runtime Environment. Một layer thấp hơn của Polkadot Runtime và cung cấp những chức năng cần thiết để Polkadot Runtime hoàn thành nhiệm vụ chuyển đổi trạng thái của toàn chain (state transition logic.
+
+- `Kademlia`: Kademila là distributed hash table thiết kế cho mạng ngang hàng phi tập trung. Polkadot Host sử dụng _Kademila_ trong **peer discovery.**
+- [Noise](https://noiseprotocol.org/): Giao thức `Noise` là framework được sử dụng để xây dựng các giao thức mật mã học (cryptographic protocols). Polkadot Host sử dụng Noise để thiêt lập các lớp mã hoá tới các **remote peers**.
+- `yamux`: yamux là một multiplexing protocol.
+
+> Multiplexing Protocol: Giao thức ghép kênh là quá trình nhiều tín hiệu thành một tín hiệu dễ để truyền đi xa
+
+- `Protocol Buffers`: Nếu bạn đã từng làm việc với `gRPC` thì chắc bạn cũng không còn lạ lầm gì với Protocol Buffers hay `protobuf`. Được phát triển bởi Google để tuần tự hoá các dữ liệu có cấu trúc.
+
+## Networking stack: `libp2p`
+
+Một trong các thư viện phổ biến và mạnh mẽ được sử dụng bởi các giải pháp phân tán và blockchain rộng rãi đó là `libp2p`. `libp2p` tập hợp các thư viện và giao thức khác nhau để giúp người dùng kiến tạo nên hệ thống mạng với khả năng mở rộng cao. `libp2p` được ứng dụng rộng rãi trong các hệ thống phi tập trung. Vậy vì sao `libp2p` lại có tính ứng dụng cao như vậy?
+
+> Mình vẫn còn nhớ từ trải nghiệm cá nhân khi làm dự án có chức năng gọi video call sử dụng **WebRTC** thời đại học. Vì thiếu kinh nghiệm nên đó là một quá trình chật vật cố gắng giải quyết từ vấn đề một liên quan về Networking. Nào là _handshaking, signaling_ đến _STUN/TURN server_ và các vấn đề liên quan đến tưởng lửa.
+
+Đối với một hệ thống phức tạp _P2P (peer-to-peer)_ như blockchain có thể lên đến _1000_ node ngang hàng thì có rất rất nhiều vấn đề nảy sinh. Blockchain cần đáp ứng được nhu cầu phi tập trung toàn cầu, vì vậy, networking là một trong những vấn đề cần được ưu tiên giải quyết nhất.
+
+![[Screenshot 2023-11-28 at 11.09.07.png]]
+
+`libp2p` được sử dụng trong Ethereum,, IPFS và Polkadot bởi các networking mô đun tích hợp dễ dàng. Bạn có thể hình dung `libp2p` cũng không khác gì FRAME system trong Substrate là mấy với tập hợp nhiều Pallet khác nhau nhằm giải quyết từng vấn đề cụ thể.
+
+Trong khuôn khổ bài viết này, mình sẽ không đào quá sau về `libp2p`, các bạn có thể đọc thêm tại đây: [Introduction to libp2p - Proto School](https://proto.school/introduction-to-libp2p/01)
+
+## Cơ chế P2P của Substrate Node
+
+Substrate sử dụng core library `sc_network` để định vị và tìm kiếm với các node ngang hàng khác trong cùng mạng lưới.
+
+### Danh tính và địa chỉ Node
+
+Trong mạng phi tập trung, mỗi node giữ một private key và một public key. Trong Substrate, các key được dựa trên Ed25519 curve, áp dụng cho cả _Ethereum_ và _Solana_. Từ public key của một node, ta có thể chuyển hoá sang danh tính (_identity_) của node đó.
+
+Trong Substrate và libp2p, danh tính của node được biểu diễn qua [_struct_ `sc_network::PeerId`](https://docs.rs/sc-network/latest/sc_network/struct.PeerId.html). Struct này bao gồm một số hàm phổ biến mà bạn có thể sẽ sử dụng trong quá trình phát triển Substrate Node như là
+
+```rust
+// Từ public key thành PeerId
+pub fn from_public_key(key: &PublicKey) -> PeerId
+
+// Từ bytes thành PeerId
+pub fn from_bytes(data: &[u8]) -> Result<PeerId, Error>
+```
+
+Tất cả giao tiếp trong mạng lưới giữa các nodes với nhau sử dụng mã hoá được **chuyển hoá từ key của các phía**. Điều đó có nghĩa là danh tính của các node là không thể bị làm giả.
+
+```rust
+2023-11-28 22:27:24 Substrate Node    
+2023-11-28 22:27:24 ✌️  version 4.0.0-dev-41ad4a6c9d7    
+2023-11-28 22:27:24 ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2023    
+2023-11-28 22:27:24 📋 Chain specification: Development    
+2023-11-28 22:27:24 🏷  Node name: high-jail-4418    
+2023-11-28 22:27:24 👤 Role: AUTHORITY    
+2023-11-28 22:27:24 💾 Database: RocksDb at /var/folders/tb/r5r120jx4c34f2wnhrv6hx000000gn/T/substrate5QtFRt/chains/dev/db/full    
+2023-11-28 22:27:24 🔨 Initializing Genesis block/state (state: 0x92f9…1aee, header-hash: 0x294a…709d)    
+2023-11-28 22:27:24 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.    
+2023-11-28 22:27:24 Using default protocol ID "sup" because none is configured in the chain specs    
+
+// Danh tinhs của node, dánh tính này được chuyển hoá từ public key định trước của node đó.
+2023-11-28 22:27:24 🏷  Local node identity is: 12D3KooWLoe7Vi1nGqsNesx28464Qgsa9ydmwH1LY7aqPv7Qn6iF    
+
+2023-11-28 22:27:24 💻 Operating system: macos    
+
+2023-11-28 22:27:24 💻 CPU architecture: aarch64    
+
+2023-11-28 22:27:24 📦 Highest known block at #0    
+
+2023-11-28 22:27:24 〽️ Prometheus exporter started at 127.0.0.1:9615
+```
+
+### Cơ chế tìm node trong mạng ngang hàng của Substrate
+
+Được hiểu thêm về cách mà các Substrate tìm các node ngang hàng khác trong cùng một mạng lưới, bạn có thể xem qua tài liệu sau [Authorize Specific Nodes](https://docs.substrate.io/tutorials/build-a-blockchain/authorize-specific-nodes/) về việc cấp quyền cho node để tham gia vào mạng lưới sử dụng `node-authroization` pallet.
+
+Để tìm kiếm được các node trong cùng mạng lưới, danh tính của node phải được cấp quyền và là một phần của mạng lưới. Substrate có 3 cơ chế:
+
+- Khai báo danh tính của node trong network qua Chain Specification (`chain_spec.rs`).
+  Lấy ví dụ về chain specification của `Local Testnet`
+
+```rust
+pub fn local_testnet_config() -> Result<ChainSpec, String> {
+	let wasm_binary = WASM_BINARY.ok_or_else(|| "Development wasm not available".to_string())?;
+
+	Ok(ChainSpec::from_genesis(
+		// Name
+		"Local Testnet",
+		// ID
+		"local_testnet",
+		ChainType::Local,
+		move || {
+			// Khai báo các accounts trong Network
+			testnet_genesis(
+				wasm_binary,
+				// Initial PoA authorities
+				vec![authority_keys_from_seed("Alice"), authority_keys_from_seed("Bob")],
+				// Sudo account
+				get_account_id_from_seed::<sr25519::Public>("Alice"),
+				// Pre-funded accounts
+				vec![
+					get_account_id_from_seed::<sr25519::Public>("Alice"),
+					get_account_id_from_seed::<sr25519::Public>("Bob"),
+					get_account_id_from_seed::<sr25519::Public>("Charlie"),
+					get_account_id_from_seed::<sr25519::Public>("Dave"),
+					get_account_id_from_seed::<sr25519::Public>("Eve"),
+					get_account_id_from_seed::<sr25519::Public>("Ferdie"),
+					get_account_id_from_seed::<sr25519::Public>("Alice//stash"),
+					get_account_id_from_seed::<sr25519::Public>("Bob//stash"),
+					get_account_id_from_seed::<sr25519::Public>("Charlie//stash"),
+					get_account_id_from_seed::<sr25519::Public>("Dave//stash"),
+					get_account_id_from_seed::<sr25519::Public>("Eve//stash"),
+					get_account_id_from_seed::<sr25519::Public>("Ferdie//stash"),
+				],
+```
+
+- **Multicase DNS (mDNS)**: Truyền tin thông qua giao thức UDP (_UDP broadcasting_) đến toàn mạng lưới, các node nhận được tín hiệu có thể phản hồi lại cùng với danh tính của nó.
+- **Kademlia random walk** (Hiện tại mình chưa nghiên cứu quá sâu về Kademlia nên chúng ta sẽ đào sâu thêm về cơ chế này khi có cơ hội)
