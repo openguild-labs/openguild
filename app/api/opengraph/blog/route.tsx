@@ -3,8 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 // pages/api/opengraph-image/[...slug].ts
 import { Authors, allAuthors, allBlogs } from 'contentlayer/generated'
-import { NextApiResponse } from 'next'
-import { ImageResponse, NextRequest, NextResponse } from 'next/server'
+import { ImageResponse, NextRequest } from 'next/server'
 import nodeHtmlToImage from 'node-html-to-image'
 import { coreContent } from 'pliny/utils/contentlayer'
 

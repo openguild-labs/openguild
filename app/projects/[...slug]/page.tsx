@@ -6,7 +6,7 @@ import 'katex/dist/katex.css'
 import { components } from '@/components/MDXComponents'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { sortPosts, coreContent, allCoreContent } from 'pliny/utils/contentlayer'
-import { allBlogs, allAuthors } from 'contentlayer/generated'
+import { allProjects, allAuthors, Project } from 'contentlayer/generated'
 import type { Authors, Blog } from 'contentlayer/generated'
 import PostSimple from '@/layouts/PostSimple'
 import PostLayout from '@/layouts/PostLayout'
@@ -28,7 +28,7 @@ export async function generateMetadata({
   params: { slug: string[] }
 }): Promise<Metadata | undefined> {
   const slug = decodeURI(params.slug.join('/'))
-  const post = allBlogs.find((p) => p.slug === slug)
+  const post = allProjects.find((p) => p.slug === slug)
   const authorList = post?.authors || ['default']
   const authorDetails = authorList.map((author) => {
     const authorResults = allAuthors.find((p) => p.slug === author)
@@ -47,7 +47,7 @@ export async function generateMetadata({
       width: 1200,
       height: 630,
       type: 'image/png',
-      url: `/api/opengraph/blog?slug=${params.slug.join(',')}`,
+      url: `/api/opengraph/project?slug=${params.slug.join(',')}`,
     },
   ]
 
@@ -76,7 +76,7 @@ export async function generateMetadata({
 }
 
 export const generateStaticParams = async () => {
-  const paths = allBlogs.map((p) => ({ slug: p.slug.split('/') }))
+  const paths = allProjects.map((p) => ({ slug: p.slug.split('/') }))
 
   return paths
 }
@@ -84,7 +84,7 @@ export const generateStaticParams = async () => {
 export default async function Page({ params }: { params: { slug: string[] } }) {
   const slug = decodeURI(params.slug.join('/'))
   // Filter out drafts in production
-  const sortedCoreContents = allCoreContent(sortPosts(allBlogs))
+  const sortedCoreContents = allCoreContent(sortPosts(allProjects))
   const postIndex = sortedCoreContents.findIndex((p) => p.slug === slug)
   if (postIndex === -1) {
     return notFound()
@@ -92,7 +92,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
 
   const prev = sortedCoreContents[postIndex + 1]
   const next = sortedCoreContents[postIndex - 1]
-  const post = allBlogs.find((p) => p.slug === slug) as Blog
+  const post = allProjects.find((p) => p.slug === slug) as Project
   const authorList = post?.authors || ['default']
   const authorDetails = authorList.map((author) => {
     const authorResults = allAuthors.find((p) => p.slug === author)
@@ -119,7 +119,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
         <img
           style={{ width: '100%', aspectRatio: 1200 / 630 }}
           width={1200}
-          src={`/api/opengraph/blog?slug=${params.slug.join(',')}`}
+          src={`/api/opengraph/project?slug=${params.slug.join(',')}`}
           alt={'Thumbnail'}
         />
         <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
