@@ -8,3 +8,187 @@ summary: Hướng dẫn chạy mạng Substrate riêng tư kết nối với cá
 ---
 
 _Language_: Vietnamese
+
+# Polkadot Guide: Giả lập mạng Substrate
+
+## Bài viết liên quan
+
+- [Substrate Tutorial - Authorize specific nodes](https://docs.substrate.io/tutorials/build-a-blockchain/authorize-specific-nodes/)
+- [Substrate Tutorial - Simulate a network](https://docs.substrate.io/tutorials/build-a-blockchain/simulate-network/)
+- [Polkadot - Set up a Bootnode](https://wiki.polkadot.network/docs/maintain-bootnode)
+- [Polkadot Host - Block production](https://spec.polkadot.network/sect-block-production)
+
+## Miêu tả
+
+Trong bài viết này, chúng ta sẽ đi qua hướng dẫn để thiệt lập private network bằng `substrate-node-template` với các `validators` được khai báo trong các `authority set` (tập hợp các bên được uỷ quyền). Nhiệm vụ của các `authorized accounts` (tài khoản được uỷ quyền) là tham gia vào quá tình sản sinh block (`block production`).
+
+> [Block production (sản sinh block)](https://spec.polkadot.network/sect-block-production): Là một quy trình quan trọng trong bất kì mạng blockchain nào. Như tên gọi của công nghệ "Block" và "chain", mang nghĩa một chuỗi các khối liên kết với nhau để duy trì trạng thái của toàn bộ mạng lưới.
+>
+> Các `block producer` - các node được uỷ quyền trong Polkadot Host - đóng vai trò sản sinh block trong mạng Polkadot. Trong mạng Polkadot, giao thức `BABE` được sử dụng cho việc sản sinh block.
+
+Để có một cái nhìn trực quan về bài viết này, bạn có thể tham khảo bài viết [Substrate Tutorial - Authorize specific nodes](https://docs.substrate.io/tutorials/build-a-blockchain/authorize-specific-nodes/) về việc uỷ quyền `nodes` trong mạng Substrate
+
+## Mục tiêu của bài viết
+
+- Chạy blockchain node bằng `substrate-node-template` với các `account` đã được xác định từ trước
+- Cách xác định xem node đã chạy và bắt đầu sản sinh `block`
+- Kết nối nhiều node ngang hàng trong cùng mạng lưới với nhau
+
+## Chạy blockchain node đầu tiên
+
+Trước khi đi sâu hơn ở các phần sau của bài viết. Bạn hãy xem qua trước bài viết về [Polkadot Guide: Chạy Substrate node trên máy tính của bạn](https://lowlevelers.com/blog/polkadot/polkadot-guide-chay-local-substrate-node)và chắc chắn rằng bạn đã có thể ít nhất chạy được một node đơn lẻ. Ở đây mình sẽ chạy node đầu tiên sử dụng một `account` đã được định sẵn là `alice`
+
+```shell
+./target/release/node-template \
+--chain local \
+--base-path /tmp/validator1 \
+--alice \    
+--node-key=c12b6d18942f5ee8528c8e2baf4e147b5c5c18710926ea492d09cbd9f6c9f82a \
+--port 30333 \
+--rpc-port 9944
+```
+
+Câu lệnh này sẽ chạy Substrate Node tại `port = 3033` và `rpc-port = 9944` chứa key của account `alice`, trạng thái của node sẽ được lưu trữ tại `/tmp/validator1` cùng với `node-key` được khai báo.
+
+![fig](/static/images/polkadot/simulate-first-node-status.png)
+
+Kết quả sau từ hướng dẫn phía trên sẽ là một số trạng thái mà bạn có thể quan sát thấy một số thông tin trạng thái quan trọng của node hiện tại
+
+### Trạng thái 1: Genesis block
+
+```
+🔨 Initializing Genesis block/state (state: 0x0c52…6b91, header-hash: 0xfc58…cdc4)
+```
+
+Khởi tạo block đầu tiên (genesis block) khi node được chạy. Để xác định 2 node ngang hàng đang cùng chạy trên 1 mạng blockchain, bạn có thể kiểm tra xem giá trị của `genesis block` có giống nhau ở cả 2 node hay không.
+
+> Genesis block là khối đầu tiên được khởi tạo trong một mạng blockchain
+
+### Trạng thái 2: Danh tính của node (Node identity)
+
+```
+🏷  Local node identity is: 12D3KooWBmAwcd4PJNJvfV89HwE48nwkRmAgo8Vy3uQEyNNHBox2
+```
+
+Đây là mã định danh của node trong mạng lưới blockchain. Mỗi node tham gia vào mạng lưới đều phải mang một danh tính độc nhất. Nếu 2 node mạng cùng mã định danh sẽ dẫn đến xung đột trong quá trình xác thực và sản sinh block.
+
+### Trạng thái 3: Block production
+
+```
+💤 Idle (0 peers), best: #0 (0xfc58…cdc4), finalized #0 (0xfc58…cdc4), ⬇ 0 ⬆ 0
+```
+
+Ở đây bạn có thể thấy node hiện tại đang trong trạng thái nghỉ `Idle` với `best` hiển thị block height cao nhất được sản sinh nhưng chưa
+
+## Thêm Node thứ 2 vào mạng lưới
+
+```shell
+./target/release/node-template \                                                   
+--chain=local \
+--base-path /tmp/validator2 \
+--bob \          
+--node-key=6ce3be907dbcabf20a9a5a60a712b4256a54196000a8ed4050d352bc113f8c58 \
+--bootnodes /ip4/127.0.0.1/tcp/30333/p2p/12D3KooWBmAwcd4PJNJvfV89HwE48nwkRmAgo8Vy3uQEyNNHBox2 \  
+--port 30334 \          
+--rpc-port 9945
+```
+
+Câu lệnh này sẽ chạy Substrate Node tại `port = 30334` và `rpc-port = 9945` (vì cả 2 node được chạy trong local network và node `alice` đã chạy ở port `30333:9944`, node `bob` phải chạy ở một port khác để không xảy ra xung đột) chứa key của account `bob`, trạng thái của node sẽ được lưu trữ tại `/tmp/validator2` cùng với `node-key` được khai báo.
+
+Ngoài ra, chúng ta phải khai báo thêm `bootnodes`
+
+> Bootnode là node được sử dụng để tìm kiếm các node khác. Trong một mạng private network, cần ít nhất khai báo một bootnode. Bootnode là node đã kết nối vào mạng blockchain.
+>
+> Hiểu theo một cách khác, Bootnode có thể được xem như các trạm phát sóng.
+
+Sau khi chạy câu lệnh ở trên để khởi tạo node thứ hai, bạn sẽ thấy các trạng thái sau
+
+```zsh
+2023-12-08 15:59:31 Substrate Node    
+2023-12-08 15:59:31 ✌️  version 4.0.0-dev-41ad4a6c9d7    
+2023-12-08 15:59:31 ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2023    
+2023-12-08 15:59:31 📋 Chain specification: Local Testnet    
+2023-12-08 15:59:31 🏷  Node name: Bob    
+2023-12-08 15:59:31 👤 Role: AUTHORITY    
+2023-12-08 15:59:31 💾 Database: RocksDb at /tmp/validator2/chains/local_testnet/db/full    
+2023-12-08 15:59:31 🔨 Initializing Genesis block/state (state: 0x0c52…6b91, header-hash: 0xfc58…cdc4)    
+2023-12-08 15:59:31 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.  
+2023-12-08 15:59:31 Using default protocol ID "sup" because none is configured in the chain specs    
+2023-12-08 15:59:31 🏷  Local node identity is: 12D3KooWQYV9dGMFoRzNStwpXztXaBUjtPqi6aU76ZgUriHhKust    
+2023-12-08 15:59:31 💻 Operating system: macos    
+2023-12-08 15:59:31 💻 CPU architecture: aarch64    
+2023-12-08 15:59:31 📦 Highest known block at #0    
+2023-12-08 15:59:31 Running JSON-RPC server: addr=127.0.0.1:9945, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]    
+2023-12-08 15:59:31 discovered: 12D3KooWBmAwcd4PJNJvfV89HwE48nwkRmAgo8Vy3uQEyNNHBox2 /ip4/172.16.1.243/tcp/30333
+```
+
+### Kiểm tra trạng thái của Genesis block
+
+Như mình đã đề cập ở trên, để kiểm tra xem 2 node đã cùng một blockchain hay chưa, bạn có thể xem thông tin của `genesis block`
+
+```
+🔨 Initializing Genesis block/state (state: 0x0c52…6b91, header-hash: 0xfc58…cdc4)    
+```
+
+Vậy là genesis block giống nhau ở cả hai node, vậy là 2 node ngang hàng đã được kết nối.
+
+### Xác định node đã được tìm thấy
+
+Ngoài các thông tin giống với giải thích ở phần trên, bạn có thể thấy thêm trạng thái miêu tả rằng đã tìm thấy `node` thứ nhất
+
+```
+discovered: 12D3KooWBmAwcd4PJNJvfV89HwE48nwkRmAgo8Vy3uQEyNNHBox2 /ip4/172.16.1.243/tcp/30333
+```
+
+### Xác định quá trình sản sinh block đã bắt đầu
+
+Lúc này, chúng ta sẽ quan sát trạng thái sản sinh block thay đổi
+
+```zsh
+2023-12-08 15:59:38 🙌 Starting consensus session on top of parent 0xd2915610203843a2b73e52b3f1fe07acdb1b143af9d8109c5865ef7dc31544fd    
+2023-12-08 15:59:38 🎁 Prepared block for proposing at 4 (0 ms) [hash: 0xc0cd680856b8e2b36760b75f8818c7062adffe4b780b351cef7af6a1d979ea64; parent_hash: 0xd291…44fd; extrinsics (1): [0x4532…44d3]    
+2023-12-08 15:59:38 🔖 Pre-sealed block for proposal at 4. Hash now 0xdb2ada225001905a569d2fbf1b35feda3725fd66415fcad2f1d25c1079dbbdf6, previously 0xc0cd680856b8e2b36760b75f8818c7062adffe4b780b351cef7af6a1d979ea64.    
+2023-12-08 15:59:38 ✨ Imported #4 (0xdb2a…bdf6)    
+2023-12-08 15:59:40 ✨ Imported #5 (0xf4e2…43e9)    
+2023-12-08 15:59:41 💤 Idle (1 peers), best: #5 (0xf4e2…43e9), finalized #3 (0xd291…44fd), ⬇ 0.7kiB/s ⬆ 0.7kiB/s
+```
+
+Tìm thấy node ngang hàng `(1 peers)` và block được sản sinh và `finalized`
+
+```
+2023-12-08 15:59:41 💤 Idle (1 peers), best: #5 (0xf4e2…43e9), finalized #3 (0xd291…44fd), ⬇ 0.7kiB/s ⬆ 0.7kiB/s
+```
+
+### Thử nghiệm chạy node thứ 3
+
+Vậy là bạn đã thành công trong giả lập lại một private network chạy bằng `substrate-node-template`. Chúng ta sẽ thử nghiệm một chút bằng việc chạy node thứ 3 `charlie`.
+
+```zsh
+./target/release/node-template \                                                   
+--chain=local \
+--base-path /tmp/validator3 \
+--name charlie  \
+--node-key=3a9d5b35b9fb4c42aafadeca046f6bf56107bd2579687f069b42646684b94d9e \
+--port 30335 \
+--rpc-port=9946 \
+--offchain-worker always
+```
+
+Và đây là kết quả trạng thái mình nhận được. Bạn có thể thấy node `charlie` đã tìm thấy node `alice` và `bob` thông qua bootnode là `alice`. Các node sẽ được nhập vào blockchain node `charlie`. Số peer lúc này tăng lên 2.
+
+```
+2023-12-08 16:44:17 discovered: 12D3KooWF2rGjhfhV8c93wZM9SAUeMTmcuh6GRSeRcqqbHT8Pwpq /ip4/172.16.1.243/tcp/30334    
+2023-12-08 16:44:17 discovered: 12D3KooWSaDfHMHYYLNMDMfb1CHAufuL4BHsJ4UdhT5Rh5aAnV98 /ip4/172.16.1.243/tcp/30333    
+2023-12-08 16:44:17 ✨ Imported #1 (0x73a4…5a35)    
+2023-12-08 16:44:17 ✨ Imported #2 (0x2da1…10fe)    
+2023-12-08 16:44:17 ✨ Imported #3 (0xbba6…5be5)    
+2023-12-08 16:44:17 ✨ Imported #4 (0x9cf6…1fc7)    
+2023-12-08 16:44:18 ✨ Imported #5 (0x12c3…806a)    
+2023-12-08 16:44:22 💤 Idle (2 peers), best: #5 (0x12c3…806a), finalized #3 (0xbba6…5be5), ⬇ 2.9kiB/s ⬆ 2.3kiB/s
+```
+
+### Quan sát thông số trên polkadot.js.org
+
+Sau khi có private network chạy thành công, chúng ta có thể xem được hoạt động của mạng lưới và tương tác thông qua https://polkadot.js.org/apps. Bạn chỉ cần kết nối tới 1 tỏng các RPC port mà bạn đã cài đặt cho node từ trước như là `9944` hoặc `9945`.
+
+![fig](/static/images/polkadot/simulate-polkadot-js-org.png)

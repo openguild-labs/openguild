@@ -28,6 +28,29 @@
       ]
     }
   ],
+  "polkadot/polkadot-guide-gia-lap-mang-substrate": [
+    {
+      "name": "Private Substrate Network",
+      "type": "primary",
+      "value": [
+        {
+          "name": "Bootnode - Alice",
+          "type": "primary",
+          "value": []
+        },
+        {
+          "name": "Node 2 - Bob",
+          "type": "normal",
+          "value": []
+        },
+        {
+          "name": "Node 3 - Charlie",
+          "type": "normal",
+          "value": []
+        }
+      ]
+    }
+  ],
   "polkadot/code-breakdown-substrate-node": [
     {
       "name": "Substrate Node",
