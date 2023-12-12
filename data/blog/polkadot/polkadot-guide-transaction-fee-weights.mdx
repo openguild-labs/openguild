@@ -1,0 +1,25 @@
+---
+title: 'Khái niệm về Transaction Fee và Weight'
+date: '2023-12-12'
+authors: ['1-tin-chung']
+tags: ['technical', 'blockchain', 'polkadot', 'substrate', 'lang-vn']
+draft: false
+summary: Khi giao dịch được thực thi hoặc dữ liệu được lưu trữ on-chain, các hoạt động thay đổi trạng thái và tiêu thụ tài nguyên của blockchain. Vì các tài nguyên và blockchain cung cấp có giới hạn, việc quản lý lượng tiêu thụ của các hoạt động on-chain là rất quan trọng.
+---
+
+_Language_: Vietnamese
+
+# Khái niệm về Transaction Fee và Weight
+
+Khi giao dịch được thực thi hoặc dữ liệu được lưu trữ on-chain, các hoạt động thay đổi trạng thái và tiêu thụ tài nguyên của blockchain. Vì các tài nguyên và blockchain cung cấp (về giới hạn lưu trữ dữ liệu và sức mạnh điện toán) có giới hạn, việc quản lý lượng tiêu thụ của các hoạt động on-chain là rất quan trọng.
+
+Ngoài ra, bên cạnh vấn đề về lượng tài nguyên tiêu thụ, như là bộ nhớ, còn có vấn đế về bảo mật khi một người dùng độc hại nào đó có thể cố gắng quá tải mạng bằng các cách tấn công khác nhau, trong đó điển hình nhất là [DDos (Distributed Denial of Service)](https://vi.wikipedia.org/wiki/T%E1%BA%A5n_c%C3%B4ng_t%E1%BB%AB_ch%E1%BB%91i_d%E1%BB%8Bch_v%E1%BB%A5) với lượng lớn bất thường các lệnh gửi tới mạng blockchain để ngăn mạng sản xuất khối mới.
+
+Khi quyết định xây dựng trong hệ sinh thái Polkadot. Bạn cần lưu ý các tài nguyên sau sẽ ảnh hưởng đến phí giao dịch:
+
+- Sử dụng bộ nhớ
+- Lưu trữ đầu vào và đầu ra
+- Tính toán - Kích thước giao dịch và khối
+- Kích thước cơ sở dữ liệu trạng thái
+
+Substrate cung cấp cho nhà phát triển một số cách để quản lý quyền truy cập vào tài nguyên và ngăn các "người dùng" trên blockchain tiêu thụ quá nhiều của bất kỳ tài nguyên nào. Hai trong số các cơ chế quan trọng nhất là **weight** và **transaction fee**.
