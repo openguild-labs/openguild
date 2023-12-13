@@ -6,6 +6,12 @@ const projectsData = [
     href: '/projects/substrate-simulator',
   },
   {
+    title: 'Pixelland',
+    description: `Pixelland is a simplified 2D Metaverse world combining advertisement and game.`,
+    imgSrc: '',
+    href: '/projects/pixel-land',
+  },
+  {
     title: 'EDMA',
     description: `EDMA is an interactive terminal app for managing multiple embedded databases system at once with powerful byte deserializer support. `,
     imgSrc: '',
