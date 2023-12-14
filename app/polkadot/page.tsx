@@ -14,7 +14,7 @@ import { BlogArticleList } from '@/components/BlogArticleList'
 const MAX_DISPLAY = 3
 
 export default function PolkadotMainPage() {
-  const sortedPosts = sortPosts(allBlogs).reverse()
+  const sortedPosts = sortPosts(allBlogs)
   const posts = allCoreContent(sortedPosts)
   return (
     <>
@@ -146,19 +146,10 @@ export default function PolkadotMainPage() {
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Phát triển trên Polkadot
           </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            <Link
-              href="https://lowlevelers.com/blog/polkadot/polkadot-sdk-la-gi"
-              className="font-bold text-primary-500"
-            >
-              Polkadot SDK
-            </Link>{' '}
-            là một bộ công cụ phát triển phần mềm cung cấp tất cả những tài nguyên cần thiết để bắt
-            đầu xây dựng và phát triển trên mạng Polkadot, nền tảng blockchain đã chuỗi
-            (multi-chain) cho phép các blockchain khác nhau cùng vận hành và chia sẻ thông tin một
-            cách an toàn và dễ dàng mở rộng. Polkadot SDK bao gồm 3 thành phần cốt lõi:
-          </p>
-          <p></p>
+          <BlogArticleList
+            hideDate
+            posts={posts.filter((post) => post.tags.includes('polkadot-sdk'))}
+          />
           <div className="lg:flex lg:justify-evenly">
             {[
               {
@@ -192,7 +183,7 @@ export default function PolkadotMainPage() {
                     background: `url(${topic.img})`,
                     marginBottom: 20,
                     height: 100,
-                    backgroundSize: 'contain',
+                    backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
                 />
