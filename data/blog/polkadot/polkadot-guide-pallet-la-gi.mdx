@@ -1,10 +1,41 @@
 ---
-title: 'Polkadot Guide: Pallet là gì? Một số Pallet phổ biến'
+title: 'Polkadot Guide: Pallet là gì?'
 date: '2023-12-5'
 authors: ['1-tin-chung']
-tags: ['technical', 'blockchain', 'polkadot', 'substrate', 'lang-vn']
+tags: ['technical', 'blockchain', 'polkadot', 'substrate', 'pallet', 'lang-vn']
 draft: false
 summary: Pallet là cốt lõi của mạng Substrate. Pallet có thể được xem là những mô đun nhỏ lẻ của FRAME gồm từng vai trò cụ thể trong việc khởi tạo tính năng phù hợp cho mạng Substrate.
 ---
 
 _Language_: Vietnamese
+
+# Polkadot Guide: Pallet là gì?
+
+Nếu bạn đã theo dõi series Polkadot Guide trên lowlevelers.com từ những bài viết đầu tiên về Substrate thì bạn hẳn đã ít nhất một lần nghe mình nhắc đến Pallet. Đặc biệt trong các bài viết `Code Breakdown` về phân tích mã nguồn của Substrate, mình rất thường xuyên nhắc đến pallet. Tuy nhiên, chúng ta chưa có một bài viết cụ thể nào về định nghĩa chuyên sâu của Pallet đối với Substrate.
+
+## Bài viết liên quan
+
+- [Substrate Tutorial - Add a pallet](https://docs.substrate.io/tutorials/build-application-logic/add-a-pallet/)
+- [Substrate Official Documentation - FRAME palelts](https://docs.substrate.io/reference/frame-pallets/)
+- [Code Breakdown @ FRAME Pallet Template](http://lowlevelers.com/blog/polkadot/code-breakdown-pallet-template)
+
+## Định nghĩa Pallet trong Substrate
+
+Nếu bạn là một Javascript developer đã có kinh nghiệm và biết đến framework như React, hẳn bạn không còn quá xa lạ với khái niệm **modular component** cho phép tái sử dụng và mở rộng tính ứng dụng của dự án xây dựng bằng React mà không phụ thuộc quá nhiều vào những thay đổi cốt lõi của framework.
+
+![fig](/static/images/polkadot/substrate-frame-pallets.png)
+
+Đối với Substrate cũng vậy, để cung cấp khả năng mở rộng và bảo trì dễ dàng, các Pallet là thành phần cốt lõi của bất kì Substrate Node nào. Pallet là thành phần của một framework lớn hơn gọi là **Framework for Runtime Aggregation of Modularized Entities (FRAME)** (chỗ này mình không biết dịch sao cho đúng nên tốt nhất bạn nên tiếp cận trực tiếp bằng tiếng anh).
+
+Trong đó, [FRAME pallets](https://docs.substrate.io/reference/frame-pallets/) là các module và thư viện hỗ trợ mà bạn có thể sử dụng để phát triển các logic cho Runtime tuỳ vào bài toán mà blockchain của bạn đang cố gắng giải quyết. FRAME pallets được phân làm 3 loại chính:
+
+- **System pallets (hay pallets hệ thống)**: Là các pallet quan trọng và không thể thiếu cho Substrate runtime, các pallet này cung cấp các chức năng cốt lõi và được các pallet khác phụ thuộc. Ví dụ là các pallet từ `frame_support`, `frame_system`, `frame_benchmarking` hay `frame_executive`.
+
+![fig](/static/images/polkadot/substrate-frame-system-pallets.png)
+
+- **Functional pallets (hay pallets chức năng)**: Substrate framework bao gồm rất nhiều các pallet chức năng khác nhau nhằm cung cấp các tính năng được sử dụng bởi các thành phàn trong mạng blockchain. Các pallet chức năng thường cũng sẽ được phát triển bởi cộng đồng và hoàn toàn mã nguồn mở để cộng đồng sử dụng và mở rộng. Một số pallet chức năng phổ biến có thể kể đến như `pallet_assets (được sử dụng để giải quyết các vấn đề về fungible assets)` hay `pallet_contracts (được sử dụng để giúp runtime của bạn có thể hỗ trợ hợp đồng thông minh)`.
+- **Parachain pallets (hay pallets parachain)**: Bên cạnh pallet hệ thống và pallet chức năng chúng ta sẽ còn một loại pallet khác là pallet parachain nhằm cung cấp tính năng cụ thể cho các blockchain có dự định để kết nối tới Relay Chain, trở thành một Parachain. Các pallet parachain này thuộc bộ công cụ phát triển Cumulus mà mình đã nhắc qua ở bài viết về [Polkadot SDK là gì?](https://lowlevelers.com/blog/polkadot/polkadot-sdk-la-gi)
+
+## Phân tích mã nguồn của FRAME pallet template
+
+Để xem thêm về cách hoạt động của FRAME pallet, bạn nên xem qua về: [Code Breakdown @ FRAME Pallet Template](http://lowlevelers.com/blog/polkadot/code-breakdown-pallet-template)
