@@ -34,6 +34,24 @@ Lý thuyết có vẻ sẽ khó giúp bạn hình dung được ứng dụng c�
 ## Phân tích code mẫu cho Pallet
 
 ```rust
+#![cfg_attr(not(feature = "std"), no_std)]
+
+/// Edit this file to define custom logic or remove it if it is not needed.
+/// Learn more about FRAME and the core library of Substrate FRAME pallets:
+/// <https://docs.substrate.io/reference/frame-pallets/>
+pub use pallet::*;
+
+#[cfg(test)]
+mod mock;
+
+#[cfg(test)]
+mod tests;
+
+#[cfg(feature = "runtime-benchmarks")]
+mod benchmarking;
+pub mod weights;
+pub use weights::*;
+
 #[frame_support::pallet]
 pub mod pallet {
 	use super::*;
@@ -97,14 +115,20 @@ pub mod pallet {
 
 Ở đây chúng ta sẽ chú ý đến các khai báo macros sau, các thông tin được mình tham khảo từ đây [frame_support::pallet documentation](https://paritytech.github.io/polkadot-sdk/master/frame_support/attr.pallet.html).
 
-1. `pallet::pallet`: Macro này là bất buộc khi bạn bắt đầu viết bất kỳ pallet nào, nó cho phép bạn khai báo các thông tin của Pallet. Việc đặt tên cho struct là `Pallet` không bắt nhưng là best practice vì nó sẽ giúp cho pallet của bạn đồng nhất với các pallet khác trong hệ sinh thái.
+```rust
+#![cfg_attr(not(feature = "std"), no_std)]
+```
+
+Khai báo rằng Pallet sẽ không hỗ trợ `standard library` của Rust bởi vì Pallet được tích hợp vào Runtime của Substrate và Runtime sẽ được compile sang WASM. Nhưng vì môi trường của WASM không hỗ trợ `standard library` nên Pallet cũng vậy.
+
+- `pallet::pallet`: Macro này là bất buộc khi bạn bắt đầu viết bất kỳ pallet nào, nó cho phép bạn khai báo các thông tin của Pallet. Việc đặt tên cho struct là `Pallet` không bắt nhưng là best practice vì nó sẽ giúp cho pallet của bạn đồng nhất với các pallet khác trong hệ sinh thái.
 
 ```rust
 #[pallet::pallet]
 pub struct Pallet<T>(_);
 ```
 
-2. `pallet:config`: Macro khai báo các cấu hình và parameters yêu cầu từ Runtime khi pallet được sử dụng ở phía Runtime
+- `pallet:config`: Macro khai báo các cấu hình và parameters yêu cầu từ Runtime khi pallet được sử dụng ở phía Runtime
 
 ```rust
 #[pallet::config]
@@ -116,7 +140,7 @@ pub trait Config: frame_system::Config {
 }
 ```
 
-3. `pallet:storage`: Khai báo cho loại dữ liệu được lưu trữ trong **onchain storage**. Ví dụ trong Rust bạn có `HashMap` có thể hiểu là đại diện cho cấu trúc dữ liệu `Map` thì chúng ta sẽ có `StorageMap` để đại diện cho `Map` trong ngữ cảnh của pallet. Chúng ta sẽ cố một bài viết để bàn về onchain storage và cách sử dụng của một số cấu trúc dữ liệu sau nhé.
+- `pallet:storage`: Khai báo cho loại dữ liệu được lưu trữ trong **onchain storage**. Ví dụ trong Rust bạn có `HashMap` có thể hiểu là đại diện cho cấu trúc dữ liệu `Map` thì chúng ta sẽ có `StorageMap` để đại diện cho `Map` trong ngữ cảnh của pallet. Chúng ta sẽ cố một bài viết để bàn về onchain storage và cách sử dụng của một số cấu trúc dữ liệu sau nhé.
 
 ```rust
 #[pallet::storage]
@@ -124,7 +148,7 @@ pub trait Config: frame_system::Config {
 pub type Something<T> = StorageValue<_, u32>;
 ```
 
-4. `pallet::event`: Định nghĩa cho các sự kiện có thể được gọi từ Pallet. Nếu bạn đã từng có kinh nghiệm làm việc với các hệ thống **Event Driven Design** hay biết qua về khái niệm như **Finite State Machine** từ trước thì hẳn bạn cũng không còn xa lạ gì với cách thiết kế event này. Mình nhớ trong **Solidity** cũng có cách thiết kế tương tự.
+- `pallet::event`: Định nghĩa cho các sự kiện có thể được gọi từ Pallet. Nếu bạn đã từng có kinh nghiệm làm việc với các hệ thống **Event Driven Design** hay biết qua về khái niệm như **Finite State Machine** từ trước thì hẳn bạn cũng không còn xa lạ gì với cách thiết kế event này. Mình nhớ trong **Solidity** cũng có cách thiết kế tương tự.
 
 ```rust
 #[pallet::event]
@@ -134,7 +158,7 @@ pub enum Event<T: Config> {
 }
 ```
 
-5. `pallet::error`: Khai báo các loại lỗi mà pallet này có thể trả về
+- `pallet::error`: Khai báo các loại lỗi mà pallet này có thể trả về
 
 ```rust
 #[pallet::error]
@@ -144,9 +168,13 @@ pub enum Error<T> {
 }
 ```
 
-6. Và macro quan trọng cuối cùng bên trong code mẫu là `pallet::call`, nơi khai báo các hàm thức `extrinsic calls` để thay đổi trạng thái của blockchain. Ví dụ mẫu code dưới đây khai báo 2 hàm thức là `do_something` và `cause_error`. Các hàm thức có thể được thực thi cho phép người dùng tương tác với các pallets và thực hiện việc thay đổi trạng thái của blockchain. Chuẩn code của các hàm thức phải theo đúng cú pháp:
+Và macro quan trọng cuối cùng bên trong code mẫu là `pallet::call`, nơi khai báo các hàm thức `extrinsic` để thay đổi trạng thái của blockchain.
 
-> Hàm thức phải được khai báo weight với `pallet::weight` và phải trả về DispatchResult
+> Extrinsic là một từ chuyển ngành khi phát triển trên Polkadot, có nghĩa là các lệnh gọi từ phía bên ngoài blockchain. Bạn có thể hiểu Extrinsic tương tự như Transaction
+
+Ví dụ mẫu code dưới đây khai báo 2 hàm thức là `do_something` và `cause_error`. Các hàm thức có thể được thực thi cho phép người dùng tương tác với các pallets và thực hiện việc thay đổi trạng thái của blockchain. Chuẩn code của các hàm thức phải theo đúng cú pháp:
+
+> Hàm thức phải được khai báo weight với `pallet::weight` và phải trả về DispatchResult. Tìm hiểu thêm về weight tại đây [Khái niệm về Transaction Fee và Weight](https://lowlevelers.com/blog/polkadot/polkadot-guide-transaction-fee-weights)
 
 ```rust
 #[pallet::call]
@@ -179,6 +207,8 @@ impl<T: Config> Pallet<T> {
 	}
 }
 ```
+
+Đáng lưu ý là việc dùng `ensure_signed` ở ngay đầu hàm thức để kiểm tra `origin` khi thực thi extrinsic là một mẫu hình phổ biến trong Substrate gọi là `Verify first, write last`. Mẫu hình này cũng được sử dụng nhiều khi thực thi các lệnh write vào cơ sở dữ liệu. Chúng ta sẽ xử lý các điều kiện cần trước và trả lõi, sau đó sẽ xử lý đến các lệnh write vào onchain storage ở cuối.
 
 ## Tương tác của Runtime với Pallet
 
