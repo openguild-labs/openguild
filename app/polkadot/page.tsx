@@ -9,11 +9,12 @@ import { formatDate } from 'pliny/utils/formatDate'
 import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import Image from 'next/image'
+import { BlogArticleList } from '@/components/BlogArticleList'
 
 const MAX_DISPLAY = 3
 
 export default function PolkadotMainPage() {
-  const sortedPosts = sortPosts(allBlogs)
+  const sortedPosts = sortPosts(allBlogs).reverse()
   const posts = allCoreContent(sortedPosts)
   return (
     <>
@@ -129,7 +130,7 @@ export default function PolkadotMainPage() {
             ].map((topic) => (
               <div
                 key={topic.title}
-                className="mx-3 my-5 max-w-sm overflow-hidden rounded bg-gray-900 shadow-lg"
+                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
               >
                 <div className="px-6 py-4">
                   <div className="mb-2 text-xl font-bold">{topic.title}</div>
@@ -143,66 +144,94 @@ export default function PolkadotMainPage() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            Phát triển trên Polkadot
+          </h1>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+            <Link
+              href="https://lowlevelers.com/blog/polkadot/polkadot-sdk-la-gi"
+              className="font-bold text-primary-500"
+            >
+              Polkadot SDK
+            </Link>{' '}
+            là một bộ công cụ phát triển phần mềm cung cấp tất cả những tài nguyên cần thiết để bắt
+            đầu xây dựng và phát triển trên mạng Polkadot, nền tảng blockchain đã chuỗi
+            (multi-chain) cho phép các blockchain khác nhau cùng vận hành và chia sẻ thông tin một
+            cách an toàn và dễ dàng mở rộng. Polkadot SDK bao gồm 3 thành phần cốt lõi:
+          </p>
+          <p></p>
+          <div className="lg:flex lg:justify-evenly">
+            {[
+              {
+                title: 'Substrate',
+                description: `Substrate là một bộ công cụ phát triển phần mềm được cung cấp bởi Parity Technologies nhằm hỗ trợ phát triển các nút blockchain với khả năng cấu hình và mở rộng dễ dàng không phụ thuộc vào trạng thái của giao thức mạng blockchain.`,
+                url: '/polkadot/substrate',
+                img: '/static/images/substrate_banner.png',
+                released: true,
+              },
+              {
+                title: 'Polkadot Network',
+                description: `Polkadot bao gồm các network và runtime khác nhau phục vụ tuỳ thuộc vào mục đích phát triển của người tham gia mạng lưới. Ví dụ chúng ta có Polkadot là mainnet của toàn bộ hệ sinh thái, Kusama là canary network hay Rococo là testnet.`,
+                url: '/polkadot/polkadot-network',
+                img: '/static/images/polkadot_network_banner.png',
+                released: false,
+              },
+              {
+                title: 'Cumulus',
+                description: `Substrate là một bộ công cụ phát triển phần mềm được cung cấp bởi Parity Technologies nhằm hỗ trợ phát triển các nút blockchain với khả năng cấu hình và mở rộng dễ dàng không phụ thuộc vào trạng thái của giao thức mạng blockchain.`,
+                url: '/polkadot/cumulus',
+                img: '/static/images/cumulus_banner.png',
+                released: false,
+              },
+            ].map((topic) => (
+              <div
+                key={topic.title}
+                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
+              >
+                <div
+                  style={{
+                    background: `url(${topic.img})`,
+                    marginBottom: 20,
+                    height: 100,
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                  }}
+                />
+                <div className="px-6 py-4">
+                  <div className="mb-2 text-xl font-bold">{topic.title}</div>
+                  <p className="text-base text-gray-500">{topic.description}</p>
+                  {topic.released ? (
+                    <div style={{ margin: '30px 0px 20px 0px' }}>
+                      <Link
+                        href={topic.url}
+                        className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2"
+                      >
+                        Tìm hiểu thêm
+                      </Link>
+                    </div>
+                  ) : (
+                    <div
+                      className="mt-5 rounded bg-gray-700 px-5 py-2"
+                      style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
+                    >
+                      Coming Soon
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Thông báo và bài viết mới nhất
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Cấc thông báo về cộng đồng và bài viết về công nghệ của Polkadot
+            Các thông báo về cộng đồng và bài viết về công nghệ của Polkadot
           </p>
         </div>
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {!posts.length && 'No posts found.'}
-          {posts
-            .filter((post) => post.tags.includes('polkadot') && post.tags.includes('lang-vn'))
-            // .slice(0, MAX_DISPLAY)
-            .map((post) => {
-              const { slug, date, title, summary, tags } = post
-              return (
-                <li key={slug} className="py-12">
-                  <article>
-                    <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                      <dl>
-                        <dt className="sr-only">Published on</dt>
-                        <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                          <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                        </dd>
-                      </dl>
-                      <div className="space-y-5 xl:col-span-3">
-                        <div className="space-y-6">
-                          <div>
-                            <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                              <Link
-                                href={`/blog/${slug}`}
-                                className="text-gray-900 dark:text-gray-100"
-                              >
-                                {title}
-                              </Link>
-                            </h2>
-                            <div className="flex flex-wrap">
-                              {tags.map((tag) => (
-                                <Tag key={tag} text={tag} />
-                              ))}
-                            </div>
-                          </div>
-                          <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                            {summary}
-                          </div>
-                        </div>
-                        <div className="text-base font-medium leading-6">
-                          <Link
-                            href={`/blog/${slug}`}
-                            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                            aria-label={`Read more: "${title}"`}
-                          >
-                            Read more &rarr;
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </li>
-              )
-            })}
-        </ul>
+        <BlogArticleList posts={posts} />
       </div>
       {posts.length > MAX_DISPLAY && (
         <div className="flex justify-end text-base font-medium leading-6">
