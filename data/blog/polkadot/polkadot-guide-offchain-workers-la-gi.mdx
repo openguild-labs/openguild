@@ -1,0 +1,125 @@
+---
+title: 'Polkadot Guide: Offchain Workers là gì?'
+date: '2023-12-15'
+authors: ['1-tin-chung']
+tags:
+  [
+    'technical',
+    'blockchain',
+    'polkadot',
+    'substrate',
+    'intermediate',
+    'pallet/offchain-workers',
+    'lang-vn',
+  ]
+draft: false
+summary: Offchain workers là một phần quan trọng không thể thiếu của Substrate để giải quyết các vấn đề không cần dùng đến tài nguyên onchain như query dữ liệu từ các nguồn dữ liệu offchain trước khi cập nhật trạng thái trên blockchain.
+---
+
+_Language_: Vietnamese
+
+_Cấp độ_: Intermediate
+
+# Offchain workers là gì?
+
+Thông thường, khi các `Extrinsics` được khai báo ở tầng Pallet hay các API được khai báo ở tấng Runtime, các hàm thức này sẽ được thực thi tại môi trường Runtime cốt lõi của Substrate. Tuy nhiên, điều này sẽ tạo ra một số rào cản nhất định khi phát triển công nghệ nhưng chỉ phụ thuộc vào onchain. Lý do đến từ việc onchain có bảo mật chặt chẽ và tài nguyên giới hạn về mặt lưu trữ dữ liệu và tốc độ thực thi.
+
+Vậy nên, **Offchain workers** là một phần quan trọng không thể thiếu của Substrate để giải quyết các vấn đề không cần dùng đến tài nguyên onchain như query dữ liệu từ các nguồn dữ liệu offchain trước khi cập nhật trạng thái trên blockchain. Một ví dụ điển hình mà bạn có thể tham khảo là các Oracle như `Chainlink` trên Ethereum hay `Pyth Network` trên Solana.
+
+Offchain workers được xem là thành phần phụ của các hệ thống liên quan đến các tác phụ cần thời gian xử lý lâu và không nhất quán như là gửi / nhận yêu cầu đến các máy chủ web2, sản sinh số tự nhiên, tính toán cần thông lượng CPU lớn...Hiểu một cách đơn giản thì các **tác vụ nào có thời gian thực thi lớn hơn thời gian thực thi tối đa trên một block** thì tác vụ đó có thể giải quyết được bằng Offchain workers.
+
+Bạn có thể xem thêm mã nguồn của Price Oracle Pallet được triển khai sử dụng Offchain workers tại đây: [Code Breakdown @ Pallet Price Oracles](https://lowlevelers.com/blog/polkadot/code-breakdown-pallet-price-oracle)
+
+### Ví dụ về cách triển khai Offchain workers trong Pallet
+
+```rust
+#[pallet::hooks]
+impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {
+	/// Offchain Worker entry point.
+	///
+	/// By implementing `fn offchain_worker` you declare a new offchain worker.
+	/// This function will be called when the node is fully synced and a new best block is
+	/// successfully imported.
+	fn offchain_worker(block_number: BlockNumberFor<T>)
+```
+
+Bên trong Pallet của bạn, nếu bạn chưa biết về Pallet xem qua bài này [Polkadot Guide: Pallet là gì?](https://lowlevelers.com/blog/polkadot/polkadot-guide-pallet-la-gi) hoặc [Code Breakdown: Template for FRAME pallet](https://lowlevelers.com/blog/polkadot/code-breakdown-pallet-template) để hiểu thêm về Pallet trước khi tìm hiểu đến Offchain Workers.
+
+Để khởi tạo `entry point` của Offchain workers bên trong Pallet, bạn sẽ cần khởi tạo trait `Hooks` cho `struct Pallet`
+
+```rust
+#[pallet::hooks]
+impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T>
+```
+
+- `#[pallet::hooks]` là macro định nghĩa code triển khai và cung cấp thông tin cho Runtime về offchain workers.
+- `BlockNumberFor` là alias của loại dữ liệu `BlockNumber`
+
+Bằng việc khai báo hàm thức `fn offchain_worker(block_number: BlockNumberFor<T>)`, chúng ta đã khởi tạo một offchain worker mới. Hàm thức này sẽ được gọi khi mà node hoàn toàn đồng bộ với trạng thái của toàn bộ mạng lưới và một `best block` mới được thêm thành công vào mạng lưới.
+
+### Tính năng của Offchain Workers
+
+Offchain workers cho phép nhà phát triển sử dụng một số API giúp giao tiếp với thế giới bên ngoài:
+
+1. Khả năng `submit transaction` (gửi giao dịch lên chain), cả transaction đã được `sign` hoặc `unsign`.
+
+```rust
+// -- Sign using any account
+let (_, result) = Signer::<T, T::AuthorityId>::any_account()
+	.send_unsigned_transaction(
+		|account| PricePayload { price, block_number, public: account.public.clone() },
+		|payload, signature| Call::submit_price_unsigned_with_signed_payload {
+			price_payload: payload,
+			signature,
+		},
+	)
+	.ok_or("No local accounts accounts available.")?;
+```
+
+Ví dụ ở trên là cách gửi một transaction chưa được `signed` (hay `unsigned`) bằng function `send_usigned_transaction`. Nói sơ một chút thì ở đây, trước đó chúng ta đã khai `AuthorityId` tại phần cấu hình `config`. Ở phía Runtime, chúng ta sẽ cần khai báo `account` cho offchain worker trước.
+
+> Mình sẽ không nói sâu về phần này trong bài viết này, tạm thời bạn cứ hiểu là offchain worker cũng cần 1 account gắn với nó để thực thi việc ký gửi giao dịch
+
+Cỏn đây là code mẫu cho ký và gửi `signed transaction`
+
+```rust
+ signer.send_signed_transaction(|_account| {
+	Call::submit_price { price }
+});
+```
+
+2. HTTP Client cho phép offchain worker truy cập và lấy dữ liệu về từ các dịch vụ bên ngoài.
+
+```rust
+let request = sp_runtime::http::offchain::Request::get("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD");
+```
+
+Ví dụ truy vấn dữ liệu giá của BTC từ public API
+
+3. Truy cập vào `local keystore` để ký và xác thực `statement` hoặc `transaction`
+
+```rust
+// pallet/template/lib.rs
+pub const KEY_TYPE: KeyTypeId = KeyTypeId(*b"btc!");
+
+// node/service.rs
+sp_keystore::SyncCryptoStore::sr25519_generate_new(
+	&*keystore,
+	node_template_runtime::pallet_template::KEY_TYPE,
+	Some("//Alice"),
+)
+.expect("Creating key with account Alice should succeed.");
+```
+
+Mỗi module làm việc với `signature` cần phải khai báo mã định danh đặc biết (`unique identifier`) và key. Khi offchain worker ký `transaction`, worker sẽ yêu cầu key với loại là `KeyTypeId` như được khai báo ở trên
+
+```rust
+// pallet/template/lib.rs
+pub const KEY_TYPE: KeyTypeId = KeyTypeId(*b"btc!");
+```
+
+Và tìm key phù hợp với các thông tin vừa cung cấp từ local keystore. Sau đó dùng key vừa tim được ký giao dịch. Các key có thể được thêm vào thủ công từ RPC (xem thêm về [`author_insertKey`](https://github.com/Phala-Network/khala-parachain/blob/main/scripts/js/insert_session_key.js))
+
+4. [Offchain storage](https://lowlevelers.com/blog/polkadot/polkadot-guide-offchain-storage) được chia sẻ giữa các offchain workers
+5. Truy cập dữ liệu thời gian cục bộ của toàn chain.
+6. Khả năng `sleep` và `resume` các tác vụ
