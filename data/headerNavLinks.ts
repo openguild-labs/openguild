@@ -1,6 +1,6 @@
 const headerNavLinks = [
   { href: '/', title: 'Home' },
-  { href: '/polkadot', title: 'Polkadot VN 🇻🇳' },
+  { href: '/polkadot', title: 'Polkadot SEA' },
   { href: '/blog', title: 'Blog' },
   { href: '/tags', title: 'Tags' },
   { href: '/projects', title: 'Projects' },

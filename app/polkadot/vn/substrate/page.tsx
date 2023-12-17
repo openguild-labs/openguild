@@ -34,30 +34,7 @@ export default function PolkadotSubstrateMainPage() {
         </div>
       </section>
       <br />
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Cấp độ: <span className="font-bold text-primary-500">Nhập môn</span>
-          </h1>
-        </div>
-        <BlogArticleList
-          posts={posts.filter(
-            (post) => post.tags.includes('substrate') && post.tags.includes('beginner')
-          )}
-        />
-      </div>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Cấp độ: <span className="font-bold text-primary-500">Trung cấp</span>
-          </h1>
-        </div>
-        <BlogArticleList
-          posts={posts.filter(
-            (post) => post.tags.includes('substrate') && post.tags.includes('intermediate')
-          )}
-        />
-      </div>
+      <BlogArticleList posts={posts.filter((post) => post.tags.includes('substrate'))} />
     </div>
   )
 }

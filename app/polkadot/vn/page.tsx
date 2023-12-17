@@ -31,15 +31,16 @@ export default function PolkadotMainPage() {
               }}
             />
             <h1 className="mb-2 text-4xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
-              <span>Low-level developer community</span>
+              <span>Nghiên cứu công nghệ cốt lõi </span>
               <br className="hidden lg:block"></br>
-              for Polkadot ecosystem
+              của mạng blockchain Polkadot
             </h1>
             <br></br>
             <p className="mx-auto  text-xl font-normal leading-relaxed text-gray-600 dark:text-gray-300 lg:w-2/3">
-              <span className="font-bold text-primary-500">TheLowLevelers</span> is a non-profit
-              community dedicated to curating and providing materials with a low-level approach for
-              developers interested in the Polkadot blockchain.
+              <span className="font-bold text-primary-500">TheLowLevelers</span> là một cộng đồng mã
+              nguồn mở và phi lợi nhuận. Mục đích cốt yếu của tụi mình là để giúp tất cả mọi người
+              hiểu thêm về công nghệ theo tư duy nguyên bản (First Principle Thinking). Tiếp cận
+              công nghệ từ các phần tử căn nguyên nhất.
             </p>
           </div>
         </div>
@@ -67,7 +68,7 @@ export default function PolkadotMainPage() {
               ></path>
             </g>
           </svg>
-          <span>Join our Discord for active engagement</span>
+          <span>Trở thành một phần của TheLowLevelers x Polkadot 🇻🇳</span>
         </a>
       </div>
       <br />
@@ -75,21 +76,67 @@ export default function PolkadotMainPage() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            What do we do?
+            Mục đích của cộng đồng
           </h1>
           <div className="lg:flex lg:justify-evenly">
             {[
               {
-                title: 'Events',
+                title: 'Cùng nhau học hỏi và đóng góp vào các dự án trong hệ sinh thái',
                 description:
-                  'Weekly meetup to share about the technological advancement in the Polkadot ecosystem and establish hackathon for developers to "build to earn" with the community',
-                img: '/static/images/event-banner.jpg',
+                  'TheLowLevelers không phân biệt tuổi tác, kinh nghiệm hay kiến thức. Bất kể bạn là ai thì bạn cũng đều là một phần của sự phát triển chung của cộng đồng.',
               },
               {
-                title: 'Research & Development',
+                title: 'Nghiên cứu mã nguồn và công nghệ của Polkadot',
                 description:
-                  'Research the interesting topics of Polkadot blockhain and develop tools for the open-source community',
-                img: '/static/images/r&d-banner.avif',
+                  'Đọc mã nguồn mở là kỹ năng mà TheLowLevelers sẽ cố gắng xây dựng và truyền đạt, điều đó sẽ giúp bạn có thể giải quyết vấn đề cốt lõi.',
+              },
+            ].map((topic) => (
+              <div
+                key={topic.title}
+                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
+              >
+                <div className="px-6 py-4">
+                  <div className="mb-2 text-xl font-bold">{topic.title}</div>
+                  <p className="text-base text-gray-500">{topic.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            Phát triển trên Polkadot
+          </h1>
+          <BlogArticleList
+            hideDate
+            posts={posts.filter(
+              (post) => post.tags.includes('lang-vn') && post.tags.includes('polkadot-sdk')
+            )}
+          />
+          <div className="lg:flex lg:justify-evenly">
+            {[
+              {
+                title: 'Substrate',
+                description: `Substrate là một bộ công cụ phát triển phần mềm được cung cấp bởi Parity Technologies nhằm hỗ trợ phát triển các nút blockchain với khả năng cấu hình và mở rộng dễ dàng không phụ thuộc vào trạng thái của giao thức mạng blockchain.`,
+                url: '/polkadot/vn/substrate',
+                img: '/static/images/substrate_banner.png',
+                released: true,
+              },
+              {
+                title: 'Polkadot Network',
+                description: `Polkadot bao gồm các network và runtime khác nhau phục vụ tuỳ thuộc vào mục đích phát triển của người tham gia mạng lưới. Ví dụ chúng ta có Polkadot là mainnet của toàn bộ hệ sinh thái, Kusama là canary network hay Rococo là testnet.`,
+                url: '/polkadot/polkadot-network',
+                img: '/static/images/polkadot_network_banner.png',
+                released: false,
+              },
+              {
+                title: 'Cumulus',
+                description: `Substrate là một bộ công cụ phát triển phần mềm được cung cấp bởi Parity Technologies nhằm hỗ trợ phát triển các nút blockchain với khả năng cấu hình và mở rộng dễ dàng không phụ thuộc vào trạng thái của giao thức mạng blockchain.`,
+                url: '/polkadot/cumulus',
+                img: '/static/images/cumulus_banner.png',
+                released: false,
               },
             ].map((topic) => (
               <div
@@ -99,8 +146,8 @@ export default function PolkadotMainPage() {
                 <div
                   style={{
                     background: `url(${topic.img})`,
-                    marginBottom: 5,
-                    height: 120,
+                    marginBottom: 20,
+                    height: 100,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
@@ -108,6 +155,23 @@ export default function PolkadotMainPage() {
                 <div className="px-6 py-4">
                   <div className="mb-2 text-xl font-bold">{topic.title}</div>
                   <p className="text-base text-gray-500">{topic.description}</p>
+                  {topic.released ? (
+                    <div style={{ margin: '30px 0px 20px 0px' }}>
+                      <Link
+                        href={topic.url}
+                        className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2"
+                      >
+                        Tìm hiểu thêm
+                      </Link>
+                    </div>
+                  ) : (
+                    <div
+                      className="mt-5 rounded bg-gray-700 px-5 py-2"
+                      style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
+                    >
+                      Coming Soon
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -117,48 +181,29 @@ export default function PolkadotMainPage() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Other Polkadot Community
+            Thông báo và bài viết mới nhất
           </h1>
-          <div className="lg:flex lg:justify-evenly">
-            {[
-              {
-                title: 'Polkadot for Vietnamese 🇻🇳',
-                description:
-                  'TheLowLevelers and Polkadot SEA jointly manage a sub-community catering to Vietnamese tech enthusiasts. This initiative provides materials and resources in Vietnamese, fostering a developer-friendly environment for the local tech community.',
-                img: '/static/images/polkadot/polkadot.jpg',
-                url: '/polkadot/vn/',
-              },
-            ].map((topic) => (
-              <div
-                key={topic.title}
-                className="mx-3 my-5 overflow-hidden rounded bg-gray-900 shadow-lg"
-              >
-                <div
-                  style={{
-                    background: `url(${topic.img})`,
-                    marginBottom: 5,
-                    height: 120,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
-                <div className="px-6 py-4">
-                  <div className="mb-2 text-xl font-bold">{topic.title}</div>
-                  <p className="text-base text-gray-500">{topic.description}</p>
-                  <div style={{ margin: '30px 0px 20px 0px' }}>
-                    <Link
-                      href={topic.url}
-                      className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2"
-                    >
-                      Learn more
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+            Các thông báo về cộng đồng và bài viết về công nghệ của Polkadot
+          </p>
         </div>
+        <BlogArticleList
+          posts={posts.filter(
+            (post) => post.tags.includes('lang-vn') && post.tags.includes('polkadot')
+          )}
+        />
       </div>
+      {posts.length > MAX_DISPLAY && (
+        <div className="flex justify-end text-base font-medium leading-6">
+          <Link
+            href="/blog"
+            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+            aria-label="All posts"
+          >
+            All Posts &rarr;
+          </Link>
+        </div>
+      )}
     </>
   )
 }

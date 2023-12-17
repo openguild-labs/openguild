@@ -28,7 +28,7 @@ Vậy nên, **Offchain workers** là một phần quan trọng không thể thi�
 
 Offchain workers được xem là thành phần phụ của các hệ thống liên quan đến các tác phụ cần thời gian xử lý lâu và không nhất quán như là gửi / nhận yêu cầu đến các máy chủ web2, sản sinh số tự nhiên, tính toán cần thông lượng CPU lớn...Hiểu một cách đơn giản thì các **tác vụ nào có thời gian thực thi lớn hơn thời gian thực thi tối đa trên một block** thì tác vụ đó có thể giải quyết được bằng Offchain workers.
 
-Bạn có thể xem thêm mã nguồn của Price Oracle Pallet được triển khai sử dụng Offchain workers tại đây: [Code Breakdown @ Pallet Price Oracles](https://lowlevelers.com/blog/polkadot/code-breakdown-pallet-price-oracle)
+Bạn có thể xem thêm mã nguồn của Price Oracle Pallet được triển khai sử dụng Offchain workers tại đây: [Code Breakdown @ Pallet Price Oracles](https://lowlevelers.com/blog/polkadot/vn/code-breakdown-pallet-price-oracle)
 
 ### Ví dụ về cách triển khai Offchain workers trong Pallet
 
@@ -43,7 +43,7 @@ impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {
 	fn offchain_worker(block_number: BlockNumberFor<T>)
 ```
 
-Bên trong Pallet của bạn, nếu bạn chưa biết về Pallet xem qua bài này [Polkadot Guide: Pallet là gì?](https://lowlevelers.com/blog/polkadot/polkadot-guide-pallet-la-gi) hoặc [Code Breakdown: Template for FRAME pallet](https://lowlevelers.com/blog/polkadot/code-breakdown-pallet-template) để hiểu thêm về Pallet trước khi tìm hiểu đến Offchain Workers.
+Bên trong Pallet của bạn, nếu bạn chưa biết về Pallet xem qua bài này [Polkadot Guide: Pallet là gì?](https://lowlevelers.com/blog/polkadot/vn/polkadot-guide-pallet-la-gi) hoặc [Code Breakdown: Template for FRAME pallet](https://lowlevelers.com/blog/polkadot/vn/code-breakdown-pallet-template) để hiểu thêm về Pallet trước khi tìm hiểu đến Offchain Workers.
 
 Để khởi tạo `entry point` của Offchain workers bên trong Pallet, bạn sẽ cần khởi tạo trait `Hooks` cho `struct Pallet`
 
@@ -120,6 +120,6 @@ pub const KEY_TYPE: KeyTypeId = KeyTypeId(*b"btc!");
 
 Và tìm key phù hợp với các thông tin vừa cung cấp từ local keystore. Sau đó dùng key vừa tim được ký giao dịch. Các key có thể được thêm vào thủ công từ RPC (xem thêm về [`author_insertKey`](https://github.com/Phala-Network/khala-parachain/blob/main/scripts/js/insert_session_key.js))
 
-4. [Offchain storage](https://lowlevelers.com/blog/polkadot/polkadot-guide-offchain-storage) được chia sẻ giữa các offchain workers
+4. [Offchain storage](https://lowlevelers.com/blog/polkadot/vn/polkadot-guide-offchain-storage) được chia sẻ giữa các offchain workers
 5. Truy cập dữ liệu thời gian cục bộ của toàn chain.
 6. Khả năng `sleep` và `resume` các tác vụ
