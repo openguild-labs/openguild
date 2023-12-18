@@ -31,7 +31,7 @@ export default function PolkadotMainPage() {
               }}
             />
             <h1 className="mb-2 text-4xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
-              <span>Low-level developer community</span>
+              <span style={{ marginRight: 5 }}>Low-level developer community</span>
               <br className="hidden lg:block"></br>
               for Polkadot ecosystem
             </h1>
@@ -117,7 +117,7 @@ export default function PolkadotMainPage() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Other Polkadot Community
+            Other Polkadot Communities
           </h1>
           <div className="lg:flex lg:justify-evenly">
             {[
