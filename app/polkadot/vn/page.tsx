@@ -133,7 +133,7 @@ export default function PolkadotMainPage() {
               },
               {
                 title: 'Cumulus',
-                description: `Substrate là một bộ công cụ phát triển phần mềm được cung cấp bởi Parity Technologies nhằm hỗ trợ phát triển các nút blockchain với khả năng cấu hình và mở rộng dễ dàng không phụ thuộc vào trạng thái của giao thức mạng blockchain.`,
+                description: `Cumulus tập hợp các công cụ để giúp bạn xây dựng cách Polkadot Parachain bằng Substrate. Repository của Cumulus bao gồm các công cụ để hỗ trợ bạn chạy những thành phần thiết yếu xoay quan việc phát triển Parachain.`,
                 url: '/polkadot/cumulus',
                 img: '/static/images/cumulus_banner.png',
                 released: false,
