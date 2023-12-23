@@ -38,9 +38,10 @@ export default function PolkadotMainPage() {
             <br></br>
             <p className="mx-auto  text-xl font-normal leading-relaxed text-gray-600 dark:text-gray-300 lg:w-2/3">
               <span className="font-bold text-primary-500">TheLowLevelers</span> là một cộng đồng mã
-              nguồn mở và phi lợi nhuận. Mục đích cốt yếu của tụi mình là để giúp tất cả mọi người
-              hiểu thêm về công nghệ theo tư duy nguyên bản (First Principle Thinking). Tiếp cận
-              công nghệ từ các phần tử căn nguyên nhất.
+              nguồn mở và phi lợi nhuận. Mục đích cốt yếu của tụi mình là để giúp lập trình viên có
+              hứng thú hiểu thêm về Polkadot từ cốt lõi công nghệ. Ngoài ra, TheLowLevelers còn là
+              bệ phóng để giúp bạn tham gia vào hệ sinh thái Polkadot dưới vị trí là một nhà phát
+              triển.
             </p>
           </div>
         </div>
