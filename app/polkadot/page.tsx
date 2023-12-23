@@ -88,7 +88,7 @@ export default function PolkadotMainPage() {
               {
                 title: 'Research & Development',
                 description:
-                  'Research the interesting topics of Polkadot blockhain and develop tools for the open-source community',
+                  'Research the interesting topics of Polkadot blockchain and develop tools for the open-source community',
                 img: '/static/images/r&d-banner.avif',
               },
             ].map((topic) => (
