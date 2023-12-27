@@ -16,6 +16,104 @@ const MAX_DISPLAY = 3
 export default function PolkadotMainPage() {
   const sortedPosts = sortPosts(allBlogs)
   const posts = allCoreContent(sortedPosts)
+  const rustCourses = [
+    {
+      title: 'Rust Practices with Rustlings',
+      description: `Solving Rustlings problems to learn Rust interactively.`,
+      url: '/polkadot/substrate',
+      img: '/static/images/learn-rust.png',
+      released: false,
+    },
+    {
+      title: 'Rust Practices for Polkadot Blockchain Academy',
+      description: `Be ready for Polkadot Blockchain Academy by praticing mock Rust qualification exam`,
+      url: '/polkadot/substrate',
+      img: '/static/images/learn-rust.png',
+      released: false,
+    },
+    {
+      title: 'WebAssembly in Rust',
+      description: `Learn WebAssembly concepts and implement a WASM executor in Rust`,
+      url: '/polkadot/substrate',
+      img: '/static/images/learn-rust.png',
+      released: false,
+    },
+  ]
+  const pbaBookCourses = [
+    {
+      title: 'Prepare for PBA: Programming a State Machine in Rust',
+      description: `Learn the concept of state machine through Rust hands-on experiment with Polkadot Blockchain Academy exercises`,
+      url: '/polkadot/substrate',
+      img: '/static/images/polkadot/prepare-for-pba-001.png',
+      released: false,
+    },
+    {
+      title: 'Prepare for PBA: Build a blockchain from scratch',
+      description: `Learn how to write your own blockchain node from scratch using materials from Polkadot Blockchain Academy book`,
+      url: '/polkadot/substrate',
+      img: '/static/images/polkadot/prepare-for-pba-003.png',
+      released: false,
+    },
+    {
+      title: 'Prepare for PBA: Build a Substrate node from scratch',
+      description: `Learn how to write your own Substrate node from scratch`,
+      url: '/polkadot/substrate',
+      img: '/static/images/polkadot/prepare-for-pba-002.png',
+      released: false,
+    },
+  ]
+
+  const ModuleListSection = ({
+    modules,
+  }: {
+    modules: {
+      title: string
+      description: string
+      url: string
+      img: string
+      released: boolean
+    }[]
+  }) => {
+    return (
+      <div className="lg:flex lg:justify-evenly">
+        {modules.map((topic) => (
+          <div
+            key={topic.title}
+            style={{ maxWidth: 400, width: '100%', paddingBottom: 20 }}
+            className="mx-2 my-5 overflow-hidden rounded bg-gray-900 shadow-lg"
+          >
+            <div
+              style={{
+                background: `url(${topic.img})`,
+                marginBottom: 20,
+                height: 170,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            <div className="px-6 py-4">
+              <div className="mb-2 text-xl font-bold">{topic.title}</div>
+              {topic.released ? (
+                <div style={{ margin: '20px 0px 20px 0px' }}>
+                  <Link href={topic.url} className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2">
+                    Learn more
+                  </Link>
+                </div>
+              ) : (
+                <div
+                  className="mt-5 rounded bg-gray-700 px-5 py-2"
+                  style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
+                >
+                  Coming Soon
+                </div>
+              )}
+              <p className="text-base text-gray-500">{topic.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
   return (
     <>
       <section className="body-font text-black">
@@ -28,6 +126,7 @@ export default function PolkadotMainPage() {
                 marginBottom: 50,
                 height: 300,
                 backgroundSize: 'cover',
+                backgroundPosition: 'center',
               }}
             />
             <h1 className="mb-2 text-4xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
@@ -119,8 +218,8 @@ export default function PolkadotMainPage() {
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Start developing on Polkadot
           </h1>
-          <div className="lg:flex lg:justify-evenly">
-            {[
+          <ModuleListSection
+            modules={[
               {
                 title: 'Substrate',
                 description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
@@ -142,45 +241,17 @@ export default function PolkadotMainPage() {
                 img: '/static/images/cumulus_banner.png',
                 released: false,
               },
-            ].map((topic) => (
-              <div
-                key={topic.title}
-                style={{ minWidth: 350 }}
-                className="mx-2 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
-              >
-                <div
-                  style={{
-                    background: `url(${topic.img})`,
-                    marginBottom: 20,
-                    height: 120,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
-                <div className="px-6 py-4">
-                  <div className="mb-2 text-xl font-bold">{topic.title}</div>
-                  {topic.released ? (
-                    <div style={{ margin: '20px 0px 20px 0px' }}>
-                      <Link
-                        href={topic.url}
-                        className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2"
-                      >
-                        Learn more
-                      </Link>
-                    </div>
-                  ) : (
-                    <div
-                      className="mt-5 rounded bg-gray-700 px-5 py-2"
-                      style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
-                    >
-                      Coming Soon
-                    </div>
-                  )}
-                  <p className="text-base text-gray-500">{topic.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+            ]}
+          />
+        </div>
+      </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            Courses made by TheLowLevelers
+          </h1>
+          <ModuleListSection modules={rustCourses} />
+          <ModuleListSection modules={pbaBookCourses} />
         </div>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
