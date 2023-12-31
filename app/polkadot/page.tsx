@@ -10,6 +10,9 @@ import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import Image from 'next/image'
 import { BlogArticleList } from '@/components/BlogArticleList'
+import Marquee from 'react-fast-marquee'
+import Card from '@/components/Card'
+import projectsData from '@/data/projectsData'
 
 const MAX_DISPLAY = 3
 
@@ -121,12 +124,12 @@ export default function PolkadotMainPage() {
           <div className="mb-2 flex w-full flex-col text-left md:text-center">
             <div
               style={{
-                background: "url('/static/images/polkadot-landing.png')",
+                background: "url('/static/images/landing-image.jpg')",
                 borderRadius: '10px',
                 marginBottom: 50,
                 height: 300,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: '20% 80%',
               }}
             />
             <h1 className="mb-2 text-4xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
@@ -171,6 +174,58 @@ export default function PolkadotMainPage() {
       </div>
       <br />
       <br />
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            Learn more about us
+          </h1>
+          <div className="lg:flex lg:justify-evenly">
+            {[
+              {
+                title: 'Community Handbook',
+                description: 'Find all information about TheLowLevelers community in the handbook',
+                img: '/static/images/handbook-banner.jpg',
+                href: 'https://handbook.lowlevelers.com',
+              },
+              {
+                title: 'Discussion Forum',
+                description: 'Learn more from other community members from the discussion forum',
+                img: '/static/images/discussion-forum-banner.png',
+                href: 'https://github.com/orgs/lowlevelers/discussions',
+              },
+              {
+                title: 'Members',
+                description: 'Discover talented people in the community',
+                img: '/static/images/member-banner.webp',
+                href: 'http://lowlevelers.com/about',
+              },
+            ].map((topic) => (
+              <Link
+                href={topic.href}
+                key={topic.title}
+                style={{
+                  minWidth: 350,
+                }}
+                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
+              >
+                <div
+                  style={{
+                    background: `url(${topic.img})`,
+                    marginBottom: 5,
+                    height: 120,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                />
+                <div className="px-6 py-4">
+                  <div className="mb-2 text-xl font-bold">{topic.title}</div>
+                  <p className="text-base text-gray-500">{topic.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
@@ -248,11 +303,41 @@ export default function PolkadotMainPage() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Courses made by TheLowLevelers
+            Courses made by us
           </h1>
           <ModuleListSection modules={rustCourses} />
           <ModuleListSection modules={pbaBookCourses} />
         </div>
+      </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            Projects built by us
+          </h1>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+            List of projects made or contributed by TheLowLevelers
+          </p>
+          <Marquee autoFill speed={150}>
+            {projectsData.map((d) => (
+              <Card
+                key={d.title}
+                title={d.title}
+                description={d.description}
+                imgSrc={d.imgSrc}
+                href={d.href}
+              />
+            ))}
+          </Marquee>
+        </div>
+      </div>
+      <div className="flex justify-end text-base font-medium leading-6">
+        <Link
+          href="/projects"
+          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+          aria-label="All posts"
+        >
+          All Projects &rarr;
+        </Link>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
