@@ -184,13 +184,13 @@ export default function PolkadotMainPage() {
               {
                 title: 'Community Handbook',
                 description: 'Find all information about TheLowLevelers community in the handbook',
-                img: '/static/images/handbook-banner.jpg',
+                img: '/static/images/handbook-banner.webp',
                 href: 'https://handbook.lowlevelers.com',
               },
               {
                 title: 'Discussion Forum',
                 description: 'Learn more from other community members from the discussion forum',
-                img: '/static/images/discussion-forum-banner.png',
+                img: '/static/images/discussion-forum-banner.webp',
                 href: 'https://github.com/orgs/lowlevelers/discussions',
               },
               {
@@ -243,7 +243,7 @@ export default function PolkadotMainPage() {
                 title: 'Research & Development',
                 description:
                   'Research the interesting topics of Polkadot blockchain and develop tools for the open-source community',
-                img: '/static/images/r&d-banner.avif',
+                img: '/static/images/r&d-banner.jpg',
               },
             ].map((topic) => (
               <div
