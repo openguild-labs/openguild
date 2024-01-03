@@ -2,12 +2,11 @@
 title: Rust Practices with Rustlings - Introduction and Variables
 date: 2024-01-03
 authors: ['nhan-dnguyen']
-tags: ['technical', 'language', 'rust']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
 draft: true
 summary: Introduction about Rustlings and the first chapter - variables
 ---
 
-  
 # Introduction about Rustlings
 
 > Rustlings is a project that contains small exercises to get you used to reading and writing Rust code. This includes reading and responding to compiler messages!
@@ -17,21 +16,27 @@ The book (for using when learning Rust with Rustlings - include some hint from r
 For more details about Rustlings and how to use it, please visit Rustlings GitHub page!
 
 # Chapter 0 - Introduction
+
 With the introduction of Rustlings, we learn how to use the Rustlings and how to write the very first Hello World on rust
+
 ```rust
 // The original code:
 fn main() {
 	println!("Hello {}!");
 }
 ```
+
 You need to find out the problem and fix it. we can easily see in the code above we have {} - that is used for print something, and we need to pass a value into it to print out.
+
 ```rust
 //Solution
 fn main() {
 	println!("Hello {}!", "Rust");
 }
 ```
+
 You can also pass a variable into it, and more
+
 ```rust
 let name = "Rust";
 println!("Hello {}!", name);
@@ -39,60 +44,75 @@ println!("Hello {}!", name);
 println!("Hello {1}, {1} is learning {0}", "Rust", "Bob")
 // Result; Hello Bob, Bob is learning Rust
 ```
+
 # Chapter 1 - Variables
+
 ## Exercise 1
+
 ```rust
 fn main() {
 	x = 5;
 	println!("x has the value {}", x);
 }
 ```
+
 Rust uses the let command to define a new variable, so the one is missing here is let command. Easy!
+
 ```rust
 fn main() {
 	let x = 5;
 	println!("x has the value {}", x);
 }
 ```
+
 ## Exercise 2
+
 ```rust
 fn main() {
 	let x;
 	if x == 10 {
 		println!("x is ten!");
-	
+
 	} else {
 		println!("x is not ten!");
 	}
 }
 ```
+
 Same as other programming languages, we need to assign an init value to x before we can use the variable.
+
 ```rust
 fn main() {
 	let x = 10;
 	if x == 10 {
 		println!("x is ten!");
-	
+
 	} else {
 		println!("x is not ten!");
 	}
 }
 ```
+
 We can also do it in another way
+
 ```rust
 let x;
 x = 11
 ```
+
 ## Exercise 3
+
 ```rust
 fn main() {
 	let x: i32 = 10;
 	println!("Number {}", x);
 }
 ```
+
 Quite the same as the exercises above, we need to assign a value for the variable
 1 thing here is the variable's type is `i32`, which means we need to assign an integer value for that variable.
 You can try assigning an float variable to see the error
+
 ```rust
 fn main() {
 	let x: i32 = 10.1;
@@ -103,6 +123,7 @@ fn main() {
 ```
 
 ## Exercise 4
+
 ```rust
 fn main() {
 	let x = 3;
@@ -111,8 +132,10 @@ fn main() {
 	println!("Number {}", x);
 }
 ```
+
 In Rust we have 2 types of variables: mutable and immutable. For immutable variables, we cannot change the value of the variable. In the example above the error will be "**cannot assign twice to immutable variable**"
 We can make the variable mutable to re-assign a new value to it
+
 ```rust
 fn main() {
 	let mut x = 3;
@@ -121,7 +144,9 @@ fn main() {
 	println!("Number {}", x);
 }
 ```
+
 You cannot assign a value that has different type than the first value. Example this example below will raise the error: "**^** **expected floating-point number, found integer**"
+
 ```rust
 fn main() {
 	let mut x = 3.1;
@@ -130,7 +155,9 @@ fn main() {
 	println!("Number {}", x);
 }
 ```
+
 ## Exercise 5
+
 ```rust
 fn main() {
 	let number = "T-H-R-E-E"; // don't change this line
@@ -139,8 +166,10 @@ fn main() {
 	println!("Number plus two is : {}", number + 2);
 }
 ```
+
 The same as the exercise 4, we cannot change the type of the variable when we re-assign a new value. What should we do?
 In Rust we have a thing called Shadowing. It allows us to re-defined the variables (including their types and values).
+
 ```rust
 fn main() {
 	let number = "T-H-R-E-E"; // don't change this line
@@ -149,7 +178,9 @@ fn main() {
 	println!("Number plus two is : {}", number + 2);
 }
 ```
+
 Shadowing affects block scope. Example:
+
 ```rust
 fn main() {
 	let number = 3;
@@ -164,7 +195,9 @@ fn main() {
 // Number in block is: 6
 // Number plus one is: 4
 ```
+
 ## Exercise 6
+
 ```rust
 const NUMBER = 3;
 
@@ -172,12 +205,15 @@ fn main() {
 	println!("Number {}", NUMBER);
 }
 ```
+
 Constant in Rust sounds like same as the immutable variable, but it has some different
+
 - Constant must have a type annotation
 - We cannot use `mut` with const
 - Constants are valid for the entire scope of which they were declared
 
 So for this exercise, we only need to add a type annotation for the const
+
 ```rust
 const NUMBER: i32 = 3;
 
@@ -186,8 +222,9 @@ fn main() {
 }
 ```
 
-The first chapter of Rustlings - Variables ends here. 
+The first chapter of Rustlings - Variables ends here.
 TIL:
+
 - Working with variables in Rust
 - Variables initial and value assign
 - Mutable - Immutable variable, shadowing, constants

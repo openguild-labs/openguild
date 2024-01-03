@@ -128,6 +128,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                           width={38}
                           height={38}
                           alt="avatar"
+                          style={{ objectFit: 'cover' }}
                           className="h-10 w-10 rounded-full"
                         />
                       )}
