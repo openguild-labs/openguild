@@ -1,0 +1,287 @@
+---
+
+title: Rust Practices with Rustlings - Functions
+
+date: 2024-01-03
+
+authors: ['nhan-dnguyen']
+
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+
+draft: true
+
+summary: The second chapter of Rustlings course - Functions
+
+---
+
+Following the first chapter of Rustlings, we will continue with the second chapter - Functions
+
+# Chapter 2 - Functions
+
+## Exercise 1
+
+```rust
+fn main() {
+  call_me();
+}
+```
+
+Start with a very simple exercise, we just need to declared the function `call_me()`
+
+```rust
+fn call_me() {
+  println!("Hello World!");
+}
+  
+fn main() {
+  call_me();
+}
+
+```
+
+## Exercise 2
+
+```rust
+
+fn main() {
+
+call_me(3);
+
+}
+
+  
+
+fn call_me(num: i32) {
+
+for i in 0..num {
+
+println!("Ring! Call number {}", i + 1);
+
+}
+
+}
+
+```
+
+In Rust, the parameters of a function are declared with their types. In this exercise, the parameter missing its type annotation.
+
+```rust
+fn main() {
+  call_me(3);
+}
+
+fn call_me(num: i32) {
+  for i in 0..num {
+    println!("Ring! Call number {}", i + 1);
+  }
+}
+
+```
+
+1 thing we need to know, we can use shadowing to re-define the type of the paramater
+
+```rust
+fn main() {
+  call_me(3);
+}
+
+fn call_me(num: i32) {
+  let num: u32 = num as u32;
+  for i in 0..num {
+    println!("Ring! Call number {}", i + 1);
+  }
+}
+```
+
+## Exercise 3
+
+```rust
+fn main() {
+  call_me();
+}
+
+fn call_me(num: u32) {
+  for i in 0..num {
+    println!("Ring! Call number {}", i + 1);
+  }
+}
+```
+
+Quite the same as the exercises above, but we have a different type of the parameter. The error will be **an argument of type `u32` is missing** because we don't pass the required argument to the function.
+
+In this case, we have some workarounds:
+
+- Pass the argument to the function
+
+```rust
+fn main() {
+  call_me();
+}
+
+fn call_me(num: u32) {
+  let num = 3;
+  for i in 0..num {
+    println!("Ring! Call number {}", i + 1);
+  
+  }
+}
+```
+
+- Or remove the function's parameter
+
+```rust
+fn main() {
+  call_me();
+}
+
+  
+
+fn call_me() {
+  let num = 3;
+  for i in 0..num {
+    println!("Ring! Call number {}", i + 1);
+  }
+}
+```
+
+## Exercise 4
+
+```rust
+fn main() {
+  let original_price = 51;
+  println!("Your sale price is {}", sale_price(original_price));
+}
+
+fn sale_price(price: i32) -> {
+  if is_even(price) {
+    price - 10
+  } else {
+    price - 3
+  
+  }
+}
+
+fn is_even(num: i32) -> bool {
+  num % 2 == 0
+}
+```
+
+In this exercise, we learn how to use the return value of a function. The -> symbol is used to declare the return type of the function.
+
+We can see in this case, the expected return type of sale_price function is an integer, but we don't have any return value for this function.
+
+```rust
+fn main() {
+  let original_price = 51;
+  println!("Your sale price is {}", sale_price(original_price));
+}
+
+fn sale_price(price: i32) -> i32{
+  if is_even(price) {
+    price - 10
+  } else {
+    price - 3
+  }
+}
+
+fn is_even(num: i32) -> bool {
+  num % 2 == 0
+}
+```
+
+## Exercise 5
+
+```rust
+fn main() {
+  let answer = square(3);
+  println!("The square of 3 is {}", answer);
+}
+
+fn square(num: i32) -> i32 {
+  num * num;
+}
+```
+
+This is a very interesting thing in Rust. It distinguishes between statements and expressions.
+
+- Statements are instructions that perform some action and do not return a value.
+
+- Expressions evaluate to a resulting value.
+
+To return a value from a statement, we need to add the return keyword before the statement.
+
+```rust
+fn main() {
+  let answer = square(3);
+  println!("The square of 3 is {}", answer);
+}
+
+fn square(num: i32) -> i32 {
+  return num * num;
+}
+```
+
+Another way, more simple, just remove the semicolon at the end of the statement, and it will become an expression and return the value of the expression.
+
+```rust
+fn main() {
+  let answer = square(3);
+  println!("The square of 3 is {}", answer);
+}
+
+fn square(num: i32) -> i32 {
+  num * num
+}
+```
+
+## Bonus
+
+I wonder if we can declare a function inside another function in Rust. The answer is yes, we can do that. I called it `nested` function
+
+```rust
+
+fn main() {
+  let answer = square(3);
+  println!("The square of 3 is {}", answer);
+}
+
+fn square(num: i32) -> i32 {
+  fn real_square(num: i32) -> i32 {
+    num * num
+  }
+  real_square(num)
+}
+
+```
+
+That kind of function is only available inside the function that it is declared. We CANNOT do something like this
+
+```rust
+
+fn main() {
+  let answer = real_square(3); // raise `not found in this scope` error
+  println!("The square of 3 is {}", answer);
+}
+
+fn square(num: i32) -> i32 {
+  fn real_square(num: i32) -> i32 {
+    num * num
+  }
+  real_square(num)
+}
+
+```
+
+## Conclusion
+
+The second chapter of Rustlings - Functions ends here.
+
+TIL:
+
+- Working with functions in Rust
+
+- Functions declare and call
+
+- Function return types
+
+Thanks for reading and please add comments below if you have any questions
