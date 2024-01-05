@@ -1,0 +1,262 @@
+---
+title: Rust Practices with Rustlings - If
+date: 2024-01-03
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: true
+summary: The third chapter of Rustlings - If
+---
+
+# Chapter 3 - if
+
+## Exercise 1
+
+```rust
+pub fn bigger(a: i32, b: i32) -> i32 {
+	// Complete this function to return the bigger number!
+	// Do not use:
+	// - another function call
+	// - additional variables
+}
+
+	```
+
+In other languages, we have something like this: example in Ruby `a > b ? a : b`
+But in Rust, we have a different way to do it. Remember that in Rust if and else are expressions, not statements. So we can do it like this:
+
+```rust
+pub fn bigger(a: i32, b: i32) -> i32 {
+	if a > b {
+		a
+	} else {
+		b
+	}
+}
+```
+
+You can write it in 1 line:
+
+```rust
+pub fn bigger(a: i32, b: i32) -> i32 {
+	if a > b { a } else { b }
+}
+```
+
+## Exercise 2
+
+```rust
+pub fn foo_if_fizz(fizzish: &str) -> &str {
+    if fizzish == "fizz" {
+        "foo"
+    } else {
+        "baz"
+    }
+}
+
+// No test changes needed!
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn foo_for_fizz() {
+        assert_eq!(foo_if_fizz("fizz"), "foo")
+    }
+
+    #[test]
+    fn bar_for_fuzz() {
+        assert_eq!(foo_if_fizz("fuzz"), "bar")
+    }
+
+    #[test]
+    fn default_to_baz() {
+        assert_eq!(foo_if_fizz("literally anything"), "baz")
+    }
+}
+```
+
+In this exercise, we need to modify the function to pass the test.
+The test is quite simple, we just need to return "foo" if the input is "fizz", return "bar" if the input is "fuzz", otherwise return "baz".
+
+```rust
+pub fn foo_if_fizz(fizzish: &str) -> &str {
+	if fizzish == "fizz" {
+		"foo"
+	} else if fizzish == "fuzz" {
+		"bar"
+	}
+	else {
+		"baz"
+	}
+}
+```
+
+Another clear `way` to do it still using if
+
+```rust
+pub fn foo_if_fizz(fizzish: &str) -> &str {
+	if fizzish == "fizz" {
+		return "foo";
+	} 
+	if fizzish == "fuzz" {
+		return "bar";
+	}
+	"baz"
+}
+```
+
+The interesting thing here is in the if block, we want to return the function sooner (not at the end of the function), so we must use the return keyword!
+
+## Exercise 3
+
+```rust
+pub fn animal_habitat(animal: &str) -> &'static str {
+    let identifier = if animal == "crab" {
+        1
+    } else if animal == "gopher" {
+        2.0
+    } else if animal == "snake" {
+        3
+    } else {
+        "Unknown"
+    };
+
+    // DO NOT CHANGE THIS STATEMENT BELOW
+    let habitat = if identifier == 1 {
+        "Beach"
+    } else if identifier == 2 {
+        "Burrow"
+    } else if identifier == 3 {
+        "Desert"
+    } else {
+        "Unknown"
+    };
+
+    habitat
+}
+
+// No test changes needed.
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn gopher_lives_in_burrow() {
+        assert_eq!(animal_habitat("gopher"), "Burrow")
+    }
+
+    #[test]
+    fn snake_lives_in_desert() {
+        assert_eq!(animal_habitat("snake"), "Desert")
+    }
+
+    #[test]
+    fn crab_lives_on_beach() {
+        assert_eq!(animal_habitat("crab"), "Beach")
+    }
+
+    #[test]
+    fn unknown_animal() {
+        assert_eq!(animal_habitat("dinosaur"), "Unknown")
+    }
+}
+```
+
+Looking at the tests, the error message (**`if` and `else` have incompatible types**) and the habitat statement, we can see that the identifier is not a string, it's a number. So we need to change the type of the identifier to be the same as the habitat. <br />
+If we assign a value to the variable with the if statement, the return type of each if block will be the same as the type of the variable. 
+
+```rust
+pub fn animal_habitat(animal: &str) -> &'static str {
+    let identifier = if animal == "crab" {
+        1
+    } else if animal == "gopher" {
+        2
+    } else if animal == "snake" {
+        3
+    } else {
+        0
+    };
+
+    // DO NOT CHANGE THIS STATEMENT BELOW
+    let habitat = if identifier == 1 {
+        "Beach"
+    } else if identifier == 2 {
+        "Burrow"
+    } else if identifier == 3 {
+        "Desert"
+    } else {
+        "Unknown"
+    };
+
+    habitat
+}
+```
+
+## Quizz for Variables - Functions - If
+
+```rust
+// This is a quiz for the following sections:
+// - Variables
+// - Functions
+// - If
+//
+// Mary is buying apples. The price of an apple is calculated as follows:
+// - An apple costs 2 rustbucks.
+// - If Mary buys more than 40 apples, each apple only costs 1 rustbuck!
+// Write a function that calculates the price of an order of apples given the
+// quantity bought.
+//
+// No hints this time ;)
+
+// I AM NOT DONE
+
+// Put your function here!
+// fn calculate_price_of_apples {
+
+// Don't modify this function!
+#[test]
+fn verify_test() {
+    let price1 = calculate_price_of_apples(35);
+    let price2 = calculate_price_of_apples(40);
+    let price3 = calculate_price_of_apples(41);
+    let price4 = calculate_price_of_apples(65);
+
+    assert_eq!(70, price1);
+    assert_eq!(80, price2);
+    assert_eq!(41, price3);
+    assert_eq!(65, price4);
+}
+```
+
+To calculate the price of an order apples, we can use the if statement to check the quantity of apples. <br />
+
+```rust
+fn calculate_price_of_apples(number_of_apples: u32) -> u32 {
+	if number_of_apples > 40 {
+		return number_of_apples;
+	}
+	number_of_apples * 2
+}
+```
+
+Another way!
+
+```rust
+fn calculate_price_of_apples(number_of_apples: u32) -> u32 {
+	if number_of_apples > 40 {
+		number_of_apples
+	} else {
+		number_of_apples * 2
+	}
+}
+```
+
+## Conclusion
+
+The third chapter of Rustlings - If ends here. <br />
+TIL:
+
+- How to use if - else as expressions
+- Some ways to write the return statement with if - else
+
+Thanks for reading and please add comments below if you have any questions

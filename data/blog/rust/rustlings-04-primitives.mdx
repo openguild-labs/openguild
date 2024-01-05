@@ -1,0 +1,245 @@
+---
+title: Rust Practices with Rustlings - Primitive types
+date: 2024-01-03
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: true
+summary: The third chapter of Rustlings - Primitive types
+---
+
+# Chapter 4 - Primitive types
+
+## Exercise 1
+
+```rust
+fn main() {
+    // Booleans (`bool`)
+
+    let is_morning = true;
+    if is_morning {
+        println!("Good morning!");
+    }
+
+    let is_evening; // Finish the rest of this line like the example! Or make it be false!
+    if is_evening {
+        println!("Good evening!");
+    }
+}
+```
+
+The first exercise is quite simple, we just need to assign the value to the variable `is_evening` to make the if statement work.
+
+```rust
+fn main() {
+    // Booleans (`bool`)
+
+    let is_morning = true;
+    if is_morning {
+        println!("Good morning!");
+    }
+
+    let is_evening = true; // or false
+    if is_evening {
+        println!("Good evening!");
+    }
+}
+```
+
+## Exercise 2
+
+```rust
+fn main() {
+    // Characters (`char`)
+
+    // Note the _single_ quotes, these are different from the double quotes
+    // you've been seeing around.
+    let my_first_initial = 'C';
+    if my_first_initial.is_alphabetic() {
+        println!("Alphabetical!");
+    } else if my_first_initial.is_numeric() {
+        println!("Numerical!");
+    } else {
+        println!("Neither alphabetic nor numeric!");
+    }
+
+    let // Finish this line like the example! What's your favorite character?
+    // Try a letter, try a number, try a special character, try a character
+    // from a different language than your own, try an emoji!
+    if your_character.is_alphabetic() {
+        println!("Alphabetical!");
+    } else if your_character.is_numeric() {
+        println!("Numerical!");
+    } else {
+        println!("Neither alphabetic nor numeric!");
+    }
+}
+```
+
+Following the note above
+> Note the _single_ quotes, these are different from the double quotes
+
+Let's try with the double quote first.
+
+```rust
+fn main() {
+    // Characters (`char`)
+
+    // Note the _single_ quotes, these are different from the double quotes
+    // you've been seeing around.
+    let my_first_initial = 'C';
+    if my_first_initial.is_alphabetic() {
+        println!("Alphabetical!");
+    } else if my_first_initial.is_numeric() {
+        println!("Numerical!");
+    } else {
+        println!("Neither alphabetic nor numeric!");
+    }
+
+    let your_character = "0";// Finish this line like the example! What's your favorite character?
+    // Try a letter, try a number, try a special character, try a character
+    // from a different language than your own, try an emoji!
+    if your_character.is_alphabetic() {
+        println!("Alphabetical!");
+    } else if your_character.is_numeric() {
+        println!("Numerical!");
+    } else {
+        println!("Neither alphabetic nor numeric!");
+    }
+}
+// Result: Error message - method not found in `&str`
+```
+
+If you use single quote like `let your_character = '0';` the exercise will pass. <br />
+The reason is because the single quote is for the character type, the double quote is for the string &str. <br />
+
+## Exercise 3
+
+```rust
+fn main() {
+    let;
+
+    if a.len() >= 100 {
+        println!("Wow, that's a big array!");
+    } else {
+        println!("Meh, I eat arrays like that for breakfast.");
+        panic!("Array not big enough, more elements needed")
+    }
+}
+```
+
+We need to create an array with more than 100 elements. <br />
+Simple, right? We can create an array like this: `let a = [1, 2, 3]` so type 100 times and we're done!
+Just kidding, we have another way to do it
+
+```rust
+fn main() {
+    let a = [3; 100];
+
+    if a.len() >= 100 {
+        println!("Wow, that's a big array!");
+    } else {
+        println!("Meh, I eat arrays like that for breakfast.");
+        panic!("Array not big enough, more elements needed")
+    }
+}
+```
+
+FYI: String also has len() method, so you can do this:
+
+```rust
+fn main() {
+    let a = "a".repeat(100);
+
+    if a.len() >= 100 {
+        println!("Wow, that's a big array!");
+    } else {
+        println!("Meh, I eat arrays like that for breakfast.");
+        panic!("Array not big enough, more elements needed")
+    }
+}
+```
+
+## Exercise 4
+
+```rust
+#[test]
+fn slice_out_of_array() {
+    let a = [1, 2, 3, 4, 5];
+
+    let nice_slice = ;
+
+    assert_eq!([2, 3, 4], nice_slice)
+}
+```
+
+A string slice is a reference to part of a String. So we can do this:
+
+```rust
+fn slice_out_of_array() {
+    let a = [1, 2, 3, 4, 5];
+
+    let nice_slice = &a[1..4];
+
+    assert_eq!([2, 3, 4], nice_slice)
+}
+```
+
+If you don't pass the reference, example ``a[1..4]`, the compiler will complain `doesn't have a size known at compile-time`.
+
+## Exercise 5
+
+```rust
+fn main() {
+    let cat = ("Furry McFurson", 3.5);
+    let /* your pattern here */ = cat;
+
+    println!("{} is {} years old.", name, age);
+}
+```
+
+`cat` is a tuple, so we can do this:
+
+```rust
+fn main() {
+    let cat = ("Furry McFurson", 3.5);
+    let (name, age) = cat;
+
+    println!("{} is {} years old.", name, age);
+}
+```
+
+## Exercise 6
+
+```rust
+fn indexing_tuple() {
+    let numbers = (1, 2, 3);
+    // Replace below ??? with the tuple indexing syntax.
+    let second =;
+
+    assert_eq!(2, second,
+        "This is not the 2nd number in the tuple!")
+}
+```
+
+To access the element of a tuple, we can use the index like this:
+
+```rust
+fn indexing_tuple() {
+    let numbers = (1, 2, 3);
+    // Replace below ??? with the tuple indexing syntax.
+    let second = numbers.1;
+
+    assert_eq!(2, second,
+        "This is not the 2nd number in the tuple!")
+}
+```
+
+## Conclusion
+
+The fourth chapter of Rustlings - Primitive type ends here. <br />
+TIL:
+
+- How to declare and use the primitive types
+- Working with array, tuple, string and some helpful methods to work with them
+
+Thanks for reading and please add comments below if you have any questions
