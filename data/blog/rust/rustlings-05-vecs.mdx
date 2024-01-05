@@ -1,0 +1,122 @@
+---
+title: Rust Practices with Rustlings - Vecs
+date: 2024-01-05
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: true
+summary: The fifth chapter of Rustlings - Vecs
+---
+
+# Chapter 5 - Vecs
+
+## Exercise 1
+
+```rust
+fn array_and_vec() -> ([i32; 4], Vec<i32>) {
+    let a = [10, 20, 30, 40]; // a plain array
+    let v = // TODO: declare your vector here with the macro for vectors
+
+    (a, v)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_array_and_vec_similarity() {
+        let (a, v) = array_and_vec();
+        assert_eq!(a, v[..]);
+    }
+}
+```
+
+We have 2 ways to declare a vector:
+- Declare with the macro `vec!`:
+
+```rust
+fn array_and_vec() -> ([i32; 4], Vec<i32>) {
+    let a = [10, 20, 30, 40]; // a plain array
+    let v = vec![10, 20, 30, 40]
+
+    (a, v)
+}
+```
+
+- Declare with the `Vec::new` function - remember to make the v mutable:
+
+```rust
+fn array_and_vec() -> ([i32; 4], Vec<i32>) {
+    let a = [10, 20, 30, 40]; // a plain array
+    let mut v: Vec<i32> = Vec::new();
+    v.push(10);
+    v.push(20);
+    v.push(30);
+    v.push(40);
+
+    (a, v)
+}
+```
+
+## Exercise 2
+
+```rust
+fn vec_loop(mut v: Vec<i32>) -> Vec<i32> {
+    for element in v.iter_mut() {
+        // TODO: Fill this up so that each element in the Vec `v` is
+        // multiplied by 2.
+        ???
+    }
+
+    // At this point, `v` should be equal to [4, 8, 12, 16, 20].
+    v
+}
+
+fn vec_map(v: &Vec<i32>) -> Vec<i32> {
+    v.iter().map(|element| {
+        // TODO: Do the same thing as above - but instead of mutating the
+        // Vec, you can just return the new number!
+        ???
+    }).collect()
+}
+```
+
+Looking at the `vec_loop` function, we're using the for loop to iterate through all element of vector v, so to multiple each element by 2, we have to assign the new value to the element. <br />
+`element = element * 2` or `element *= 2` <br />
+But you will see this error `cannot multiply '&mut i32' by {integer}`. <br />
+The problem is the `element` here is the reference to the element of the vector, so we have to dereference it first. <br />
+
+```rust
+fn vec_loop(mut v: Vec<i32>) -> Vec<i32> {
+    for element in v.iter_mut() {
+        // TODO: Fill this up so that each element in the Vec `v` is
+        // multiplied by 2.
+        *element *= 2; // or *element = *element * 2
+    }
+
+    // At this point, `v` should be equal to [4, 8, 12, 16, 20].
+    v
+}
+```
+
+For the `vec_map` function, we're using the `map` function to iterate through all element of vector v, so to multiple each element by 2, we have to return the new value. <br />
+
+```rust
+fn vec_map(v: &Vec<i32>) -> Vec<i32> {
+    v.iter().map(|element| {
+        // TODO: Do the same thing as above - but instead of mutating the
+        // Vec, you can just return the new number!
+        element * 2
+    }).collect()
+}
+```
+
+## Conclusion
+
+The fifth chapter of Rustlings - If ends here. <br />
+TIL:
+
+- How to declare a vector with `vec!` macro and `Vec::new` function
+- Vector's loop and map
+
+Thanks for reading and please add comments below if you have any questions
