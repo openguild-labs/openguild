@@ -1,0 +1,350 @@
+---
+title: Rust Practices with Rustlings - Structs
+date: 2024-01-06
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 7th chapter of Rustlings - Structs
+---
+
+# Chapter 7 - Strucs
+
+## Exercise 1
+
+```rust
+// Address all the TODOs to make the tests pass!
+
+struct ColorClassicStruct {
+    // TODO: Something goes here
+}
+
+struct ColorTupleStruct(/* TODO: Something goes here */);
+
+#[derive(Debug)]
+struct UnitLikeStruct;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn classic_c_structs() {
+        // TODO: Instantiate a classic c struct!
+        // let green =
+
+        assert_eq!(green.red, 0);
+        assert_eq!(green.green, 255);
+        assert_eq!(green.blue, 0);
+    }
+
+    #[test]
+    fn tuple_structs() {
+        // TODO: Instantiate a tuple struct!
+        // let green =
+
+        assert_eq!(green.0, 0);
+        assert_eq!(green.1, 255);
+        assert_eq!(green.2, 0);
+    }
+
+    #[test]
+    fn unit_structs() {
+        // TODO: Instantiate a unit-like struct!
+        // let unit_like_struct =
+        let message = format!("{:?}s are fun!", unit_like_struct);
+
+        assert_eq!(message, "UnitLikeStructs are fun!");
+    }
+}
+```
+
+In Rust, we have 3 types of structs:
+- Normal structs: The struct with fields name and type
+- Tuple structs: The struct with only fields type (without fields name)
+- Unit-like structs: The struct with no fields
+
+```rust
+// Address all the TODOs to make the tests pass!
+
+struct ColorClassicStruct {
+    blue: u32,
+    green: u32,
+    red: u32
+}
+
+struct ColorTupleStruct(u32, u32, u32);
+
+#[derive(Debug)]
+struct UnitLikeStruct;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn classic_c_structs() {
+        let green = ColorClassicStruct {
+            blue: 0,
+            green: 255,
+            red: 0
+        };
+
+        assert_eq!(green.red, 0);
+        assert_eq!(green.green, 255);
+        assert_eq!(green.blue, 0);
+    }
+
+    #[test]
+    fn tuple_structs() {
+        let green = ColorTupleStruct(0, 255, 0);
+
+        assert_eq!(green.0, 0);
+        assert_eq!(green.1, 255);
+        assert_eq!(green.2, 0);
+    }
+
+    #[test]
+    fn unit_structs() {
+        let unit_like_struct = UnitLikeStruct;
+        let message = format!("{:?}s are fun!", unit_like_struct);
+
+        assert_eq!(message, "UnitLikeStructs are fun!");
+    }
+}
+```
+
+## Exercise 2
+
+```rust
+#[derive(Debug)]
+struct Order {
+    name: String,
+    year: u32,
+    made_by_phone: bool,
+    made_by_mobile: bool,
+    made_by_email: bool,
+    item_number: u32,
+    count: u32,
+}
+
+fn create_order_template() -> Order {
+    Order {
+        name: String::from("Bob"),
+        year: 2019,
+        made_by_phone: false,
+        made_by_mobile: false,
+        made_by_email: true,
+        item_number: 123,
+        count: 0,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn your_order() {
+        let order_template = create_order_template();
+        // TODO: Create your own order using the update syntax and template above!
+        // let your_order =
+        assert_eq!(your_order.name, "Hacker in Rust");
+        assert_eq!(your_order.year, order_template.year);
+        assert_eq!(your_order.made_by_phone, order_template.made_by_phone);
+        assert_eq!(your_order.made_by_mobile, order_template.made_by_mobile);
+        assert_eq!(your_order.made_by_email, order_template.made_by_email);
+        assert_eq!(your_order.item_number, order_template.item_number);
+        assert_eq!(your_order.count, 1);
+    }
+}
+
+```
+
+We can see only the `count` and the `name` fields are different from the template. <br />
+Using the update syntax, we can create our new order like this:
+
+```rust
+#[derive(Debug)]
+struct Order {
+    name: String,
+    year: u32,
+    made_by_phone: bool,
+    made_by_mobile: bool,
+    made_by_email: bool,
+    item_number: u32,
+    count: u32,
+}
+
+fn create_order_template() -> Order {
+    Order {
+        name: String::from("Bob"),
+        year: 2019,
+        made_by_phone: false,
+        made_by_mobile: false,
+        made_by_email: true,
+        item_number: 123,
+        count: 0,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn your_order() {
+        let order_template = create_order_template();
+        // TODO: Create your own order using the update syntax and template above!
+        let your_order = Order {
+            name: String::from("Hacker in Rust"),
+            count: 1,
+            ..order_template
+        };
+        assert_eq!(your_order.name, "Hacker in Rust");
+        assert_eq!(your_order.year, order_template.year);
+        assert_eq!(your_order.made_by_phone, order_template.made_by_phone);
+        assert_eq!(your_order.made_by_mobile, order_template.made_by_mobile);
+        assert_eq!(your_order.made_by_email, order_template.made_by_email);
+        assert_eq!(your_order.item_number, order_template.item_number);
+        assert_eq!(your_order.count, 1);
+    }
+}
+
+```
+
+## Exercise 3
+
+```rust
+// Structs contain data, but can also have logic. In this exercise we have
+// defined the Package struct and we want to test some logic attached to it.
+// Make the code compile and the tests pass!
+
+#[derive(Debug)]
+struct Package {
+    sender_country: String,
+    recipient_country: String,
+    weight_in_grams: u32,
+}
+
+impl Package {
+    fn new(sender_country: String, recipient_country: String, weight_in_grams: u32) -> Package {
+        if weight_in_grams < 10 {
+            // This is not how you should handle errors in Rust,
+            // but we will learn about error handling later.
+            panic!("Can not ship a package with weight below 10 grams.")
+        } else {
+            Package {
+                sender_country,
+                recipient_country,
+                weight_in_grams,
+            }
+        }
+    }
+
+    fn is_international(&self) -> ??? {
+        // Something goes here...
+    }
+
+    fn get_fees(&self, cents_per_gram: u32) -> ??? {
+        // Something goes here...
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[should_panic]
+    fn fail_creating_weightless_package() {
+        let sender_country = String::from("Spain");
+        let recipient_country = String::from("Austria");
+
+        Package::new(sender_country, recipient_country, 5);
+    }
+
+    #[test]
+    fn create_international_package() {
+        let sender_country = String::from("Spain");
+        let recipient_country = String::from("Russia");
+
+        let package = Package::new(sender_country, recipient_country, 1200);
+
+        assert!(package.is_international());
+    }
+
+    #[test]
+    fn create_local_package() {
+        let sender_country = String::from("Canada");
+        let recipient_country = sender_country.clone();
+
+        let package = Package::new(sender_country, recipient_country, 1200);
+
+        assert!(!package.is_international());
+    }
+
+    #[test]
+    fn calculate_transport_fees() {
+        let sender_country = String::from("Spain");
+        let recipient_country = String::from("Spain");
+
+        let cents_per_gram = 3;
+
+        let package = Package::new(sender_country, recipient_country, 1500);
+
+        assert_eq!(package.get_fees(cents_per_gram), 4500);
+        assert_eq!(package.get_fees(cents_per_gram * 2), 9000);
+    }
+}
+
+```
+
+From the test, we can see that the `is_international` function returns false if the sender and the recipient are the same country. <br />
+The `get_fees` function returns the fee based on the weight in grams. We have this expression: `cents_per_gram * self.weight_in_grams`
+
+```rust
+#[derive(Debug)]
+struct Package {
+    sender_country: String,
+    recipient_country: String,
+    weight_in_grams: u32,
+}
+
+impl Package {
+    fn new(sender_country: String, recipient_country: String, weight_in_grams: u32) -> Package {
+        if weight_in_grams < 10 {
+            // This is not how you should handle errors in Rust,
+            // but we will learn about error handling later.
+            panic!("Can not ship a package with weight below 10 grams.")
+        } else {
+            Package {
+                sender_country,
+                recipient_country,
+                weight_in_grams,
+            }
+        }
+    }
+
+    fn is_international(&self) -> bool {
+        if self.sender_country != self.recipient_country {
+            return true;
+        }
+        false
+    }
+
+    fn get_fees(&self, cents_per_gram: u32) -> u32 {
+        cents_per_gram * self.weight_in_grams
+    }
+}
+```
+
+## Conclusion
+
+The 7th chapter of Rustlings - Structs ends here. <br />
+TIL:
+
+- 3 types of structs in Rust and how to initialize/use them
+- Struct methods
+- Book link: https://doc.rust-lang.org/book/ch05-00-structs.html
+
+Thanks for reading and please add comments below if you have any questions
