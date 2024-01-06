@@ -1,5 +1,4 @@
 ---
-
 title: Rust Practices with Rustlings - Functions
 
 date: 2024-01-03
@@ -8,10 +7,9 @@ authors: ['nhan-dnguyen']
 
 tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
 
-draft: true
+draft: false
 
 summary: The second chapter of Rustlings course - Functions
-
 ---
 
 Following the first chapter of Rustlings, we will continue with the second chapter - Functions
@@ -32,7 +30,7 @@ Start with a very simple exercise, we just need to declared the function `call_m
 fn call_me() {
   println!("Hello World!");
 }
-  
+
 fn main() {
   call_me();
 }
@@ -49,7 +47,7 @@ call_me(3);
 
 }
 
-  
+
 
 fn call_me(num: i32) {
 
@@ -122,7 +120,7 @@ fn call_me(num: u32) {
   let num = 3;
   for i in 0..num {
     println!("Ring! Call number {}", i + 1);
-  
+
   }
 }
 ```
@@ -134,7 +132,7 @@ fn main() {
   call_me();
 }
 
-  
+
 
 fn call_me() {
   let num = 3;
@@ -157,7 +155,7 @@ fn sale_price(price: i32) -> {
     price - 10
   } else {
     price - 3
-  
+
   }
 }
 
