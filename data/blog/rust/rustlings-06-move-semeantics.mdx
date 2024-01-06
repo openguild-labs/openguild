@@ -1,0 +1,279 @@
+---
+title: Rust Practices with Rustlings - Move semantics
+date: 2024-01-05
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: true
+summary: The sixth chapter of Rustlings - Move semantics
+---
+
+# Chapter 6 - Move semantics
+
+## Exercise 1
+
+```rust
+fn main() {
+    let vec0 = vec![22, 44, 66];
+
+    let vec1 = fill_vec(vec0);
+
+    assert_eq!(vec1, vec![22, 44, 66, 88]);
+}
+
+fn fill_vec(vec: Vec<i32>) -> Vec<i32> {
+    let vec = vec;
+
+    vec.push(88);
+
+    vec
+}
+```
+
+We got this error `cannot borrow as mutable`. In the fill_vec function, we're trying to push a new element to the vector, so we need to meake the vec mutable. <br />
+1 thing interesting here is that the vec0 is moved to vec1, and we can't access the vec0 anymore after calling the fill_vec function. <br />
+
+
+```rust
+fn main() {
+    let vec0 = vec![22, 44, 66];
+
+    let vec1 = fill_vec(vec0);
+
+    // If you try access vec0 here, like `println!("vec0 is: {:?}", vec0);`, you will get this error: fill_vec's parameter takes ownership of the value
+    assert_eq!(vec1, vec![22, 44, 66, 88]);
+}
+
+fn fill_vec(vec: Vec<i32>) -> Vec<i32> {
+    let vec = vec;
+
+    vec.push(88);
+
+    vec
+}
+```
+
+## Exercise 2
+
+```rust
+#[test]
+fn main() {
+    let vec0 = vec![22, 44, 66];
+
+    let mut vec1 = fill_vec(vec0);
+
+    assert_eq!(vec0, vec![22, 44, 66]);
+    assert_eq!(vec1, vec![22, 44, 66, 88]);
+}
+
+fn fill_vec(vec: Vec<i32>) -> Vec<i32> {
+    let mut vec = vec;
+
+    vec.push(88);
+
+    vec
+}
+```
+
+The same as the exercise above, because the vec0 was moved to the function, so we can't access it anymore. <br />
+To fix this, we can use the `clone` function to clone the vec0 and pass it to the function <br />
+
+```rust
+#[test]
+fn main() {
+    let vec0 = vec![22, 44, 66];
+
+    let mut vec1 = fill_vec(vec0.clone());
+
+    assert_eq!(vec0, vec![22, 44, 66]);
+    assert_eq!(vec1, vec![22, 44, 66, 88]);
+}
+
+fn fill_vec(vec: Vec<i32>) -> Vec<i32> {
+    let mut vec = vec;
+
+    vec.push(88);
+
+    vec
+}
+```
+
+## Exercise 3
+
+```rust
+#[test]
+fn main() {
+    let vec0 = vec![22, 44, 66];
+
+    let mut vec1 = fill_vec(vec0);
+
+    assert_eq!(vec1, vec![22, 44, 66, 88]);
+}
+
+fn fill_vec(vec: Vec<i32>) -> Vec<i32> {
+    vec.push(88);
+
+    vec
+}
+```
+
+The same as the exercise 1, we can't push a new element to the vector because the vector is not mutable. <br />
+We can make it mutable by using the `mut` keyword before the function parameter<br />
+
+```rust
+#[test]
+fn main() {
+    let vec0 = vec![22, 44, 66];
+
+    let mut vec1 = fill_vec(vec0);
+
+    assert_eq!(vec1, vec![22, 44, 66, 88]);
+}
+
+fn fill_vec(mut vec: Vec<i32>) -> Vec<i32> {
+    vec.push(88);
+
+    vec
+}
+```
+
+## Exercise 4
+
+```rust
+#[test]
+fn main() {
+    let vec0 = vec![22, 44, 66];
+
+    let mut vec1 = fill_vec(vec0);
+
+    assert_eq!(vec1, vec![22, 44, 66, 88]);
+}
+
+// `fill_vec()` no longer takes `vec: Vec<i32>` as argument - don't change this!
+fn fill_vec() -> Vec<i32> {
+    // Instead, let's create and fill the Vec in here - how do you do that?
+    let mut vec = vec;
+
+    vec.push(88);
+
+    vec
+}
+```
+
+> `fill_vec()` no longer takes `vec: Vec<i32>` as argument - don't change this!
+We don't need to pass the argument to the function anymore, so we can remove it. <br />
+Just initialize the vector in the function and push the new element to it. <br />
+
+```rust
+#[test]
+fn main() {
+    let mut vec1 = fill_vec();
+
+    assert_eq!(vec1, vec![22, 44, 66, 88]);
+}
+
+// `fill_vec()` no longer takes `vec: Vec<i32>` as argument - don't change this!
+fn fill_vec() -> Vec<i32> {
+    // Instead, let's create and fill the Vec in here - how do you do that?
+    let mut vec = vec![22, 44, 66];
+
+    vec.push(88);
+
+    vec
+}
+```
+
+## Exercise 5
+
+```rust
+// Make me compile only by reordering the lines in `main()`, but without adding,
+// changing or removing any of them.
+
+#[test]
+fn main() {
+    let mut x = 100;
+    let y = &mut x;
+    let z = &mut x;
+    *y += 100;
+    *z += 1000;
+    assert_eq!(x, 1200);
+}
+```
+
+We got this error `cannot borrow `x` as mutable more than once at a time`. <br />
+Do you know what we have to do ?
+
+```rust
+fn main() {
+    let mut x = 100;
+    let y = &mut x;
+    *y += 100;
+    let z = &mut x;
+    *z += 1000;
+    assert_eq!(x, 1200);
+}
+```
+
+Just reordering to make sure that we borrow the x only once at a time. 
+
+## Exercise 6
+
+```rust
+// You can't change anything except adding or removing references.
+
+fn main() {
+    let data = "Rust is great!".to_string();
+
+    get_char(data);
+
+    string_uppercase(&data);
+}
+
+// Should not take ownership
+fn get_char(data: String) -> char {
+    data.chars().last().unwrap()
+}
+
+// Should take ownership
+fn string_uppercase(mut data: &String) {
+    data = &data.to_uppercase();
+
+    println!("{}", data);
+}
+```
+
+The get_char function should not take the ownership of the data, so we can use the `&` before the data to pass the reference to the function. <br />
+Otherwise, the string_uppercase function should take the ownership of the data, so we can remove the `&` before the data to pass the data to the function. <br />
+
+```rust
+
+fn main() {
+    let data = "Rust is great!".to_string();
+
+    get_char(&data);
+    println!("This is my data: {}", data); // Result: This is my data: Rust is great!
+    string_uppercase(data);
+    println!("This is my data: {}", data); // Result: Error `borrow of moved value: `data``
+}
+
+// Should not take ownership
+fn get_char(data: &String) -> char {
+    data.chars().last().unwrap()
+}
+
+// Should take ownership
+fn string_uppercase(mut data: String) {
+    data = data.to_uppercase();
+
+    println!("{}", data);
+}
+```
+
+
+## Conclusion
+
+The sixth chapter of Rustlings - Move semantics ends here. <br />
+TIL:
+- To understand the move semantics in Rust, please take a look at this [article](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
+- Working with moved - borrowed values, reference, mutable reference and ownership
+
+Thanks for reading and please add comments below if you have any questions
