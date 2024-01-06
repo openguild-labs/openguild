@@ -1,0 +1,251 @@
+---
+title: Rust Practices with Rustlings - Strings
+date: 2024-01-06
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 9th chapter of Rustlings - Strings
+---
+
+# Chapter 9 - Strings
+
+## Exercise 1
+
+```rust
+// Make me compile without changing the function signature!
+
+fn main() {
+    let answer = current_favorite_color();
+    println!("My current favorite color is {}", answer);
+}
+
+fn current_favorite_color() -> String {
+    "blue"
+}
+```
+
+To create a new String, we have 2 ways:
+- Use `to_string()` macro: `"blue".to_string()`
+- Use `String::from`: `String::from("blue")`
+
+
+```rust
+// Make me compile without changing the function signature!
+
+fn main() {
+    let answer = current_favorite_color();
+    println!("My current favorite color is {}", answer);
+}
+
+fn current_favorite_color() -> String {
+    // "blue".to_string()
+    String::from("blue")
+}
+```
+
+## Exercise 2
+
+```rust
+// Make me compile without changing the function signature!
+
+fn main() {
+    let word = String::from("green"); // Try not changing this line :)
+    if is_a_color_word(word) {
+        println!("That is a color word I know!");
+    } else {
+        println!("That is not a color word I know.");
+    }
+}
+
+fn is_a_color_word(attempt: &str) -> bool {
+    attempt == "green" || attempt == "blue" || attempt == "red"
+}
+```
+
+The `is_a_color_word` function's parameter expected &str, so we need to pass a string reference to the function.
+
+
+```rust
+fn main() {
+    let word = String::from("green"); // Try not changing this line :)
+    if is_a_color_word(&word) {
+        println!("That is a color word I know!");
+    } else {
+        println!("That is not a color word I know.");
+    }
+}
+
+fn is_a_color_word(attempt: &str) -> bool {
+    attempt == "green" || attempt == "blue" || attempt == "red"
+}
+```
+
+The interesting thing here is `"green"` is `&str`. You can do st like this:
+
+```rust
+fn main() {
+    let word = String::from("green"); // Try not changing this line :)
+    if is_a_color_word("green") {
+        println!("That is a color word I know!");
+    } else {
+        println!("That is not a color word I know.");
+    }
+}
+
+fn is_a_color_word(attempt: &str) -> bool {
+    attempt == "green" || attempt == "blue" || attempt == "red"
+}
+```
+
+## Exercise 3
+
+```rust
+fn trim_me(input: &str) -> String {
+    // TODO: Remove whitespace from both ends of a string!
+    ???
+}
+
+fn compose_me(input: &str) -> String {
+    // TODO: Add " world!" to the string! There's multiple ways to do this!
+    ???
+}
+
+fn replace_me(input: &str) -> String {
+    // TODO: Replace "cars" in the string with "balloons"!
+    ???
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn trim_a_string() {
+        assert_eq!(trim_me("Hello!     "), "Hello!");
+        assert_eq!(trim_me("  What's up!"), "What's up!");
+        assert_eq!(trim_me("   Hola!  "), "Hola!");
+    }
+
+    #[test]
+    fn compose_a_string() {
+        assert_eq!(compose_me("Hello"), "Hello world!");
+        assert_eq!(compose_me("Goodbye"), "Goodbye world!");
+    }
+
+    #[test]
+    fn replace_a_string() {
+        assert_eq!(replace_me("I think cars are cool"), "I think balloons are cool");
+        assert_eq!(replace_me("I love to look at cars"), "I love to look at balloons");
+    }
+}
+```
+
+We have tons of String methods [here](https://doc.rust-lang.org/std/string/struct.String.html). Just uses them to solve this exercise. <br />
+For `trim_me` function, we can simply use the trim() method `input.trim()` <br />
+For `compose_me` me function, we have several ways to do it:
+- Using format: `format!("{} {}", input, "world!")`
+- Using string concentrate - Create a String on the left and use + to add "&str": `input.to_string() + " world!"`
+
+For `replace_me` function, we can use replace() method: `input.replace("cars", "balloons")`
+
+```rust
+fn trim_me(input: &str) -> String {
+    input.trim().to_string()
+}
+
+fn compose_me(input: &str) -> String {
+    input.to_string() + " world!"
+}
+
+fn replace_me(input: &str) -> String {
+    input.replace("cars", "balloons")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn trim_a_string() {
+        assert_eq!(trim_me("Hello!     "), "Hello!");
+        assert_eq!(trim_me("  What's up!"), "What's up!");
+        assert_eq!(trim_me("   Hola!  "), "Hola!");
+    }
+
+    #[test]
+    fn compose_a_string() {
+        assert_eq!(compose_me("Hello"), "Hello world!");
+        assert_eq!(compose_me("Goodbye"), "Goodbye world!");
+    }
+
+    #[test]
+    fn replace_a_string() {
+        assert_eq!(replace_me("I think cars are cool"), "I think balloons are cool");
+        assert_eq!(replace_me("I love to look at cars"), "I love to look at balloons");
+    }
+}
+```
+
+## Exercise 4
+
+```rust
+// Ok, here are a bunch of values-- some are `String`s, some are `&str`s. Your
+// task is to call one of these two functions on each value depending on what
+// you think each value is. That is, add either `string_slice` or `string`
+// before the parentheses on each line. If you're right, it will compile!
+
+fn string_slice(arg: &str) {
+    println!("{}", arg);
+}
+fn string(arg: String) {
+    println!("{}", arg);
+}
+
+fn main() {
+    ???("blue");
+    ???("red".to_string());
+    ???(String::from("hi"));
+    ???("rust is fun!".to_owned());
+    ???("nice weather".into());
+    ???(format!("Interpolation {}", "Station"));
+    ???(&String::from("abc")[0..1]);
+    ???("  hello there ".trim());
+    ???("Happy Monday!".to_string().replace("Mon", "Tues"));
+    ???("mY sHiFt KeY iS sTiCkY".to_lowercase());
+}
+```
+
+Just check the doc for the return type of each method!
+
+```rust
+fn string_slice(arg: &str) {
+    println!("{}", arg);
+}
+fn string(arg: String) {
+    println!("{}", arg);
+}
+
+fn main() {
+    string_slice("blue");
+    string("red".to_string());
+    string(String::from("hi"));
+    string("rust is fun!".to_owned());
+    string("nice weather".into());
+    string(format!("Interpolation {}", "Station"));
+    string_slice(&String::from("abc")[0..1]);
+    string_slice("  hello there ".trim());
+    string("Happy Monday!".to_string().replace("Mon", "Tues"));
+    string("mY sHiFt KeY iS sTiCkY".to_lowercase());
+}
+```
+
+## Conclusion
+
+The 9th chapter of Rustlings - Strings ends here. <br />
+TIL:
+
+- Distinguish String and $str
+- Methods of String
+- Doc link: https://doc.rust-lang.org/std/string/struct.String.html
+
+Thanks for reading and please add comments below if you have any questions
