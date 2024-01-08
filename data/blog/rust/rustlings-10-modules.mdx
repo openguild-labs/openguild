@@ -1,0 +1,158 @@
+---
+title: Rust Practices with Rustlings - Modules
+date: 2024-01-07
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 10th chapter of Rustlings - Modules
+---
+
+# Chapter 10 - Modules
+
+## Exercise 1
+
+```rust
+mod sausage_factory {
+    // Don't let anybody outside of this module see this!
+    fn get_secret_recipe() -> String {
+        String::from("Ginger")
+    }
+
+    fn make_sausage() {
+        get_secret_recipe();
+        println!("sausage!");
+    }
+}
+
+fn main() {
+    sausage_factory::make_sausage();
+}
+```
+
+We can see here:
+- The `get_secret_recipe()` method is private, only accessible inside the module
+- The `make_sausage()` method is public, accessible outside the module
+All methods are private by default, so we need to add `pub` keyword to make it public.
+
+```rust
+mod sausage_factory {
+    // Don't let anybody outside of this module see this!
+    fn get_secret_recipe() -> String {
+        String::from("Ginger")
+    }
+
+    pub fn make_sausage() {
+        get_secret_recipe();
+        println!("sausage!");
+    }
+}
+
+fn main() {
+    sausage_factory::make_sausage();
+}
+```
+
+## Exercise 2
+
+```rust
+// You can bring module paths into scopes and provide new names for them with
+// the 'use' and 'as' keywords. Fix these 'use' statements to make the code
+// compile.
+mod delicious_snacks {
+    // TODO: Fix these use statements
+    use self::fruits::PEAR as ???
+    use self::veggies::CUCUMBER as ???
+
+    mod fruits {
+        pub const PEAR: &'static str = "Pear";
+        pub const APPLE: &'static str = "Apple";
+    }
+
+    mod veggies {
+        pub const CUCUMBER: &'static str = "Cucumber";
+        pub const CARROT: &'static str = "Carrot";
+    }
+}
+
+fn main() {
+    println!(
+        "favorite snacks: {} and {}",
+        delicious_snacks::fruit,
+        delicious_snacks::veggie
+    );
+}
+```
+
+> You can bring module paths into scopes and provide new names for them with the 'use' and 'as' keywords
+
+Looking at the main function, we can see that the module `delicious_snacks` has 2 paths is fruit and veggie. <br />
+We can update the use statement like this to use them:
+
+```rust
+mod delicious_snacks {
+    pub use self::fruits::PEAR as fruit;
+    pub use self::veggies::CUCUMBER as veggie;
+
+    mod fruits {
+        pub const PEAR: &'static str = "Pear";
+        pub const APPLE: &'static str = "Apple";
+    }
+
+    mod veggies {
+        pub const CUCUMBER: &'static str = "Cucumber";
+        pub const CARROT: &'static str = "Carrot";
+    }
+}
+
+fn main() {
+    println!(
+        "favorite snacks: {} and {}",
+        delicious_snacks::fruit,
+        delicious_snacks::veggie
+    );
+}
+```
+
+## Exercise 3
+
+```rust
+// You can use the 'use' keyword to bring module paths from modules from
+// anywhere and especially from the Rust standard library into your scope. Bring
+// SystemTime and UNIX_EPOCH from the std::time module. Bonus style points if
+// you can do it with one line!
+
+// TODO: Complete this use statement
+use ???
+
+fn main() {
+    match SystemTime::now().duration_since(UNIX_EPOCH) {
+        Ok(n) => println!("1970-01-01 00:00:00 UTC was {} seconds ago!", n.as_secs()),
+        Err(_) => panic!("SystemTime before UNIX EPOCH!"),
+    }
+}
+```
+
+Imagine keyword `use` is like `import` in Python or javascript. <br />
+We can use it like this:
+
+```rust
+use std::time::{SystemTime, UNIX_EPOCH};
+
+fn main() {
+    match SystemTime::now().duration_since(UNIX_EPOCH) {
+        Ok(n) => println!("1970-01-01 00:00:00 UTC was {} seconds ago!", n.as_secs()),
+        Err(_) => panic!("SystemTime before UNIX EPOCH!"),
+    }
+}
+```
+
+## Conclusion
+
+The 10th chapter of Rustlings - Modules ends here. <br />
+TIL:
+
+- How to use module with public - private methods
+- Using `use` keyword to import module paths (Working like `import` in other languages such as Python or Javascript)
+- Read more about the modules here: https://doc.rust-lang.org/rust-by-example/mod.html
+
+Thanks for reading and please add comments below if you have any questions
