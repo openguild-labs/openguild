@@ -1,0 +1,212 @@
+---
+title: Rust Practices with Rustlings - Options
+date: 2024-01-08
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 12th chapter of Rustlings - Options
+---
+
+# Chapter 12 - Options
+
+## Exercise 1
+
+```rust
+/ This function returns how much icecream there is left in the fridge.
+// If it's before 10PM, there's 5 pieces left. At 10PM, someone eats them
+// all, so there'll be no more left :(
+fn maybe_icecream(time_of_day: u16) -> Option<u16> {
+    // We use the 24-hour system here, so 10PM is a value of 22 and 12AM is a
+    // value of 0 The Option output should gracefully handle cases where
+    // time_of_day > 23.
+    // TODO: Complete the function body - remember to return an Option!
+    ???
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn check_icecream() {
+        assert_eq!(maybe_icecream(9), Some(5));
+        assert_eq!(maybe_icecream(10), Some(5));
+        assert_eq!(maybe_icecream(23), Some(0));
+        assert_eq!(maybe_icecream(22), Some(0));
+        assert_eq!(maybe_icecream(25), None);
+    }
+
+    #[test]
+    fn raw_value() {
+        // TODO: Fix this test. How do you get at the value contained in the
+        // Option?
+        let icecreams = maybe_icecream(12);
+        assert_eq!(icecreams, 5);
+    }
+}
+```
+
+For the function maybe_icecream, we can use if or match to solve it:
+
+```rust
+fn maybe_icecream(time_of_day: u16) -> Option<u16> {
+    // We use the 24-hour system here, so 10PM is a value of 22 and 12AM is a 
+    // value of 0 The Option output should gracefully handle cases where
+    // time_of_day > 23.
+    // TODO: Complete the function body - remember to return an Option!
+    if time_of_day < 22 {
+        return Some(5);
+    } else if time_of_day <= 23 {
+        return Some(0);
+    } else {
+        return None;
+    }
+}
+
+// OR
+
+fn maybe_icecream(time_of_day: u16) -> Option<u16> {
+    // We use the 24-hour system here, so 10PM is a value of 22 and 12AM is a
+    // value of 0 The Option output should gracefully handle cases where
+    // time_of_day > 23.
+    // TODO: Complete the function body - remember to return an Option!
+    match time_of_day  {
+        0..=21 => return Some(5),
+        22 | 23 => return Some(0),
+        _ => return None
+    }
+}
+```
+
+Why we use `0..=21` instead of `0..21`? <br />
+Because `0..21` is the inclusive range and the `match` keyword only supports inclusive ranges now. <br />
+Finally to get the value from an Option we can unwrap it: `maybe_icecream(12).unwrap();`
+
+
+## Exercise 2
+
+```rust
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn simple_option() {
+        let target = "rustlings";
+        let optional_target = Some(target);
+
+        // TODO: Make this an if let statement whose value is "Some" type
+        word = optional_target {
+            assert_eq!(word, target);
+        }
+    }
+
+    #[test]
+    fn layered_option() {
+        let range = 10;
+        let mut optional_integers: Vec<Option<i8>> = vec![None];
+
+        for i in 1..(range + 1) {
+            optional_integers.push(Some(i));
+        }
+
+        let mut cursor = range;
+
+        // TODO: make this a while let statement - remember that vector.pop also
+        // adds another layer of Option<T>. You can stack `Option<T>`s into
+        // while let and if let.
+        integer = optional_integers.pop() {
+            assert_eq!(integer, cursor);
+            cursor -= 1;
+        }
+
+        assert_eq!(cursor, 0);
+    }
+}
+```
+
+We can using `if let` and `while let` to solve this exercise:
+- https://doc.rust-lang.org/rust-by-example/flow_control/if_let.html
+- https://doc.rust-lang.org/rust-by-example/flow_control/while_let.html
+
+```rust
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn simple_option() {
+        let target = "rustlings";
+        let optional_target = Some(target);
+
+        // TODO: Make this an if let statement whose value is "Some" type
+        if let Some(word) = optional_target {
+            assert_eq!(word, target);
+        }
+    }
+
+    #[test]
+    fn layered_option() {
+        let range = 10;
+        let mut optional_integers: Vec<Option<i8>> = vec![None];
+
+        for i in 1..(range + 1) {
+            optional_integers.push(Some(i));
+        }
+
+        let mut cursor = range;
+
+        // TODO: make this a while let statement - remember that vector.pop also
+        // adds another layer of Option<T>. You can stack `Option<T>`s into
+        // while let and if let.
+        while let Some(Some(integer)) = optional_integers.pop() {
+            assert_eq!(integer, cursor);
+            cursor -= 1;
+        }
+
+        assert_eq!(cursor, 0);
+    }
+}
+
+```
+
+## Exercise 3
+
+```rust
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let y: Option<Point> = Some(Point { x: 100, y: 200 });
+
+    match y {
+        Some(p) => println!("Co-ordinates are {},{} ", p.x, p.y),
+        _ => panic!("no match!"),
+    }
+    y; // Fix without deleting this line.
+}
+
+```
+
+Another way to handle the creation of a Point is to use `let` and `if let`:
+
+```rust
+fn main() {
+    let y: Option<Point> = if let Some(p) = Some(Point { x: 100, y: 200 }) {
+        println!("Co-ordinates are {},{} ", p.x, p.y);
+        Some(p) // return Some(p) to y
+    } else {
+        panic!("no match!");
+    };
+
+    y; // Fix without deleting this line.
+}
+```
+
+## Conclusion
+
+The 12th chapter of Rustlings - Options ends here. <br />
+TIL:
+
+- How to use Options, unwrap and match
+- How to handle Option with `if let` and `while let`
+
+Thanks for reading and please add comments below if you have any questions
