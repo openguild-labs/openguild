@@ -1,0 +1,290 @@
+---
+title: Rust Practices with Rustlings - Traits
+date: 2024-01-09
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 15th chapter of Rustlings - Traits
+---
+
+# Chapter 13 - Traits
+
+## Exercise 1
+
+```rust
+// Time to implement some traits! Your task is to implement the trait
+// `AppendBar` for the type `String`. The trait AppendBar has only one function,
+// which appends "Bar" to any object implementing this trait.
+
+trait AppendBar {
+    fn append_bar(self) -> Self;
+}
+
+impl AppendBar for String {
+    // TODO: Implement `AppendBar` for type `String`.
+}
+
+fn main() {
+    let s = String::from("Foo");
+    let s = s.append_bar();
+    println!("s: {}", s);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn is_foo_bar() {
+        assert_eq!(String::from("Foo").append_bar(), String::from("FooBar"));
+    }
+
+    #[test]
+    fn is_bar_bar() {
+        assert_eq!(
+            String::from("").append_bar().append_bar(),
+            String::from("BarBar")
+        );
+    }
+}
+
+```
+
+The exercise is pretty straightforward:
+
+```rust
+impl AppendBar for String {
+    fn append_bar(self) -> Self {
+        self + "Bar"
+    }
+}
+```
+
+## Exercise 2
+
+```rust
+// Your task is to implement the trait `AppendBar` for a vector of strings. To
+// implement this trait, consider for a moment what it means to 'append "Bar"'
+// to a vector of strings.
+
+trait AppendBar {
+    fn append_bar(self) -> Self;
+}
+
+// TODO: Implement trait `AppendBar` for a vector of strings.
+impl AppendBar for Vec<String> {
+    fn append_bar(self) -> Self {
+        self.push(String::from("Bar"));
+        self
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn is_vec_pop_eq_bar() {
+        let mut foo = vec![String::from("Foo")].append_bar();
+        assert_eq!(foo.pop().unwrap(), String::from("Bar"));
+        assert_eq!(foo.pop().unwrap(), String::from("Foo"));
+    }
+}
+
+```
+
+Quite the same as the previous exercise:
+
+```rust
+impl AppendBar for Vec<String> {
+    fn append_bar(mut self) -> Self {
+        self.push(String::from("Bar"));
+        self
+    }
+}
+```
+
+## Exercise 3
+
+```rust
+// Your task is to implement the Licensed trait for both structures and have
+// them return the same information without writing the same function twice.
+//
+// Consider what you can add to the Licensed trait.
+
+pub trait Licensed {
+    fn licensing_info(&self) -> String;
+}
+
+struct SomeSoftware {
+    version_number: i32,
+}
+
+struct OtherSoftware {
+    version_number: String,
+}
+
+impl Licensed for SomeSoftware {} // Don't edit this line
+impl Licensed for OtherSoftware {} // Don't edit this line
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn is_licensing_info_the_same() {
+        let licensing_info = String::from("Some information");
+        let some_software = SomeSoftware { version_number: 1 };
+        let other_software = OtherSoftware {
+            version_number: "v2.0.0".to_string(),
+        };
+        assert_eq!(some_software.licensing_info(), licensing_info);
+        assert_eq!(other_software.licensing_info(), licensing_info);
+    }
+}
+
+```
+
+Just define the default value for function in the trait:
+
+```rust
+pub trait Licensed {
+    fn licensing_info(&self) -> String {
+        String::from("Some information")
+    };
+}
+```
+
+## Exercise 4
+
+```rust
+// Your task is to replace the '??' sections so the code compiles.
+//
+// Don't change any line other than the marked one.
+
+pub trait Licensed {
+    fn licensing_info(&self) -> String {
+        "some information".to_string()
+    }
+}
+
+struct SomeSoftware {}
+
+struct OtherSoftware {}
+
+impl Licensed for SomeSoftware {}
+impl Licensed for OtherSoftware {}
+
+// YOU MAY ONLY CHANGE THE NEXT LINE
+fn compare_license_types(software: ??, software_two: ??) -> bool {
+    software.licensing_info() == software_two.licensing_info()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn compare_license_information() {
+        let some_software = SomeSoftware {};
+        let other_software = OtherSoftware {};
+
+        assert!(compare_license_types(some_software, other_software));
+    }
+
+    #[test]
+    fn compare_license_information_backwards() {
+        let some_software = SomeSoftware {};
+        let other_software = OtherSoftware {};
+
+        assert!(compare_license_types(other_software, some_software));
+    }
+}
+
+```
+
+We can use the trait as function parameters <br />
+
+```rust
+fn compare_license_types(software: impl Licensed, software_two: impl Licensed) -> bool {
+    software.licensing_info() == software_two.licensing_info()
+}
+```
+
+Onother way to do it is using trait bound:
+
+```rust
+fn compare_license_types<T: Licensed>(software: T, software_two: T) -> bool {
+    software.licensing_info() == software_two.licensing_info()
+}
+```
+
+That code above should work, right? But it doesn't. <br />
+The reason is that the 2 parameters have different types, so we need to define 2 generic types for them <br />
+We can fix it:
+
+```rust
+fn compare_license_types<T: Licensed, U: Licensed>(software: T, software_two: U) -> bool {
+    software.licensing_info() == software_two.licensing_info()
+}
+```
+
+## Exercise 5
+
+```rust
+// Your task is to replace the '??' sections so the code compiles.
+//
+// Don't change any line other than the marked one.
+pub trait SomeTrait {
+    fn some_function(&self) -> bool {
+        true
+    }
+}
+
+pub trait OtherTrait {
+    fn other_function(&self) -> bool {
+        true
+    }
+}
+
+struct SomeStruct {}
+struct OtherStruct {}
+
+impl SomeTrait for SomeStruct {}
+impl OtherTrait for SomeStruct {}
+impl SomeTrait for OtherStruct {}
+impl OtherTrait for OtherStruct {}
+
+// YOU MAY ONLY CHANGE THE NEXT LINE
+fn some_func(item: ??) -> bool {
+    item.some_function() && item.other_function()
+}
+
+fn main() {
+    some_func(SomeStruct {});
+    some_func(OtherStruct {});
+}
+
+```
+
+The same as the exercise above, but we need to handle multiple trait in this case. <br />
+Rust allows us to do that by using `+` operator
+
+```rust
+fn some_func<T: SomeTrait + OtherTrait>(item: T) -> bool {
+    item.some_function() && item.other_function()
+}
+
+```
+
+## Conclusion
+
+The 15th chapter of Rustlings - Traits ends here. <br />
+TIL:
+
+- Define a trait
+- Using traits as function parameters (with trait bound also - or generic type + trait)
+- Using multiple traits as function parameters
+
+Thanks for reading and please add comments below if you have any questions

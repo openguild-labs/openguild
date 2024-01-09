@@ -1,0 +1,98 @@
+---
+title: Rust Practices with Rustlings - Generics
+date: 2024-01-09
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 14th chapter of Rustlings - Generics
+---
+
+# Chapter 14 - Generics
+
+## Exercise 1
+
+```rust
+fn main() {
+    let mut shopping_list: Vec<???> = Vec::new();
+    shopping_list.push("milk");
+}
+```
+
+Generic data type in Rust is used for create definations of items like for item of an array or vector.
+
+```rust
+fn main() {
+    let mut shopping_list: Vec<&str> = Vec::new();
+    shopping_list.push("milk");
+}
+```
+
+## Exercise 2
+
+```rust
+// This powerful wrapper provides the ability to store a positive integer value.
+// Rewrite it using generics so that it supports wrapping ANY type.
+
+struct Wrapper {
+    value: u32,
+}
+
+impl Wrapper {
+    pub fn new(value: u32) -> Self {
+        Wrapper { value }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn store_u32_in_wrapper() {
+        assert_eq!(Wrapper::new(42).value, 42);
+    }
+
+    #[test]
+    fn store_str_in_wrapper() {
+        assert_eq!(Wrapper::new("Foo").value, "Foo");
+    }
+}
+```
+
+https://doc.rust-lang.org/stable/book/ch10-01-syntax.html#in-method-definitions <br />
+Just refactor the code to use generic type
+
+```rust
+struct Wrapper<T> {
+    value: T,
+}
+
+impl<T> Wrapper<T> {
+    pub fn new(value: T) -> Self {
+        Wrapper { value }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn store_u32_in_wrapper() {
+        assert_eq!(Wrapper::new(42).value, 42);
+    }
+
+    #[test]
+    fn store_str_in_wrapper() {
+        assert_eq!(Wrapper::new("Foo").value, "Foo");
+    }
+}
+```
+
+## Conclusion
+
+The 14th chapter of Rustlings - Generics ends here. <br />
+TIL:
+- How to use generic type in Rust
+
+Thanks for reading and please add comments below if you have any questions
