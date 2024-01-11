@@ -1,0 +1,223 @@
+---
+title: Rust Practices with Rustlings - Tests
+date: 2024-01-10
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 17th chapter of Rustlings - Tests
+---
+
+# Chapter 17 - Tests
+
+## Exercise 1
+
+```rust
+// Tests are important to ensure that your code does what you think it should
+// do. Tests can be run on this file with the following command: rustlings run
+// tests1
+//
+// This test has a problem with it -- make the test compile! Make the test pass!
+// Make the test fail!
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn you_can_assert() {
+        assert!();
+    }
+}
+
+```
+
+The `assert!` macro is used to test a condition in a test. <br />
+Make the test passed:
+
+```rust
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn you_can_assert() {
+        let first_param = 10;
+        let second_param = 20;
+        assert!(first_param < second_param);
+    }
+}
+```
+
+Make the test falied:
+
+```rust
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn you_can_assert() {
+        let first_param = 10;
+        let second_param = 20;
+        assert!(first_param > second_param);
+    }
+}
+```
+
+## Exercise 2
+
+```rust
+// This test has a problem with it -- make the test compile! Make the test pass!
+// Make the test fail!
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn you_can_assert_eq() {
+        assert_eq!();
+    }
+}
+
+```
+
+Quite straight forward, just pass the expected and actual value to the `assert_eq!` macro
+
+
+```rust
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn you_can_assert_eq() {
+      let expected = 10;
+      let actual = 10;
+      assert_eq!(expected, actual);
+    }
+}
+```
+
+## Exercise 3
+
+```rust
+// This test isn't testing our function -- make it do that in such a way that
+// the test passes. Then write a second test that tests whether we get the
+// result we expect to get when we call `is_even(5)`.
+
+pub fn is_even(num: i32) -> bool {
+    num % 2 == 0
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn is_true_when_even() {
+        assert!();
+    }
+
+    #[test]
+    fn is_false_when_odd() {
+        assert!();
+    }
+}
+
+```
+
+Solution: 
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn is_true_when_even() {
+        assert!(is_even(2));
+    }
+
+    #[test]
+    fn is_false_when_odd() {
+        assert!(!is_even(5));
+    }
+}
+```
+
+## Exercise 4
+
+```rust
+// Make sure that we're testing for the correct conditions!
+
+struct Rectangle {
+    width: i32,
+    height: i32
+}
+
+impl Rectangle {
+    // Only change the test functions themselves
+    pub fn new(width: i32, height: i32) -> Self {
+        if width <= 0 || height <= 0 {
+            panic!("Rectangle width and height cannot be negative!")
+        }
+        Rectangle {width, height}
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn correct_width_and_height() {
+        // This test should check if the rectangle is the size that we pass into its constructor
+        let rect = Rectangle::new(10, 20);
+        assert_eq!(???, 10); // check width
+        assert_eq!(???, 20); // check height
+    }
+
+    #[test]
+    fn negative_width() {
+        // This test should check if program panics when we try to create rectangle with negative width
+        let _rect = Rectangle::new(-10, 10);
+    }
+
+    #[test]
+    fn negative_height() {
+        // This test should check if program panics when we try to create rectangle with negative height
+        let _rect = Rectangle::new(10, -10);
+    }
+}
+```
+
+To testing a case with panic, we can use `should_panic` attribute. <br />
+Solution:
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn correct_width_and_height() {
+        // This test should check if the rectangle is the size that we pass into its constructor
+        let rect = Rectangle::new(10, 20);
+        assert_eq!(rect.width, 10); // check width
+        assert_eq!(rect.height, 20); // check height
+    }
+
+    #[test]
+    #[should_panic(expected = "Rectangle width and height cannot be negative!")]
+    fn negative_width() {
+        // This test should check if program panics when we try to create rectangle with negative width
+        let _rect = Rectangle::new(-10, 10);
+    }
+
+    #[test]
+    #[should_panic(expected = "Rectangle width and height cannot be negative!")]
+    fn negative_height() {
+        // This test should check if program panics when we try to create rectangle with negative height
+        let _rect = Rectangle::new(10, -10);
+    }
+}
+```
+
+## Conclusion
+
+The 17th chapter of Rustlings - Tests ends here. <br />
+TIL:
+- How to use tests in Rust: assert, assert_eq, and should_panic
+
+Thanks for reading and please add comments below if you have any questions
