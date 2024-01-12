@@ -1,0 +1,477 @@
+---
+title: Rust Practices with Rustlings - Smart Pointers
+date: 2024-01-10
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 19th chapter of Rustlings - Smart Pointers
+---
+
+# Chapter 19 - Smart Pointers
+
+## Exercise 1
+
+```rust
+// box1.rs
+//
+// At compile time, Rust needs to know how much space a type takes up. This
+// becomes problematic for recursive types, where a value can have as part of
+// itself another value of the same type. To get around the issue, we can use a
+// `Box` - a smart pointer used to store data on the heap, which also allows us
+// to wrap a recursive type.
+//
+// The recursive type we're implementing in this exercise is the `cons list` - a
+// data structure frequently found in functional programming languages. Each
+// item in a cons list contains two elements: the value of the current item and
+// the next item. The last item is a value called `Nil`.
+//
+// Step 1: use a `Box` in the enum definition to make the code compile
+// Step 2: create both empty and non-empty cons lists by replacing `todo!()`
+//
+// Note: the tests should not be changed
+//
+// Execute `rustlings hint box1` or use the `hint` watch subcommand for a hint.
+
+// I AM NOT DONE
+
+#[derive(PartialEq, Debug)]
+pub enum List {
+    Cons(i32, List),
+    Nil,
+}
+
+fn main() {
+    println!("This is an empty cons list: {:?}", create_empty_list());
+    println!(
+        "This is a non-empty cons list: {:?}",
+        create_non_empty_list()
+    );
+}
+
+pub fn create_empty_list() -> List {
+    todo!()
+}
+
+pub fn create_non_empty_list() -> List {
+    todo!()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_create_empty_list() {
+        assert_eq!(List::Nil, create_empty_list())
+    }
+
+    #[test]
+    fn test_create_non_empty_list() {
+        assert_ne!(create_empty_list(), create_non_empty_list())
+    }
+}
+```
+
+The `assert!` macro is used to test a condition in a test. <br />
+Make the test passed:
+
+```rust
+#[derive(PartialEq, Debug)]
+pub enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+fn main() {
+    println!("This is an empty cons list: {:?}", create_empty_list());
+    println!(
+        "This is a non-empty cons list: {:?}",
+        create_non_empty_list()
+    );
+}
+
+pub fn create_empty_list() -> List {
+    List::Nil
+}
+
+pub fn create_non_empty_list() -> List {
+    List::Cons(1, Box::new(List::Nil))
+}
+```
+
+## Exercise 2
+
+```rust
+// In this exercise, we want to express the concept of multiple owners via the
+// Rc<T> type. This is a model of our solar system - there is a Sun type and
+// multiple Planets. The Planets take ownership of the sun, indicating that they
+// revolve around the sun.
+//
+// Make this code compile by using the proper Rc primitives to express that the
+// sun has multiple owners.
+
+use std::rc::Rc;
+
+#[derive(Debug)]
+struct Sun {}
+
+#[derive(Debug)]
+enum Planet {
+    Mercury(Rc<Sun>),
+    Venus(Rc<Sun>),
+    Earth(Rc<Sun>),
+    Mars(Rc<Sun>),
+    Jupiter(Rc<Sun>),
+    Saturn(Rc<Sun>),
+    Uranus(Rc<Sun>),
+    Neptune(Rc<Sun>),
+}
+
+impl Planet {
+    fn details(&self) {
+        println!("Hi from {:?}!", self)
+    }
+}
+
+#[test]
+fn main() {
+    let sun = Rc::new(Sun {});
+    println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
+
+    let mercury = Planet::Mercury(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 2 references
+    mercury.details();
+
+    let venus = Planet::Venus(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 3 references
+    venus.details();
+
+    let earth = Planet::Earth(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 4 references
+    earth.details();
+
+    let mars = Planet::Mars(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 5 references
+    mars.details();
+
+    let jupiter = Planet::Jupiter(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 6 references
+    jupiter.details();
+
+    // TODO
+    let saturn = Planet::Saturn(Rc::new(Sun {}));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 7 references
+    saturn.details();
+
+    // TODO
+    let uranus = Planet::Uranus(Rc::new(Sun {}));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 8 references
+    uranus.details();
+
+    // TODO
+    let neptune = Planet::Neptune(Rc::new(Sun {}));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 9 references
+    neptune.details();
+
+    assert_eq!(Rc::strong_count(&sun), 9);
+
+    drop(neptune);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 8 references
+
+    drop(uranus);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 7 references
+
+    drop(saturn);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 6 references
+
+    drop(jupiter);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 5 references
+
+    drop(mars);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 4 references
+
+    // TODO
+    println!("reference count = {}", Rc::strong_count(&sun)); // 3 references
+
+    // TODO
+    println!("reference count = {}", Rc::strong_count(&sun)); // 2 references
+
+    // TODO
+    println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
+
+    assert_eq!(Rc::strong_count(&sun), 1);
+}
+```
+
+Following the hint, we can use `Rc::clone` to increase the reference count of the `Rc` instance instead of creating a new one. <br />
+
+```rust
+fn main() {
+    let sun = Rc::new(Sun {});
+    println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
+
+    let mercury = Planet::Mercury(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 2 references
+    mercury.details();
+
+    let venus = Planet::Venus(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 3 references
+    venus.details();
+
+    let earth = Planet::Earth(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 4 references
+    earth.details();
+
+    let mars = Planet::Mars(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 5 references
+    mars.details();
+
+    let jupiter = Planet::Jupiter(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 6 references
+    jupiter.details();
+
+    let saturn = Planet::Saturn(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 7 references
+    saturn.details();
+
+    let uranus = Planet::Uranus(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 8 references
+    uranus.details();
+
+    let neptune = Planet::Neptune(Rc::clone(&sun));
+    println!("reference count = {}", Rc::strong_count(&sun)); // 9 references
+    neptune.details();
+
+    assert_eq!(Rc::strong_count(&sun), 9);
+
+    drop(neptune);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 8 references
+
+    drop(uranus);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 7 references
+
+    drop(saturn);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 6 references
+
+    drop(jupiter);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 5 references
+
+    drop(mars);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 4 references
+
+    drop(earth);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 3 references
+
+    drop(venus);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 2 references
+
+    drop(mercury);
+    println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
+
+    assert_eq!(Rc::strong_count(&sun), 1);
+}
+```
+
+## Exercise 3
+
+```rust
+// In this exercise, we are given a Vec of u32 called "numbers" with values
+// ranging from 0 to 99 -- [ 0, 1, 2, ..., 98, 99 ] We would like to use this
+// set of numbers within 8 different threads simultaneously. Each thread is
+// going to get the sum of every eighth value, with an offset.
+//
+// The first thread (offset 0), will sum 0, 8, 16, ...
+// The second thread (offset 1), will sum 1, 9, 17, ...
+// The third thread (offset 2), will sum 2, 10, 18, ...
+// ...
+// The eighth thread (offset 7), will sum 7, 15, 23, ...
+//
+// Because we are using threads, our values need to be thread-safe.  Therefore,
+// we are using Arc.  We need to make a change in each of the two TODOs.
+//
+// Make this code compile by filling in a value for `shared_numbers` where the
+// first TODO comment is, and create an initial binding for `child_numbers`
+// where the second TODO comment is. Try not to create any copies of the
+// `numbers` Vec!
+//
+
+#![forbid(unused_imports)] // Do not change this, (or the next) line.
+use std::sync::Arc;
+use std::thread;
+
+fn main() {
+    let numbers: Vec<_> = (0..100u32).collect();
+    let shared_numbers = //TODO;
+    let mut joinhandles = Vec::new();
+
+    for offset in 0..8 {
+        let child_numbers = //TODO;
+        joinhandles.push(thread::spawn(move || {
+            let sum: u32 = child_numbers.iter().filter(|&&n| n % 8 == offset).sum();
+            println!("Sum of offset {} is {}", offset, sum);
+        }));
+    }
+    for handle in joinhandles.into_iter() {
+        handle.join().unwrap();
+    }
+}
+```
+https://doc.rust-lang.org/std/sync/struct.Arc.html
+
+> The type `Arc<T>` provides shared ownership of a value of type T, allocated in the heap. <br />
+Invoking clone on Arc produces a new Arc instance, which points to the same allocation on the heap as the source Arc, while increasing a reference count
+
+Arc is the same as Rc but it is thread-safe.
+
+```rust
+fn main() {
+    let numbers: Vec<_> = (0..100u32).collect();
+    let shared_numbers = Arc::new(numbers);
+    let mut joinhandles = Vec::new();
+
+    for offset in 0..8 {
+        let child_numbers = shared_numbers.clone(); // Or we can do like that: Arc::clone(&shared_numbers)
+        joinhandles.push(thread::spawn(move || {
+            let sum: u32 = child_numbers.iter().filter(|&&n| n % 8 == offset).sum();
+            println!("Sum of offset {} is {}", offset, sum);
+        }));
+    }
+    for handle in joinhandles.into_iter() {
+        handle.join().unwrap();
+    }
+}
+```
+
+## Exercise 4
+
+```rust
+// This exercise explores the Cow, or Clone-On-Write type. Cow is a
+// clone-on-write smart pointer. It can enclose and provide immutable access to
+// borrowed data, and clone the data lazily when mutation or ownership is
+// required. The type is designed to work with general borrowed data via the
+// Borrow trait.
+//
+// This exercise is meant to show you what to expect when passing data to Cow.
+// Fix the unit tests by checking for Cow::Owned(_) and Cow::Borrowed(_) at the
+// TODO markers.
+//
+// Execute `rustlings hint cow1` or use the `hint` watch subcommand for a hint.
+
+// I AM NOT DONE
+
+use std::borrow::Cow;
+
+fn abs_all<'a, 'b>(input: &'a mut Cow<'b, [i32]>) -> &'a mut Cow<'b, [i32]> {
+    for i in 0..input.len() {
+        let v = input[i];
+        if v < 0 {
+            // Clones into a vector if not already owned.
+            input.to_mut()[i] = -v;
+        }
+    }
+    input
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn reference_mutation() -> Result<(), &'static str> {
+        // Clone occurs because `input` needs to be mutated.
+        let slice = [-1, 0, 1];
+        let mut input = Cow::from(&slice[..]);
+        match abs_all(&mut input) {
+            Cow::Owned(_) => Ok(()),
+            _ => Err("Expected owned value"),
+        }
+    }
+
+    #[test]
+    fn reference_no_mutation() -> Result<(), &'static str> {
+        // No clone occurs because `input` doesn't need to be mutated.
+        let slice = [0, 1, 2];
+        let mut input = Cow::from(&slice[..]);
+        match abs_all(&mut input) {
+            // TODO
+        }
+    }
+
+    #[test]
+    fn owned_no_mutation() -> Result<(), &'static str> {
+        // We can also pass `slice` without `&` so Cow owns it directly. In this
+        // case no mutation occurs and thus also no clone, but the result is
+        // still owned because it was never borrowed or mutated.
+        let slice = vec![0, 1, 2];
+        let mut input = Cow::from(slice);
+        match abs_all(&mut input) {
+            // TODO
+        }
+    }
+
+    #[test]
+    fn owned_mutation() -> Result<(), &'static str> {
+        // Of course this is also the case if a mutation does occur. In this
+        // case the call to `to_mut()` in the abs_all() function returns a
+        // reference to the same data as before.
+        let slice = vec![-1, 0, 1];
+        let mut input = Cow::from(slice);
+        match abs_all(&mut input) {
+            // TODO
+        }
+    }
+}
+
+```
+
+https://doc.rust-lang.org/std/borrow/enum.Cow.html
+We need to check for Cow::Owned(_) and Cow::Borrowed(_) at the TODO markers. <br />
+The Cow::Owned(_) variant is used when the data is owned by the Cow instance. <br />
+The Cow::Borrowed(_) variant is used when the data is borrowed by the Cow instance. <br />
+
+```rust
+  #[test]
+    fn reference_no_mutation() -> Result<(), &'static str> {
+        // No clone occurs because `input` doesn't need to be mutated.
+        let slice = [0, 1, 2];
+        let mut input = Cow::from(&slice[..]);
+        match abs_all(&mut input) {
+            Cow::Borrowed(_) => Ok(()),
+            _ => Err("Expected borrowed value"),
+        }
+    }
+
+    #[test]
+    fn owned_no_mutation() -> Result<(), &'static str> {
+        // We can also pass `slice` without `&` so Cow owns it directly. In this
+        // case no mutation occurs and thus also no clone, but the result is
+        // still owned because it was never borrowed or mutated.
+        let slice = vec![0, 1, 2];
+        let mut input = Cow::from(slice);
+        match abs_all(&mut input) {
+            Cow::Owned(_) => Ok(()),
+            _ => Err("Expected owned value"),
+        }
+    }
+
+    #[test]
+    fn owned_mutation() -> Result<(), &'static str> {
+        // Of course this is also the case if a mutation does occur. In this
+        // case the call to `to_mut()` in the abs_all() function returns a
+        // reference to the same data as before.
+        let slice = vec![-1, 0, 1];
+        let mut input = Cow::from(slice);
+        match abs_all(&mut input) {
+            Cow::Owned(_) => Ok(()),
+            _ => Err("Expected owned value"),
+        }
+    }
+```
+
+## Conclusion
+
+The 19th chapter of Rustlings - Smart Pointers ends here. <br />
+TIL:
+- Read more about smart pointers in Rust here: https://doc.rust-lang.org/book/ch15-00-smart-pointers.html
+
+Thanks for reading and please add comments below if you have any questions
