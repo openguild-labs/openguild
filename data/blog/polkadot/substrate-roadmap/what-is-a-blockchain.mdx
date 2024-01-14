@@ -1,0 +1,82 @@
+
+---
+title: Substrate Roadmap - High Level Concept - What is a Blockchain?
+
+date: 2024-01-14
+
+authors: ['nhan-dnguyen']
+
+tags: ['technical', 'blockchain']
+
+draft: false
+
+summary: High level concept - What is a blockchain.
+---
+
+# What is a Blockchain?
+
+We have a lot of definitions of blockchain, but the most common one is that a blockchain is a distributed ledger that is secured by cryptography. In this article, we will go through the high level concept of a blockchain.
+
+### Distributed Ledger
+
+> A ledger is a record of transactions. A distributed ledger is a ledger that is shared and synchronized across multiple nodes in a network.
+
+### Cryptography
+
+> Cryptography is the process of hiding or coding information so that only the person a message was intended for can read it.
+
+## Components of a Blockchain
+
+A blockchain is a distributed ledger that is secured by cryptography. It consists of 3 main components:
+- **Blocks**: A block is a collection of transactions. 
+- **Chain**: A chain is a collection of blocks. Each block contains the hash of the previous block. This is how blocks are linked together.
+- **Nodes**: A node is a computer that is connected to the network. A node can be a full node or a light node.
+
+In more details, a public blockchain usually has the following components:
+- **P2P network**: A network of nodes that are connected to each other, helps participants propagate the transactions/verify blocks.
+- **Messages**: or transactions, represent the state transition.
+- **Smart contracts**: A set of rules that define the state transition conditions.
+- **Consensus algorithm**: A mechanism that allows nodes to agree on the state of the blockchain -> decentralized control over blockchain.
+- **Chain**: A chain of cryptographically secured blocks
+- **Game-theoretic incentive mechanism**: A mechanism that incentivizes participants to follow the protocol. Eg: proof-of-work costs plus block rewards
+
+## How does a blockchain work?
+
+A transaction is a message that is sent from one account to another account. It can be a transfer of value, a smart contract call, or a message to the blockchain itself. <br />
+That transaction is signed by the sender's private key to prove that the sender is the owner of the account. <br />
+When a transaction is sent to the network, it is propagated to all the nodes in the network. The nodes will verify the transaction and add it to the block. The block is then added to the chain. <br />
+
+# Some important concepts
+
+## Digital Signature
+
+Digital sisnature is a signature that uses to verify the authenticity and integrity of a message. <br />
+A digital message will be signed by the sender's private key. The receiver can verify the signature by using the sender's public key. <br />
+
+## Blockspace
+
+Blockspace is a virtual area where a blockchain’s code and data are executed. <br />
+You can read more about blockspace at the related articles section.
+
+## Consensus
+
+Consensus is a mechanism that allows nodes to agree on the state of the blockchain. <br />
+All nodes in the network must agree and come to consensus, so we need a consensus algorithm for that. <br />
+There are many consensus algorithms, but the most common ones are Proof-of-Work and Proof-of-Stake. <br />
+You can read more about the consensus at the related articles section.
+
+# Conclusion
+
+TIL:
+- What is a blockchain and its components.
+- How does a blockchain work.
+- Some important concepts: digital signature, blockspace, consensus.
+
+
+## Related articles
+
+- Ethereum Book: https://github.com/ethereumbook/ethereumbook/blob/develop/01what-is.asciidoc
+- PBA: https://polkadot-blockchain-academy.github.io/pba-book/cryptography/intro/page.html
+- https://www.ibm.com/topics/blockchain
+- Blockspace: https://polkadot.network/blog/blockspace-blockspace-ecosystems-how-polkadot-is-unlocking-the-full-potential-of-web3
+- Consensus: https://wiki.polkadot.network/docs/learn-consensus
