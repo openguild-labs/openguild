@@ -1,0 +1,311 @@
+---
+title: Rust Practices with Rustlings - Threads
+date: 2024-01-13
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 20th chapter of Rustlings - Threads
+---
+
+# Chapter 20 - Threads
+
+## Exercise 1
+
+```rust
+// This program spawns multiple threads that each run for at least 250ms, and
+// each thread returns how much time they took to complete. The program should
+// wait until all the spawned threads have finished and should collect their
+// return values into a vector.
+
+use std::thread;
+use std::time::{Duration, Instant};
+
+fn main() {
+    let mut handles = vec![];
+    for i in 0..10 {
+        handles.push(thread::spawn(move || {
+            let start = Instant::now();
+            thread::sleep(Duration::from_millis(250));
+            println!("thread {} is complete", i);
+            start.elapsed().as_millis()
+        }));
+    }
+
+    let mut results: Vec<u128> = vec![];
+    for handle in handles {
+        // TODO: a struct is returned from thread::spawn, can you use it?
+    }
+
+    if results.len() != 10 {
+        panic!("Oh no! All the spawned threads did not finish!");
+    }
+
+    println!();
+    for (i, result) in results.into_iter().enumerate() {
+        println!("thread {} took {}ms", i, result);
+    }
+}
+```
+
+We can use the `join` method to wait for the thread to finish and return a result. <br />
+Add the result to results vector to pass the test.
+
+```rust
+fn main() {
+    let mut handles = vec![];
+    for i in 0..10 {
+        handles.push(thread::spawn(move || {
+            let start = Instant::now();
+            thread::sleep(Duration::from_millis(250));
+            println!("thread {} is complete", i);
+            start.elapsed().as_millis()
+        }));
+    }
+
+    let mut results: Vec<u128> = vec![];
+    for handle in handles {
+        results.push(handle.join().unwrap());
+    }
+
+    if results.len() != 10 {
+        panic!("Oh no! All the spawned threads did not finish!");
+    }
+
+    println!();
+    for (i, result) in results.into_iter().enumerate() {
+        println!("thread {} took {}ms", i, result);
+    }
+}
+```
+
+## Exercise 2
+
+```rust
+// Building on the last exercise, we want all of the threads to complete their
+// work but this time the spawned threads need to be in charge of updating a
+// shared value: JobStatus.jobs_completed
+
+use std::sync::Arc;
+use std::thread;
+use std::time::Duration;
+
+struct JobStatus {
+    jobs_completed: u32,
+}
+
+fn main() {
+    let status = Arc::new(JobStatus { jobs_completed: 0 });
+    let mut handles = vec![];
+    for _ in 0..10 {
+        let status_shared = Arc::clone(&status);
+        let handle = thread::spawn(move || {
+            thread::sleep(Duration::from_millis(250));
+
+            
+            status_shared.jobs_completed += 1;
+        });
+        handles.push(handle);
+    }
+    for handle in handles {
+        handle.join().unwrap();
+        // TODO: Print the value of the JobStatus.jobs_completed. Did you notice
+        // anything interesting in the output? Do you have to 'join' on all the
+        // handles?
+        println!("jobs completed {}", ???);
+    }
+}
+
+```
+
+To make the code compile, we need to use `Mutex` to make the `jobs_completed` field mutable. <br />
+Read more about Mutex and Arc here: https://doc.rust-lang.org/book/ch16-03-shared-state.html
+
+```rust
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+
+struct JobStatus {
+    jobs_completed: u32,
+}
+
+fn main() {
+    let status = Arc::new(JobStatus { jobs_completed: Mutex::new(0) });
+    let mut handles = vec![];
+    for _ in 0..10 {
+        let status_shared = Arc::clone(&status);
+        let handle = thread::spawn(move || {
+            thread::sleep(Duration::from_millis(250));
+            let mut count = let mut count = status_shared.jobs_completed.lock().unwrap();
+            *count += 1;
+        });
+        handles.push(handle);
+    }
+    for handle in handles {
+        handle.join().unwrap();
+        // TODO: Print the value of the JobStatus.jobs_completed. Did you notice
+        // anything interesting in the output? Do you have to 'join' on all the
+        // handles?
+    }
+    println!("jobs completed {}", Arc::clone(&status).jobs_completed.lock().unwrap());
+
+}
+```
+
+> Print the value of the JobStatus.jobs_completed. Did you notice anything interesting in the output? Do you have to 'join' on all the handles?
+
+The all outputs is 10. Seems we don't need to join on all the handles. Let try with join on only one handle.
+
+```rust
+for handle in handles {
+        handle.join().unwrap();
+        break;
+    }
+println!("jobs completed {}", Arc::clone(&status).jobs_completed.lock().unwrap());
+// Result: jobs completed 10
+```
+
+## Exercise 3
+
+```rust
+use std::sync::mpsc;
+use std::sync::Arc;
+use std::thread;
+use std::time::Duration;
+
+struct Queue {
+    length: u32,
+    first_half: Vec<u32>,
+    second_half: Vec<u32>,
+}
+
+impl Queue {
+    fn new() -> Self {
+        Queue {
+            length: 10,
+            first_half: vec![1, 2, 3, 4, 5],
+            second_half: vec![6, 7, 8, 9, 10],
+        }
+    }
+}
+
+fn send_tx(q: Queue, tx: mpsc::Sender<u32>) -> () {
+    let qc = Arc::new(q);
+    let qc1 = Arc::clone(&qc);
+    let qc2 = Arc::clone(&qc);
+
+    thread::spawn(move || {
+        for val in &qc1.first_half {
+            println!("sending {:?}", val);
+            tx.send(*val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    thread::spawn(move || {
+        for val in &qc2.second_half {
+            println!("sending {:?}", val);
+            tx.send(*val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+}
+
+#[test]
+fn main() {
+    let (tx, rx) = mpsc::channel();
+    let queue = Queue::new();
+    let queue_length = queue.length;
+
+    send_tx(queue, tx);
+
+    let mut total_received: u32 = 0;
+    for received in rx {
+        println!("Got: {}", received);
+        total_received += 1;
+    }
+
+    println!("total numbers received: {}", total_received);
+    assert_eq!(total_received, queue_length)
+}
+```
+
+https://doc.rust-lang.org/book/ch16-02-message-passing.html
+> An alternate way to handle concurrency between threads is to use a mpsc (multiple producer, single consumer) channel to communicate
+
+We need clone the Sender to send to multiple threads.
+
+```rust
+use std::sync::mpsc;
+use std::sync::Arc;
+use std::thread;
+use std::time::Duration;
+
+struct Queue {
+    length: u32,
+    first_half: Vec<u32>,
+    second_half: Vec<u32>,
+}
+
+impl Queue {
+    fn new() -> Self {
+        Queue {
+            length: 10,
+            first_half: vec![1, 2, 3, 4, 5],
+            second_half: vec![6, 7, 8, 9, 10],
+        }
+    }
+}
+
+fn send_tx(q: Queue, tx: mpsc::Sender<u32>) -> () {
+    let qc = Arc::new(q);
+    let qc1 = Arc::clone(&qc);
+    let qc2 = Arc::clone(&qc);
+    let tx1 = mpsc::Sender::clone(&tx);
+    let tx2 = mpsc::Sender::clone(&tx);
+
+    thread::spawn(move || {
+        for val in &qc1.first_half {
+            println!("sending {:?}", val);
+            tx1.send(*val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    thread::spawn(move || {
+        for val in &qc2.second_half {
+            println!("sending {:?}", val);
+            tx2.send(*val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+}
+
+#[test]
+fn main() {
+    let (tx, rx) = mpsc::channel();
+    let queue = Queue::new();
+    let queue_length = queue.length;
+
+    send_tx(queue, tx);
+
+    let mut total_received: u32 = 0;
+    for received in rx {
+        println!("Got: {}", received);
+        total_received += 1;
+    }
+
+    println!("total numbers received: {}", total_received);
+    assert_eq!(total_received, queue_length)
+}
+```
+
+## Conclusion
+
+The 20th chapter of Rustlings - Threads ends here. <br />
+TIL:
+- How to create a thread
+- Shared state concurrency
+- Mutex and Arc
+
+Thanks for reading and please add comments below if you have any questions

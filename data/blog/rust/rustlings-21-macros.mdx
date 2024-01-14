@@ -1,0 +1,152 @@
+---
+title: Rust Practices with Rustlings - Macros
+date: 2024-01-13
+authors: ['nhan-dnguyen']
+tags: ['technical', 'language', 'rust', 'rust-course-rustlings']
+draft: false
+summary: The 21st chapter of Rustlings - Macros
+---
+
+# Chapter 21 - Macros
+
+## Exercise 1
+
+```rust
+macro_rules! my_macro {
+    () => {
+        println!("Check out my macro!");
+    };
+}
+
+fn main() {
+    my_macro();
+}
+
+```
+
+Just add ! to call the macro
+
+```rust
+macro_rules! my_macro {
+    () => {
+        println!("Check out my macro!");
+    };
+}
+
+fn main() {
+    my_macro!();
+}
+```
+
+## Exercise 2
+
+```rust
+fn main() {
+    my_macro!();
+}
+
+macro_rules! my_macro {
+    () => {
+        println!("Check out my macro!");
+    };
+}
+```
+
+We need to define the macro before calling it
+
+```rust
+macro_rules! my_macro {
+    () => {
+        println!("Check out my macro!");
+    };
+}
+
+fn main() {
+    my_macro!();
+}
+```
+
+## Exercise 3
+
+```rust
+// Make me compile, without taking the macro out of the module!
+
+mod macros {
+    macro_rules! my_macro {
+        () => {
+            println!("Check out my macro!");
+        };
+    }
+}
+
+
+fn main() {
+    my_macro!();
+}
+
+```
+
+We need to export the macro from the module
+
+```rust
+#[macro_export]
+mod macros {
+    macro_rules! my_macro {
+        () => {
+            println!("Check out my macro!");
+        };
+    }
+}
+
+
+fn main() {
+    my_macro!();
+}
+```
+
+## Exercise 4
+
+```rust
+#[rustfmt::skip]
+macro_rules! my_macro {
+    () => {
+        println!("Check out my macro!");
+    }
+    ($val:expr) => {
+        println!("Look at this other macro: {}", $val);
+    }
+}
+
+fn main() {
+    my_macro!();
+    my_macro!(7777);
+}
+```
+
+Just add a comma after the first macro to separate it from the second one
+
+```rust
+#[rustfmt::skip]
+macro_rules! my_macro {
+    () => {
+        println!("Check out my macro!");
+    };
+    ($val:expr) => {
+        println!("Look at this other macro: {}", $val);
+    }
+}
+
+fn main() {
+    my_macro!();  
+    my_macro!(7777);
+}
+```
+
+## Conclusion
+
+The 21st chapter of Rustlings - Macros ends here. <br />
+TIL:
+- How to use declarative macros
+- Reed more about Macros in Rust [here](https://doc.rust-lang.org/book/ch19-06-macros.html)
+
+Thanks for reading and please add comments below if you have any questions
