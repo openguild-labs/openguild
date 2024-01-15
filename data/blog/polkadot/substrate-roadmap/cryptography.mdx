@@ -1,0 +1,182 @@
+
+---
+title: Substrate Roadmap - Cryptography
+
+date: 2024-01-15
+
+authors: ['nhan-dnguyen']
+
+tags: ['technical', 'blockchain']
+
+draft: false
+
+summary: High level concept - Cryptography
+---
+
+This article is a part of the Substrate Roadmap series. <br />
+Follow the PBA book: https://polkadot-blockchain-academy.github.io/pba-book/cryptography/intro/page.html#data-confidentiality, we will go throufh the high level concept of cryptography.
+
+# Internet
+
+Now we live in the world of Internet, we can easily connect to each other, share information, and do business. The Internet is a public space, that means everyone can use it, for both good or bad purposes. <br />
+The question is do we have any solution to make the internet safer? The answer is yes, we have cryptography to do that.
+
+# Cryptography
+
+Cryptography has been used for thousands of years, it is the art of writing or solving codes. In the past, cryptography was used to send secret messages between two people. It's the same as encryption - convert plaintext (encryption) to nonsense text and vice versa, reverse that text to readable text (decryption) <br />
+Nowadays when talking about cryptography, it more relates to the computer sciences and mathematical theory. It's included algorithms to encrypt and decrypt data, and also to verify the integrity of data. <br />
+Put it in the context of the Internet, cryptography is used to make the Internet safer. It's used to encrypt data, verify the integrity of data, and more. <br />
+**Cryptography guarantees the confidentiality, integrity, and authenticity of data. <br />**
+
+## Confidentiality
+
+> Confidentially ensures that a third party cannot read my confidential data
+
+Example: You have a text file that contains your private information. A hacker can steal that file and read your information. <br />
+To prevent that, you can encrypt the file with a secret key. Only you know the secret key, so only you can decrypt the file. <br />
+Let's try a very simple exercise to encrypt a message with Rust:
+
+```rust
+fn main() {
+  let message = "Hello, how are you?";
+  println!("Message: {}", message);
+  let encrypted_message = encrypt(message, "secret");
+  println!("Encrypted message: {}", encrypted_message);
+  println!("Decrypted message: {}", decrypt(&encrypted_message, "secret"));
+}
+
+fn encrypt(message: &str, secret_key: &str) -> String {
+  let mut encrypted_message = String::new();
+  let mut secret_key_chars = secret_key.chars();
+  for c in message.chars() {
+    let secret_char = secret_key_chars.next().unwrap_or('x');
+    let encrypted_char = c as u8 ^ secret_char as u8;
+    encrypted_message.push(encrypted_char as char);
+  }
+  encrypted_message
+}
+
+fn decrypt(encrypted_message: &str, secret_key: &str) -> String {
+  let decrypted_message = encrypt(encrypted_message, secret_key);
+  decrypted_message
+}
+
+// Output:
+// Message: Hello, how are you?
+// Encrypted message: ;
+// XXX
+// G
+// Decrypted message: Hello, how are you?
+```
+
+Here we using bitwise OR operator to encrypt the message. <br />
+We know that if A ^ B = C, then C ^ B = A. <br />
+So we use ^ to encrypt the message by doing: <br />
+- Convert the message to u8 (ASCII code)
+- Convert the secret key to u8 (ASCII code)
+- XOR the message and the secret key
+To decrypt the message, we just need to do the same thing. <br />
+
+### Confidentiality in communication
+
+Example: You send a message to your friend. To prevent a hacker from reading your message, you can encrypt the message with a secret key. <br />
+But what if the hacker knows the secret key? <br />
+We have 2 subtypes of confidentiality: <br />
+- Forward secrecy: If the hacker knows the secret key, he can only decrypt the message that you sent. He cannot decrypt the message that you will send in the future.
+- Backward secrecy: If the hacker knows the secret key, he can only decrypt the message that you sent. He cannot decrypt the message that you sent in the past.
+
+## Integrity
+
+> Integrity ensures that my data is not modified
+
+Example: You send a message to your friend. A hacker can modify the message before your friend receives it. <br />
+Intergrity is used to prevent that. If your orginal message is modified before your friend receives it, your friend will know that the message is modified. <br />
+The popular way to do that is to use a hash function. A hash function is a function that takes an input and returns a fixed-length output. If your message is chaged, the hashed value also be changed and the modification will be detected <br />
+Example with hash function in Rust:
+
+```rust
+use std::collections::hash_map::DefaultHasher;
+use std::hash::Hasher;
+
+fn main() {
+  let mut hasher = DefaultHasher::new();
+  let mut message = String::from("Hello, how are you?");
+  hasher.write(message.as_bytes());
+  let hash1 = hasher.finish();
+  println!("Hash: {}", hash1);
+
+  message.push_str(" Message is now longer");
+  hasher.write(message.as_bytes());
+  let hash2 = hasher.finish();
+  println!("Hash: {}", hash2);
+
+  message = String::from("Hello, how are you?");
+  hasher.write(message.as_bytes());
+  let hash3 = hasher.finish();
+  println!("Hash: {}", hash3);
+}
+
+// Output:
+// Hash: 4810300777674892101
+// Hash: 7005102002533617995
+// Hash: 4810300777674892101
+```
+
+We can see the hash value is changed when the message is changed. <br />
+
+## Authenticity
+
+> Authenticity ensures that the data is from the right person
+
+Example: You send a message to your friend. A hacker can pretend to be you and send a message to your friend. <br />
+The `normal` way to authenticate the message is use the signature (Digital signature). You sign the message with your private key, and your friend can verify the signature with your public key. <br />
+Let's look at the example with Rust:
+
+```rust
+fn main() {
+    let key: u8 = 0b10101010;
+    let wrong_key: u8 = 0b11111111;
+    let message = "Hello, World!";
+    let signature = sign(message, key);
+    let is_valid = verify(message, &signature, key);
+    let is_not_valid = verify(message, &signature, wrong_key);
+    println!("Message: {}", message);
+    println!("Signature: {:?}", signature);
+    println!("Is valid: {}", is_valid);
+    println!("Is not  valid: {}", is_not_valid);
+}
+
+fn sign(message: &str, key: u8) -> Vec<u8> {
+    message.bytes().map(|b| b ^ key).collect()
+}
+
+fn verify(message: &str, signature: &[u8], key: u8) -> bool {
+    let expected_signature: Vec<u8> = message.bytes().map(|b| b ^ key).collect();
+    &expected_signature == signature
+}
+
+// Output:
+// Message: Hello, World!
+// Signature: [226, 207, 198, 198, 197, 134, 138, 253, 197, 216, 198, 206, 139]
+// Is valid: true
+// Is not  valid: false
+```
+
+## Non-repudiation
+
+> Non-repudiation ensures that the sender cannot deny sending the message
+
+Example: You send a message to your friend. After that, you deny that you sent the message. <br />
+Non-repudiation is used to prevent that. <br />
+
+## Conclusion
+
+TIL: 
+- Cryptography is used to make the Internet safer
+- Cryptography guarantees the confidentiality, integrity, and authenticity of data
+  - Confidentiality ensures that a third party cannot read my confidential data
+  - Integrity ensures that my data is not modified
+  - Authenticity ensures that the data is from the right person
+  - Non-repudiation ensures that the sender cannot deny sending the message
+- Encryption, Hash function, and Digital signature are the popular ways to guarantee the confidentiality, integrity, and authenticity of data
+- PBA Book: https://polkadot-blockchain-academy.github.io/pba-book/cryptography/intro/page.html
