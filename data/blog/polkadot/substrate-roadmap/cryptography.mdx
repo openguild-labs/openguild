@@ -77,6 +77,16 @@ So we use ^ to encrypt the message by doing: <br />
 - XOR the message and the secret key
 To decrypt the message, we just need to do the same thing. <br />
 
+### Symmetric and Asymmetric encryption
+
+There are 2 types of encryption: <br />
+- Symmetric encryption: The same key is used to encrypt and decrypt the message. Imagine that you lock the message by a password, and your friend can unlock the message by the same password
+- Asymmetric encryption: Different keys are used to encrypt and decrypt the message: the public key for encryption and the private key for decryption. 
+We have some differrent between the two types of encryption above: <br />
+- Speed: Symmetric encryption is faster than Asymmetric encryption because it's use the same key for encryption and decryption, thus require less computation
+- Security: Asymmetric encryption is more secure than Symmetric encryption because it's use different keys for encryption and decryption, so it's harder to compromise the system.
+- Key distribution: in Symmetric encryption, the key shared is very important because we use the same key. In Asymmetric encryption, only the public key is shared between the sender and the receiver, and the private key is kept secret by the receiver.
+
 ### Confidentiality in communication
 
 Example: You send a message to your friend. To prevent a hacker from reading your message, you can encrypt the message with a secret key. <br />
@@ -169,6 +179,28 @@ fn verify(message: &str, signature: &[u8], key: u8) -> bool {
 Example: You send a message to your friend. After that, you deny that you sent the message. <br />
 Non-repudiation is used to prevent that. <br />
 
+# Common cryptography algorithms
+
+## Symmetric encryption
+
+- AES (Advanced Encryption Standard): https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
+  - > AES encryption divides information to be encrypted into sections called blocks. It involves replacing different bytes, shifting rows and mixing columns, and scrambling the information. The result is a random set of characters that cannot be read without a decryption key. AES-256 completes 14 rounds of encryption to encode data.
+  - Read more about AES-256 here: https://www.appsealing.com/aes-256-encryption/
+- DES (Data Encryption Standard): https://en.wikipedia.org/wiki/Data_Encryption_Standard
+
+## Asymmetric encryption
+
+- RSA: https://en.wikipedia.org/wiki/RSA_(cryptosystem)
+- ECSDA (Elliptic Curve Digital Signature Algorithm): https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
+  - ECSDA is used in Ethereum as the signature algorithm.
+  - Read more about ECSDA here: https://blog.quillaudits.com/trending/all-you-need-to-know-about-ecdsa/
+
+## Hash function
+
+- SHA-256 (Secure Hash Algorithm 256): https://en.wikipedia.org/wiki/SHA-2
+  - SHA-256 is used in Bitcoin as the hash function.
+  - Read more about SHA-256 here: https://www.movable-type.co.uk/scripts/sha256.html
+
 ## Conclusion
 
 TIL: 
@@ -180,3 +212,8 @@ TIL:
   - Non-repudiation ensures that the sender cannot deny sending the message
 - Encryption, Hash function, and Digital signature are the popular ways to guarantee the confidentiality, integrity, and authenticity of data
 - PBA Book: https://polkadot-blockchain-academy.github.io/pba-book/cryptography/intro/page.html
+
+### Small note about the difference between Hash function, Encryption, and Digital signature
+- Hash Function: It convert a message to a fixed-length output. You CANNOT convert the output back to the message.
+- Encryption: It convert a message to a nonsense text. You CAN convert the nonsense text back to the message with the decryption key.
+- Digital signature: It sign a message with the private key. You still can read the message, and you can VERIFY the signature with the public key. 
