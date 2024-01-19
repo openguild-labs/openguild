@@ -1,0 +1,182 @@
+
+---
+title: Substrate Roadmap - Cryptography part 3 - Hash Function
+
+date: 2024-01-17
+
+authors: ['nhan-dnguyen']
+
+tags: ['technical', 'blockchain']
+
+draft: false
+
+summary: High level concept - Cryptography part 3 - Hash Function
+
+---
+
+This article is a part of the Substrate Roadmap series. <br />
+
+# Hash Function
+
+We usually want to represent a large amount of data in a short form. <br />
+For example, we want to compare the content of two files (maybe some Gbs per file) is exactly the same or not. <br />
+We we compare them word by word, it will take a lot of time. But we have another way, we can hash 2 file above and compare the result, if it them same => 2 file's content is the same <br />
+
+## What is Hash Function
+
+Hash function is a function that takes an input of any length and return a fixed length output. <br />
+As the example above, the input is the content of the file, the output is the hash of the file, example in 256 bits. <br />
+
+Let's take a look at the example below: <br />
+
+```rust
+use sha256::{digest};
+
+fn main() {
+    let input = String::from("hello");
+    let val = digest(input);
+    println!("Hash: {}", val);
+    assert_eq!(val,"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824");
+}
+```
+
+The input is a string "hello", the output is the hash of the string in SHA256. <br />
+Let's try with longer input: <br />
+
+```rust
+use sha256::{digest};
+
+fn main() {
+    let input = String::from("hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello");
+    let val = digest(input);
+    println!("Hash: {}", val);
+    assert_eq!(val,"05a10b9760e2efaa21dc15f97826df2fd2e4e8dadb88105ceef7d125b9e226f1");
+}
+```
+
+The output is still the same length, but the value is changed. <br />
+If you change only 1 character in the input, the output will be totally different. <br />
+
+```rust
+use sha256::{digest};
+
+fn main() {
+    let input = String::from("helle");
+    let val = digest(input);
+    println!("Hash: {}", val);
+    assert_eq!(val,"5b175fdd8cdfd78c967643ad01f951210364c65642dbf5410f3fb778160585db");
+}
+```
+
+## Hash Function Properties
+
+### Deterministic
+
+Hash function is deterministic, which means that if we input the same data, we will always get the same hash. <br />
+
+### Collision Resistance
+
+Collision resistance means that it is hard to find 2 inputs that have the same hash. <br />
+
+### Pre-image Resistance
+
+Pre-image resistance means that it is hard to find an input that has a specific hash. We CANNOT reverse the hash function. <br />
+
+## Famous Hash Algorithms and their usage
+
+- Bitcoin: SHA2-256 & RIPMD-160
+- Ethereum: Keccak-256 (though others supported via EVM)
+- Polkadot: Blake2 & xxHash (though others supported via host functions)
+
+Let's benmarking some hash algorithms: <br />
+
+```rust
+use sha256::{digest};
+use sha3::{Keccak256, Keccak512, Digest};
+use blake2::{Blake2b512, Blake2s256};
+use std::time::{Instant};
+
+fn main() {
+    let input = String::from("hellohellohell");
+
+    let mut start = Instant::now();
+    let val = sha256::digest(input.as_bytes());
+    println!("SHA256: {:?}",  start.elapsed());
+
+    start = Instant::now();
+    let mut hasher = Keccak256::new();
+    hasher.update(input.as_bytes());
+    let val = hasher.finalize();
+    println!("Keccak256: {:?}",  start.elapsed());
+
+    let mut hasher = Keccak512::new();
+    hasher.update(input.as_bytes());
+    let val = hasher.finalize();
+    println!("Keccak512: {:?}",  start.elapsed());
+
+    let mut hasher = Blake2b512::new();
+    hasher.update(input.as_bytes());
+    let val = hasher.finalize();
+    println!("Blake2b512: {:?}",  start.elapsed());
+
+    let mut hasher = Blake2s256::new();
+    hasher.update(input.as_bytes());
+    let val = hasher.finalize();
+    println!("Blake2s256: {:?}",  start.elapsed());
+}
+
+// Output:
+// SHA256: 112.375µs
+// Keccak256: 186.209µs
+// Keccak512: 247.959µs
+// Blake2b512: 442.875µs
+// Blake2s256: 555.042µs
+```
+
+
+
+## Cryptographic hash function vs non-cryptographic hash function
+
+### Cryptographic hash function
+
+Everything above is about cryptographic hash function. <br />
+
+### Non-cryptographic hash function
+
+Non-cryptographic hash functions are intended to be fast and efficient. <br />
+They are used in hash tables, hash maps, etc that not need extremely high security. They usually very fast when find an item (like find an item in a hash table), expect O(1) time complexity. <br />
+
+We know that cryptography has 4 properties:
+- Confidentiality: Hash function is one-way function, so if you post a hash of a data, only you know what data the hash is represented for, so the data is confidential.
+- Integrity: If you change the data, the hash will be changed too, so we can detect the change of the data -> Integrity
+- Authenticity: No authentication -> No authenticity
+- Non-repudiation: No authentication -> No non-repudiation as well 
+
+# Some applications of Hash Function
+
+## Hash Table
+
+Hash table is a data structure that maps keys to values. <br />
+Hash table uses a hash function to compute an index into an array of buckets or slots, from which the desired value can be found. <br />
+It's very fast to find an item in a hash table, expect O(1) time complexity. And it's non-cryptographic hash function. <br />
+
+## Checksum
+
+Checksum is a small-sized datum derived from a block of digital data for the purpose of detecting errors that may have been introduced during its transmission or storage. <br />
+Cryptographic hash function is used to generate checksum in some algorithms. <br />
+
+## Merkle Tree
+
+Merkle tree is a tree in which every leaf node is labelled with the hash of a data block, and every non-leaf node is labelled with the cryptographic hash of the labels of its child nodes. <br />
+Merkle tree is used in blockchain to verify the data in the block. <br />
+For more detail about Merkel tree, please see that video of lowleveler created by @chungtin: https://www.youtube.com/watch?v=tFgHk6XZ1yg
+You can also see the example of Rust implementation of Merkel tree here: https://github.com/lowlevelers/workshop-sourcecode/tree/master/merkle-tree
+
+
+## Conclusion
+
+TIL: 
+- Hash Functions are used to represent a large amount of data in a short form.
+- Hash Functions are deterministic, collision resistance and pre-image resistance.
+- Hash Functions are used in many applications such as hash table, checksum, merkle tree, etc.
+
