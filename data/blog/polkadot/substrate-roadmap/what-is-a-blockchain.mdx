@@ -1,0 +1,228 @@
+
+---
+title: Substrate Roadmap - High Level Concept - What is a Blockchain?
+
+date: 2024-01-14
+
+authors: ['nhan-dnguyen']
+
+tags: ['technical', 'blockchain']
+
+draft: false
+
+summary: High level concept - What is a blockchain.
+---
+
+This article is an overview about blockchain and related concepts. <br />
+Please follow the next articles to learn more details about each concept.
+
+# What is a Blockchain?
+
+We have a lot of definitions of blockchain, but the most common one is that a blockchain is a distributed ledger that is secured by cryptography. In this article, we will go through the high level concept of a blockchain.
+
+### Distributed Ledger
+
+> A ledger is a record of transactions. A distributed ledger is a ledger that is shared and synchronized across multiple nodes in a network.
+
+### Cryptography
+
+> Cryptography is the process of hiding or coding information so that only the person a message was intended for can read it.
+
+## Components of a Blockchain
+
+A blockchain is a distributed ledger that is secured by cryptography. It consists of 3 main components:
+- **Blocks**: A block is a collection of transactions. 
+- **Chain**: A chain is a collection of blocks. Each block contains the hash of the previous block. This is how blocks are linked together.
+- **Nodes**: A node is a computer that is connected to the network. A node can be a full node or a light node.
+
+In more details, a public blockchain usually has the following components:
+- **P2P network**: A network of nodes that are connected to each other, helps participants propagate the transactions/verify blocks.
+- **Messages**: or transactions, represent the state transition.
+- **Smart contracts**: A set of rules that define the state transition conditions.
+- **Consensus algorithm**: A mechanism that allows nodes to agree on the state of the blockchain -> decentralized control over blockchain.
+- **Chain**: A chain of cryptographically secured blocks
+- **Game-theoretic incentive mechanism**: A mechanism that incentivizes participants to follow the protocol. Eg: proof-of-work costs plus block rewards
+
+## How does a blockchain work?
+
+A transaction is a message that is sent from one account to another account. It can be a transfer of value, a smart contract call, or a message to the blockchain itself. <br />
+That transaction is signed by the sender's private key to prove that the sender is the owner of the account. <br />
+When a transaction is sent to the network, it is propagated to all the nodes in the network. The nodes will verify the transaction and add it to the block. The block is then added to the chain. <br />
+
+# Some important concepts
+
+## Digital Signature
+
+Digital sisnature is a signature that uses to verify the authenticity and integrity of a message. <br />
+A digital message will be signed by the sender's private key. The receiver can verify the signature by using the sender's public key. <br />
+
+## Blockspace
+
+Blockspace is a virtual area where a blockchain’s code and data are executed. <br />
+You can read more about blockspace at the related articles section.
+
+## Consensus
+
+Consensus is a mechanism that allows nodes to agree on the state of the blockchain. <br />
+All nodes in the network must agree and come to consensus, so we need a consensus algorithm for that. <br />
+There are many consensus algorithms, but the most common ones are Proof-of-Work and Proof-of-Stake. <br />
+You can read more about the consensus at the related articles section.
+
+Let see how the Prove of Work - the consensus algorithm of Bitcoin works:
+
+- Prove of Work is a mechanism that requires a node to prove that it has done some work to create a new block. This work is called mining. <br />
+- In blockchain, all information like transactions, amount, ... are stored and encrypted in a block header - a hexadecimal number created through the blockchain's hashing function. <br />
+- When a block is closed, the hash above must be verified by the network. The prove of work comes here. <br />
+- The node that creates the block must find a nonce - a random number that, when combined with the block header, produces a hash that meets the difficulty requirement. <br />
+- The difficulty requirement is a number that is set by the network. It is the number of leading zeros in the hash. <br />
+- If the hash is lower than the current network target, the miner has successfully solved the hash.
+- If not, they add a value of 1 to the nonce and generates a hash again, and continue this process until they find a hash that meets the difficulty requirement. <br />
+
+## A simple example of a blockchain in Rust
+
+Looking at the example code below, we have Block struct that represents a block in the blockchain. 
+It includes the index, timestamp, proof of work, previous hash, and hash of the block. <br />
+
+```rust
+use super::blockchain::Blockchain;
+use chrono::prelude::*;
+use sha2::{Sha256, Digest};
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Block {
+  pub index: u64,
+  pub timestamp: u64,
+  pub proof_of_work: u64,
+  pub previous_hash: String,
+  pub hash: String,
+}
+
+impl Block {
+  pub fn new (index: u64, previous_hash: String) -> Self {
+    let block = Block {
+        index: index,
+        timestamp: Utc::now().timestamp_millis() as u64,
+        proof_of_work: u64::default(),
+        previous_hash: previous_hash,
+        hash: String::default(),
+    };
+    block
+  }
+
+  pub fn generate_block_hash(&self) -> String {
+    let mut block_data = self.clone();
+    block_data.hash = String::default();
+    let serialized_block_data = serde_json::to_string(&block_data).unwrap();
+    let mut hasher = Sha256::new();
+    hasher.update(serialized_block_data);
+    let result = hasher.finalize();
+    format!("{:x}", result)
+  }
+
+  pub fn mine (&mut self, blockchain: Blockchain) {
+    loop {
+      if !self.hash.starts_with(&"0".repeat(blockchain.difficulty)) {
+        self.proof_of_work += 1;
+        self.hash = self.generate_block_hash();
+      } else {
+        break
+      }
+    }
+  }
+}
+```
+
+Look at the generate_block_hash function, we use the SHA256 hashing algorithm to hash the block data. <br />
+
+```rust
+  pub fn generate_block_hash(&self) -> String {
+    let mut block_data = self.clone();
+    block_data.hash = String::default();
+    let serialized_block_data = serde_json::to_string(&block_data).unwrap();
+    let mut hasher = Sha256::new();
+    hasher.update(serialized_block_data);
+    let result = hasher.finalize();
+    format!("{:x}", result)
+  }
+}
+```
+
+And to mine a block, we use the proof of work algorithm. <br />
+If the hash of the block does not start with the number of zeros that is equal to the difficulty, we will increase the proof of work and generate the hash again. <br />
+
+```rust
+pub fn mine (&mut self, blockchain: Blockchain) {
+    loop {
+      if !self.hash.starts_with(&"0".repeat(blockchain.difficulty)) {
+        self.proof_of_work += 1;
+        self.hash = self.generate_block_hash();
+      } else {
+        break
+      }
+    }
+  }
+```
+
+Blockchain struct represents the blockchain and Block that represents a block in the blockchain. <br />
+Blockchain starts with a genesis block - the first initial block in chain. difficulty is how hard you want to mine a block. <br />
+
+```rust
+type Blocks = Vec<Block>;
+
+#[derive(Debug, Clone)]
+pub struct Blockchain {
+  pub genesis_block: Block,
+  pub chain: Blocks,
+  pub difficulty: usize
+}
+impl Blockchain {
+  pub fn new(difficulty: usize) -> Self {
+    // First block in the chain.
+    let genesis_block = Block {
+      index: 0,
+      timestamp: Utc::now().timestamp_millis() as u64,
+      proof_of_work: u64::default(),
+      previous_hash: String::default(),
+      hash: String::default()
+    };
+    let mut chain = Vec::new();
+    chain.push(genesis_block.clone());
+    let blockchain = Blockchain {
+      genesis_block,
+      chain,
+      difficulty
+    };
+    blockchain
+  }
+  
+  pub fn add_block(&mut self) {
+    let mut new_block = Block::new(
+        self.chain.len() as u64,
+        self.chain[&self.chain.len() - 1].hash.clone(),
+    );
+
+    new_block.mine(self.clone());
+    self.chain.push(new_block.clone());
+    println!("New block added to chain -> {:?}", new_block);
+  }
+}
+```
+
+# Conclusion
+
+TIL:
+- What is a blockchain and its components.
+- How does a blockchain work.
+- Some important concepts: digital signature, blockspace, consensus.
+- Example for a simple blockchain in Rust.
+
+
+## Related articles
+
+- Ethereum Book: https://github.com/ethereumbook/ethereumbook/blob/develop/01what-is.asciidoc
+- PBA: https://polkadot-blockchain-academy.github.io/pba-book/cryptography/intro/page.html
+- https://www.ibm.com/topics/blockchain
+- Blockspace: https://polkadot.network/blog/blockspace-blockspace-ecosystems-how-polkadot-is-unlocking-the-full-potential-of-web3
+- Consensus: https://wiki.polkadot.network/docs/learn-consensus
+- Simple blockchain example: https://dev.to/ecj222/how-to-build-a-blockchain-from-scratch-in-rust-46
