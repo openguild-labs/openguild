@@ -44,7 +44,7 @@ export default function PolkadotMainPage() {
     {
       title: 'Complete Substrate Kitties Course',
       description: `Learn a complete pallet development with Substrate Kitties`,
-      url: 'https://github.com/lowlevelers/substrate-kitites',
+      url: 'https://github.com/openguild-labs/substrate-kitites',
       img: '/static/images/polkadot/substrate-kitties.png',
       released: true,
     },
@@ -201,7 +201,7 @@ export default function PolkadotMainPage() {
                 title: 'Discussion Forum',
                 description: 'Learn more from other community members from the discussion forum',
                 img: '/static/images/discussion-forum-banner.webp',
-                href: 'https://github.com/orgs/lowlevelers/discussions',
+                href: 'https://github.com/orgs/openguild-labs/discussions',
               },
               {
                 title: 'Members',
