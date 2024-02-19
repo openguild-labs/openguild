@@ -1,6 +1,6 @@
 const headerNavLinks = [
   { href: '/', title: 'Home' },
-  { href: 'https://handbook.lowlevelers.com', title: 'Handbook' },
+  { href: 'https://handbook.openguild.wtf', title: 'Handbook' },
   { href: '/blog', title: 'Blog' },
   { href: '/tags', title: 'Tags' },
   { href: '/projects', title: 'Projects' },

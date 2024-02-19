@@ -65,16 +65,16 @@ const ThumbnailComponent = ({ post, authorDetails }) => {
       </p>
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <img
-          src="https://lowlevelers.com/_next/image?url=%2Fstatic%2Fimages%2Flogo.png&w=48&q=75"
+          src="https://openguild.wtf/_next/image?url=%2Fstatic%2Fimages%2Flogo.png&w=48&q=75"
           style={{ borderRadius: '50%' }}
           width={40}
           height={40}
         />
         <p style={{ color: 'white', margin: '0px 20px', fontSize: 'smaller', fontWeight: 'bold' }}>
-          lowlevelers.com
+          openguild.wtf
         </p>
         <img
-          src="https://lowlevelers.com/_next/image?url=%2Fstatic%2Fimages%2Fpolkadot%2Fpolkadot-logo.png&w=48&q=75"
+          src="https://openguild.wtf/_next/image?url=%2Fstatic%2Fimages%2Fpolkadot%2Fpolkadot-logo.png&w=48&q=75"
           style={{ borderRadius: '50%' }}
           width={40}
           height={40}
@@ -114,9 +114,9 @@ async function generateOpengraphImage(slugs: string[]) {
             ${post.summary?.slice(0, 250).trim()}
           </p>
           <div style="display:flex;align-items:center;margin-top:10px">
-                  <img src="https://lowlevelers.com/_next/image?url=%2Fstatic%2Fimages%2Flogo.png&w=48&q=75" style="border-radius:50%;width:40px;height:40px;"/>
-                  <p style="color:white; margin:0px 20px;font-size:smaller;font-weight:bold;">lowlevelers.com</p>
-          <img src="https://lowlevelers.com/_next/image?url=%2Fstatic%2Fimages%2Fpolkadot%2Fpolkadot-logo.png&w=48&q=75" style="border-radius:50%;width:40px;height:40px;"/>
+                  <img src="https://openguild.wtf/_next/image?url=%2Fstatic%2Fimages%2Flogo.png&w=48&q=75" style="border-radius:50%;width:40px;height:40px;"/>
+                  <p style="color:white; margin:0px 20px;font-size:smaller;font-weight:bold;">openguild.wtf</p>
+          <img src="https://openguild.wtf/_next/image?url=%2Fstatic%2Fimages%2Fpolkadot%2Fpolkadot-logo.png&w=48&q=75" style="border-radius:50%;width:40px;height:40px;"/>
           </div>
       </div>`
   }

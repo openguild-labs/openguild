@@ -17,7 +17,7 @@ const Header = () => {
                 src="/static/images/logo.png"
                 width={50}
                 style={{ borderRadius: '50%' }}
-                alt="LowLevelers"
+                alt="OpenGuild"
               />
             </div>
             {typeof siteMetadata.headerTitle === 'string' ? (
@@ -42,7 +42,7 @@ const Header = () => {
               {link.title}
             </Link>
           ))}
-        <SearchButton />
+        {/* <SearchButton /> */}
         {/* <ThemeSwitch /> */}
         <MobileNav />
       </div>

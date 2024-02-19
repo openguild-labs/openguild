@@ -37,10 +37,10 @@ export default function PolkadotMainPage() {
             </h1>
             <br></br>
             <p className="mx-auto  text-xl font-normal leading-relaxed text-gray-600 dark:text-gray-300 lg:w-2/3">
-              <span className="font-bold text-primary-500">TheLowLevelers</span> là một cộng đồng mã
+              <span className="font-bold text-primary-500">OpenGuild</span> là một cộng đồng mã
               nguồn mở và phi lợi nhuận. Mục đích cốt yếu của tụi mình là để giúp lập trình viên có
-              hứng thú hiểu thêm về Polkadot từ cốt lõi công nghệ. Ngoài ra, TheLowLevelers còn là
-              bệ phóng để giúp bạn tham gia vào hệ sinh thái Polkadot dưới vị trí là một nhà phát
+              hứng thú hiểu thêm về Polkadot từ cốt lõi công nghệ. Ngoài ra, OpenGuild còn là bệ
+              phóng để giúp bạn tham gia vào hệ sinh thái Polkadot dưới vị trí là một nhà phát
               triển.
             </p>
           </div>
@@ -69,7 +69,7 @@ export default function PolkadotMainPage() {
               ></path>
             </g>
           </svg>
-          <span>Trở thành một phần của TheLowLevelers x Polkadot 🇻🇳</span>
+          <span>Trở thành một phần của OpenGuild x Polkadot 🇻🇳</span>
         </a>
       </div>
       <br />
@@ -84,12 +84,12 @@ export default function PolkadotMainPage() {
               {
                 title: 'Cùng nhau học hỏi và đóng góp vào các dự án trong hệ sinh thái',
                 description:
-                  'TheLowLevelers không phân biệt tuổi tác, kinh nghiệm hay kiến thức. Bất kể bạn là ai thì bạn cũng đều là một phần của sự phát triển chung của cộng đồng.',
+                  'OpenGuild không phân biệt tuổi tác, kinh nghiệm hay kiến thức. Bất kể bạn là ai thì bạn cũng đều là một phần của sự phát triển chung của cộng đồng.',
               },
               {
                 title: 'Nghiên cứu mã nguồn và công nghệ của Polkadot',
                 description:
-                  'Đọc mã nguồn mở là kỹ năng mà TheLowLevelers sẽ cố gắng xây dựng và truyền đạt, điều đó sẽ giúp bạn có thể giải quyết vấn đề cốt lõi.',
+                  'Đọc mã nguồn mở là kỹ năng mà OpenGuild sẽ cố gắng xây dựng và truyền đạt, điều đó sẽ giúp bạn có thể giải quyết vấn đề cốt lõi.',
               },
             ].map((topic) => (
               <div

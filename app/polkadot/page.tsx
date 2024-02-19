@@ -88,7 +88,7 @@ export default function PolkadotMainPage() {
           <div
             key={topic.title}
             style={{ maxWidth: 320, width: '100%', paddingBottom: 20 }}
-            className="mx-2 my-5 overflow-hidden rounded bg-gray-900 shadow-lg"
+            className="mx-2 my-5 overflow-hidden rounded bg-white shadow-lg"
           >
             <div
               style={{
@@ -103,13 +103,16 @@ export default function PolkadotMainPage() {
               <div className="mb-2 text-xl font-bold">{topic.title}</div>
               {topic.released ? (
                 <div style={{ margin: '20px 0px 20px 0px' }}>
-                  <Link href={topic.url} className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2">
+                  <Link
+                    href={topic.url}
+                    className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
+                  >
                     Learn more
                   </Link>
                 </div>
               ) : (
                 <div
-                  className="mt-5 rounded bg-gray-700 px-5 py-2"
+                  className="mt-5 rounded bg-gray-200 px-5 py-2 text-gray-600"
                   style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
                 >
                   Coming Soon
@@ -137,16 +140,18 @@ export default function PolkadotMainPage() {
                 backgroundPosition: '20% 80%',
               }}
             />
-            <h1 className="mb-2 text-4xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
-              <span style={{ marginRight: 5 }}>Low-level developer community</span>
-              <br className="hidden lg:block"></br>
-              for Polkadot ecosystem
+            <h1 className="mb-2 text-4xl font-bold tracking-tighter md:text-7xl lg:text-5xl">
+              An open community driven <br className="hidden lg:block"></br> by Web 3.0 builders
+              elevating Polkadot
             </h1>
             <br></br>
             <p className="mx-auto  text-xl font-normal leading-relaxed text-gray-600 dark:text-gray-300 lg:w-2/3">
-              <span className="font-bold text-primary-500">TheLowLevelers</span> is a non-profit
-              community dedicated to curating and providing materials with a low-level approach for
-              developers interested in the Polkadot blockchain.
+              <span className="font-bold text-primary-500">OpenGuild</span> is a community of Web
+              3.0 builders who contribute to open-source projects, learn, and connect enthusiasts
+              together with a focus on expanding the Polkadot ecosystem.{' '}
+              <a className="text-primary-500" href="/about">
+                Read more
+              </a>
             </p>
           </div>
         </div>
@@ -188,9 +193,9 @@ export default function PolkadotMainPage() {
             {[
               {
                 title: 'Community Handbook',
-                description: 'Find all information about TheLowLevelers community in the handbook',
+                description: 'Find all information about OpenGuild community in the handbook',
                 img: '/static/images/handbook-banner.webp',
-                href: 'https://handbook.lowlevelers.com',
+                href: 'https://handbook.openguild.wtf',
               },
               {
                 title: 'Discussion Forum',
@@ -202,7 +207,7 @@ export default function PolkadotMainPage() {
                 title: 'Members',
                 description: 'Discover talented people in the community',
                 img: '/static/images/member-banner.webp',
-                href: 'http://lowlevelers.com/about',
+                href: 'http://openguild.wtf/about',
               },
             ].map((topic) => (
               <Link
@@ -211,7 +216,7 @@ export default function PolkadotMainPage() {
                 style={{
                   minWidth: 350,
                 }}
-                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
+                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-white shadow-lg"
               >
                 <div
                   style={{
@@ -253,7 +258,7 @@ export default function PolkadotMainPage() {
             ].map((topic) => (
               <div
                 key={topic.title}
-                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
+                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-white shadow-lg"
               >
                 <div
                   style={{
@@ -305,13 +310,13 @@ export default function PolkadotMainPage() {
           />
         </div>
       </div>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      {/* <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Projects built by us
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            List of projects made or contributed by TheLowLevelers
+            List of projects made or contributed by OpenGuild
           </p>
           <Marquee autoFill speed={150}>
             {projectsData.map((d) => (
@@ -325,7 +330,7 @@ export default function PolkadotMainPage() {
             ))}
           </Marquee>
         </div>
-      </div>
+      </div> */}
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
@@ -353,14 +358,14 @@ export default function PolkadotMainPage() {
               {
                 title: 'Polkadot for Vietnamese 🇻🇳',
                 description:
-                  'TheLowLevelers and Polkadot SEA jointly manage a sub-community catering to Vietnamese tech enthusiasts. This initiative provides materials and resources in Vietnamese, fostering a developer-friendly environment for the local tech community.',
+                  'OpenGuild and Polkadot SEA jointly manage a sub-community catering to Vietnamese tech enthusiasts. This initiative provides materials and resources in Vietnamese, fostering a developer-friendly environment for the local tech community.',
                 img: '/static/images/polkadot/polkadot.jpg',
                 url: '/polkadot/vn/',
               },
             ].map((topic) => (
               <div
                 key={topic.title}
-                className="mx-3 my-5 overflow-hidden rounded bg-gray-900 shadow-lg"
+                className="mx-3 my-5 overflow-hidden rounded bg-white shadow-lg"
               >
                 <div
                   style={{
@@ -377,7 +382,7 @@ export default function PolkadotMainPage() {
                   <div style={{ margin: '30px 0px 20px 0px' }}>
                     <Link
                       href={topic.url}
-                      className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2"
+                      className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
                     >
                       Learn more
                     </Link>

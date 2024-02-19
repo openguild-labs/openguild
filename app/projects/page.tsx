@@ -13,7 +13,7 @@ export default function Projects() {
             Projects
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            List of projects made or contributed by TheLowLevelers
+            List of projects made or contributed by OpenGuild
           </p>
         </div>
         <div className="container py-12">

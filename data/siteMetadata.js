@@ -1,11 +1,11 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'The Low Levelers',
+  title: 'OpenGuild',
   author: 'Tin Chung',
-  headerTitle: 'lowlevelers.com',
-  description: 'Programming hub for passionate low-level enthusiasts',
+  headerTitle: 'OpenGuild',
+  description: 'An open community driven by Web 3.0 builders elevating Polkadot',
   expandedDescription:
-    "TheLowLevelers is a non-profit community made by Vietnameses for Vietnamese programmer who are interested in low-level programming. In Vietname, we are taught to approach problems with instant and narrow solutions. And we don't think it is a right way to study. Hence, we design this community on top of the First Principle Thinking mindset to break down the subtlety of complex computer systems in a comprehensive way.",
+    'OpenGuild is a community of Web 3.0 builders who contribute to open-source projects, learn, and connect enthusiasts together with a focus on expanding the Polkadot ecosystem . Starting with the goal of fostering development within the vibrant community of developers and builders in Southeast Asia.',
   blogSectionDescription:
     'Read our latest research & blog posts to learn more about what are we building',
   focusTopics: [
@@ -26,14 +26,14 @@ const siteMetadata = {
     },
   ],
   language: 'en-us',
-  theme: 'dark', // system, dark or light
-  siteUrl: 'https://lowlevelers.com',
-  siteRepo: 'https://github.com/lowlevelers/lowlevelhub.com',
+  theme: 'white', // system, dark or light
+  siteUrl: 'https://openguild.wtf',
+  siteRepo: 'https://github.com/openguild-labs/openguild',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/banner.png',
   // mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'address@yoursite.com',
-  github: 'https://github.com/lowlevelers',
+  github: 'https://github.com/openguild-labs',
   // twitter: 'https://twitter.com/Twitter',
   // facebook: 'https://facebook.com',
   // youtube: 'https://youtube.com',
@@ -72,7 +72,7 @@ const siteMetadata = {
     giscusConfig: {
       // Visit the link below, and follow the steps in the 'configuration' section
       // https://giscus.app/
-      repo: 'lowlevelers/lowlevelers.com' || process.env.NEXT_PUBLIC_GISCUS_REPO,
+      repo: 'openguild-labs/openguild' || process.env.NEXT_PUBLIC_GISCUS_REPO,
       repositoryId: 'R_kgDOKvyTuw' || process.env.NEXT_PUBLIC_GISCUS_REPOSITORY_ID,
       category: 'General' || process.env.NEXT_PUBLIC_GISCUS_CATEGORY,
       categoryId: 'DIC_kwDOKvyTu84CbHL8' || process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID,
@@ -82,7 +82,7 @@ const siteMetadata = {
       metadata: '0',
       // theme example: light, dark, dark_dimmed, dark_high_contrast
       // transparent_dark, preferred_color_scheme, custom
-      theme: 'dark',
+      theme: 'white',
       // theme when dark mode
       darkTheme: 'dark_tritanopia',
       // If the theme option above is set to 'custom`

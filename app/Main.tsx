@@ -115,7 +115,7 @@ export default function Home({ posts }) {
             Experimental Projects
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            List of projects made or contributed by TheLowLevelers
+            List of projects made or contributed by OpenGuild
           </p>
           <Marquee autoFill speed={150}>
             {projectsData.map((d) => (
