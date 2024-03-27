@@ -8,11 +8,11 @@ import { formatDate } from 'pliny/utils/formatDate'
 // import Marquee from 'react-fast-marquee'
 import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
-import Image from 'next/image'
-import { BlogArticleList } from '@/components/BlogArticleList'
-import Marquee from 'react-fast-marquee'
-import Card from '@/components/Card'
-import projectsData from '@/data/projectsData'
+// import Image from 'next/image'
+// import { BlogArticleList } from '@/components/BlogArticleList'
+// import Marquee from 'react-fast-marquee'
+// import Card from '@/components/Card'
+// import projectsData from '@/data/projectsData'
 
 const MAX_DISPLAY = 3
 
@@ -132,12 +132,13 @@ export default function PolkadotMainPage() {
           <div className="mb-2 flex w-full flex-col text-left md:text-center">
             <div
               style={{
-                background: "url('/static/images/landing-image.jpg')",
+                background: "url('/static/images/landing-image.webp')",
                 borderRadius: '10px',
                 marginBottom: 50,
                 height: 300,
                 backgroundSize: 'cover',
-                backgroundPosition: '20% 80%',
+                objectFit: 'cover',
+                backgroundPosition: 'center',
               }}
             />
             <h1 className="mb-2 text-4xl font-bold tracking-tighter md:text-7xl lg:text-5xl">
@@ -159,7 +160,7 @@ export default function PolkadotMainPage() {
       <br />
       <div className="flex items-center justify-center">
         <a
-          href="https://discord.gg/p5f7vTV7mH"
+          href="https://discord.gg/27zpCJDCnx"
           className="flex items-center rounded-lg border border-gray-900 bg-gray-800 px-6 py-2 text-sm font-medium text-white shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"
         >
           <svg
@@ -194,19 +195,19 @@ export default function PolkadotMainPage() {
               {
                 title: 'Community Handbook',
                 description: 'Find all information about OpenGuild community in the handbook',
-                img: '/static/images/handbook-banner.webp',
+                img: '/static/images/community_handbook.jpg',
                 href: 'https://handbook.openguild.wtf',
               },
               {
                 title: 'Discussion Forum',
                 description: 'Learn more from other community members from the discussion forum',
-                img: '/static/images/discussion-forum-banner.webp',
+                img: '/static/images/discussion_forum.jpg',
                 href: 'https://github.com/orgs/openguild-labs/discussions',
               },
               {
                 title: 'Members',
                 description: 'Discover talented people in the community',
-                img: '/static/images/member-banner.webp',
+                img: '/static/images/members.jpg',
                 href: 'http://openguild.wtf/about',
               },
             ].map((topic) => (
@@ -214,7 +215,7 @@ export default function PolkadotMainPage() {
                 href={topic.href}
                 key={topic.title}
                 style={{
-                  minWidth: 350,
+                  minWidth: 300,
                 }}
                 className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-white shadow-lg"
               >
@@ -222,7 +223,7 @@ export default function PolkadotMainPage() {
                   style={{
                     background: `url(${topic.img})`,
                     marginBottom: 5,
-                    height: 120,
+                    height: 170,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
@@ -241,30 +242,35 @@ export default function PolkadotMainPage() {
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             What do we do?
           </h1>
-          <div className="lg:flex lg:justify-evenly">
+          <div className="lg:flex">
             {[
               {
                 title: 'Events',
                 description:
                   'Weekly meetup to share about the technological advancement in the Polkadot ecosystem and establish hackathon for developers to "build to earn" with the community',
-                img: '/static/images/event-banner.jpg',
+                img: '/static/images/events.jpg',
               },
               {
                 title: 'Research & Development',
                 description:
                   'Research the interesting topics of Polkadot blockchain and develop tools for the open-source community',
-                img: '/static/images/r&d-banner.jpg',
+                img: '/static/images/research_and_development.png',
               },
             ].map((topic) => (
-              <div
+              <Link
+                href={'https://handbook.openguild.wtf'}
                 key={topic.title}
-                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-white shadow-lg"
+                style={{
+                  minWidth: 350,
+                  width: '100%',
+                }}
+                className="my-55max-w-lg mx-3 overflow-hidden rounded bg-white pb-2 shadow-lg"
               >
                 <div
                   style={{
                     background: `url(${topic.img})`,
                     marginBottom: 5,
-                    height: 120,
+                    height: 150,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
@@ -273,7 +279,7 @@ export default function PolkadotMainPage() {
                   <div className="mb-2 text-xl font-bold">{topic.title}</div>
                   <p className="text-base text-gray-500">{topic.description}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -17,9 +17,10 @@ export default function Home({ posts }) {
           <div className="mb-2 flex w-full flex-col text-left md:text-center">
             <div
               style={{
-                background: "url('/static/images/landing-image.jpg')",
+                background: "url('/static/images/landing-image.webp')",
                 borderRadius: '10px',
                 marginBottom: 50,
+                objectFit: 'cover',
                 height: 200,
                 backgroundSize: 'cover',
                 backgroundPosition: '20% 80%',

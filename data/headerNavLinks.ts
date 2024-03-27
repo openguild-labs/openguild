@@ -3,7 +3,8 @@ const headerNavLinks = [
   { href: 'https://handbook.openguild.wtf', title: 'Handbook' },
   { href: '/blog', title: 'Blog' },
   { href: '/tags', title: 'Tags' },
-  { href: '/projects', title: 'Projects' },
+  { href: 'https://github.com/openguild-labs', title: 'Github' },
+  { href: 'https://handbook.openguild.wtf/general-information/membership', title: 'Membership' },
   { href: '/about', title: 'About' },
 ]
 
