@@ -29,8 +29,8 @@ At OpenGuild, we cultivate an environment that nurtures the growth of developers
 Join us at OpenGuild and become a part of a dynamic community dedicated to empowering developers and driving innovation within the Polkadot ecosystem.
 
 # 🙌 How to contribute to the community?
-To submit a proposal, ideas, or any questions, please submit them here: [OpenGuild Discussion 💬](https://github.com/orgs/openguild-labs/discussions)
-View tickets and activities that you can contribute: [Community Activities 🖐️](https://github.com/orgs/openguild-labs/discussions/categories/activities)
+To submit a proposal, ideas, or any questions, please submit them here: [OpenGuild Discussion 💬](https://forum.tea.xyz/)
+View tickets and activities that you can contribute: [Community Activities 🖐️](https://forum.tea.xyz/u/ronskie0888/summary)
 
 - **Help to grow the community:** Community growth is a collective effort. By actively engaging with and inviting fellow enthusiasts to join our community, you play a crucial role in expanding our network. Encourage discussions, share valuable insights, and foster a welcoming environment for newcomers. 
 
