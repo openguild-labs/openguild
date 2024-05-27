@@ -8,7 +8,6 @@ import { formatDate } from 'pliny/utils/formatDate'
 // import Marquee from 'react-fast-marquee'
 import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
-import Image from 'next/image'
 import { BlogArticleList } from '@/components/BlogArticleList'
 
 const MAX_DISPLAY = 3
@@ -30,7 +29,7 @@ export default function PolkadotMainPage() {
                 backgroundSize: 'cover',
               }}
             />
-            <h1 className="mb-2 text-4xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
+            <h1 className="mb-2 text-4xl font-bold tracking-tighter text-black md:text-7xl lg:text-5xl">
               <span>Nghiên cứu công nghệ cốt lõi </span>
               <br className="hidden lg:block"></br>
               của mạng blockchain Polkadot
@@ -94,7 +93,7 @@ export default function PolkadotMainPage() {
             ].map((topic) => (
               <div
                 key={topic.title}
-                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
+                className="bg-ưhite-900 mx-3 my-5 max-w-lg overflow-hidden rounded shadow-lg"
               >
                 <div className="px-6 py-4">
                   <div className="mb-2 text-xl font-bold">{topic.title}</div>
@@ -142,7 +141,7 @@ export default function PolkadotMainPage() {
             ].map((topic) => (
               <div
                 key={topic.title}
-                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-gray-900 shadow-lg"
+                className="bg-white-900 mx-3 my-5 max-w-lg overflow-hidden rounded shadow-lg"
               >
                 <div
                   style={{
@@ -167,7 +166,7 @@ export default function PolkadotMainPage() {
                     </div>
                   ) : (
                     <div
-                      className="mt-5 rounded bg-gray-700 px-5 py-2"
+                      className="mt-5 rounded bg-gray-200 px-5 py-2"
                       style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
                     >
                       Coming Soon

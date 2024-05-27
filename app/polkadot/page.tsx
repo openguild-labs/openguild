@@ -1,13 +1,12 @@
+import EventImageGallery from '@/components/EventImageGallery'
 import Link from '@/components/Link'
-import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import { formatDate } from 'pliny/utils/formatDate'
 // import NewsletterForm from 'pliny/ui/NewsletterForm'
 // import projectsData from '@/data/projectsData'
 // import Card from '@/components/Card'
 // import Marquee from 'react-fast-marquee'
 import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
+import Marquee from 'react-fast-marquee'
 // import Image from 'next/image'
 // import { BlogArticleList } from '@/components/BlogArticleList'
 // import Marquee from 'react-fast-marquee'
@@ -71,6 +70,58 @@ export default function PolkadotMainPage() {
     },
   ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
 
+  const workshops = [
+    {
+      title: 'Introduction to Polkadot SDK - Substrate',
+      description: 'Framework to build blockchain with ease.',
+      url: 'https://docs.google.com/presentation/d/111Oc9ugmJW984SjAYhlnD1cX51RpRgt5/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
+      img: '/static/images/polkadot/workshops/workshop-01.png',
+      released: true,
+    },
+    {
+      title: 'Blockchain Builder Tool: Substrate & OpStack',
+      description: `Introducing the similarities and architecture of Substrate and OpStack.`,
+      url: 'https://docs.google.com/presentation/d/1P4KHHwOQqmJDaXz2czjCU-F_mMe_U03xJEJGXlMEF4Y/edit?usp=sharing',
+      img: '/static/images/polkadot/workshops/workshop-02.png',
+      released: true,
+    },
+    {
+      title: 'Building Rust Production-Ready System',
+      description: `Walk through key features of Rust and how it is applied in the real world scalable system`,
+      url: 'https://docs.google.com/presentation/d/13ebc9cS-0CWTCUDC2V1pfuBQR5cXTRj1/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
+      img: '/static/images/polkadot/workshops/workshop-03.png',
+      released: true,
+    },
+    {
+      title: 'In and Out of DePIN on Polkadot',
+      description: `Exploring the in and out of the decentralized physical infrastructure network on Polkadot`,
+      url: 'https://docs.google.com/presentation/d/1PHDHAzBbuMfue1z2XMzpa2sU9YJ1q0zc/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
+      img: '/static/images/polkadot/workshops/workshop-04.png',
+      released: true,
+    },
+    {
+      title: 'Developing Rust Applications',
+      description: `Introducing Rust language ecosystem and technical stack for building applications using Rust`,
+      url: 'https://docs.google.com/presentation/d/1s0jqtgt3DYMfYU7k_gaNOLFR9vMo6rrjJULIak2KdMU/edit?usp=sharing',
+      img: '/static/images/polkadot/workshops/workshop-05.png',
+      released: true,
+    },
+    {
+      title: 'JAM: Demystifying the evolution of Polkadot',
+      description: `Jam introduces a decentralized hybrid system offering smart-contract functionality structured...`,
+      url: 'https://docs.google.com/presentation/d/1g9WSTcpS3M1cM_lSSKdHak0s_dm_LVYB/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
+      img: '/static/images/polkadot/workshops/workshop-06.png',
+      released: true,
+    },
+    {
+      title: 'From Personal Computer to Polkadot Ubiquitous Computing Engine',
+      description: `Introducing history of the computing machine and how the next generation of computation is invented`,
+      url: 'https://docs.google.com/presentation/d/1TaQ1j5FEesoOYh3BKEkfjBwP7yuBexP-/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
+      img: '/static/images/polkadot/workshops/workshop-06.png',
+      released: true,
+    },
+  ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
+
   const ModuleListSection = ({
     modules,
   }: {
@@ -84,47 +135,50 @@ export default function PolkadotMainPage() {
   }) => {
     return (
       <div className="flex-wrap lg:flex lg:justify-evenly">
-        {modules.map((topic) => (
-          <div
-            key={topic.title}
-            style={{ maxWidth: 320, width: '100%', paddingBottom: 20 }}
-            className="mx-2 my-5 overflow-hidden rounded bg-white shadow-lg"
-          >
+        <Marquee>
+          {modules.map((topic) => (
             <div
-              style={{
-                background: `url(${topic.img})`,
-                marginBottom: 20,
-                height: 170,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-            <div className="px-6 py-4">
-              <div className="mb-2 text-xl font-bold">{topic.title}</div>
-              {topic.released ? (
-                <div style={{ margin: '20px 0px 20px 0px' }}>
-                  <Link
-                    href={topic.url}
-                    className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
+              key={topic.title}
+              style={{ maxWidth: 320, width: '100%', paddingBottom: 20 }}
+              className="mx-2 my-5 overflow-hidden rounded bg-white shadow-lg"
+            >
+              <div
+                style={{
+                  background: `url(${topic.img})`,
+                  marginBottom: 20,
+                  height: 170,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+              <div className="px-6 py-4">
+                <div className="mb-2 text-xl font-bold">{topic.title}</div>
+                {topic.released ? (
+                  <div style={{ margin: '20px 0px 20px 0px' }}>
+                    <Link
+                      href={topic.url}
+                      className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
+                    >
+                      Learn more
+                    </Link>
+                  </div>
+                ) : (
+                  <div
+                    className="mt-5 rounded bg-gray-200 px-5 py-2 text-gray-600"
+                    style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
                   >
-                    Learn more
-                  </Link>
-                </div>
-              ) : (
-                <div
-                  className="mt-5 rounded bg-gray-200 px-5 py-2 text-gray-600"
-                  style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
-                >
-                  Coming Soon
-                </div>
-              )}
-              <p className="text-base text-gray-500">{topic.description}</p>
+                    Coming Soon
+                  </div>
+                )}
+                <p className="text-base text-gray-500">{topic.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </Marquee>
       </div>
     )
   }
+
   return (
     <>
       <section className="body-font text-black">
@@ -284,7 +338,7 @@ export default function PolkadotMainPage() {
           </div>
         </div>
       </div>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      {/* <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Start developing on Polkadot
@@ -315,7 +369,7 @@ export default function PolkadotMainPage() {
             ]}
           />
         </div>
-      </div>
+      </div> */}
       {/* <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
@@ -340,20 +394,14 @@ export default function PolkadotMainPage() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Courses made by us
+            Our Past Workshops
           </h1>
-          <ModuleListSection modules={courses} />
+          <ModuleListSection modules={workshops} />
         </div>
       </div>
-      <div className="flex justify-end text-base font-medium leading-6">
-        <Link
-          href="/projects"
-          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-          aria-label="All posts"
-        >
-          All Projects &rarr;
-        </Link>
-      </div>
+
+      {/* <EventImageGallery /> */}
+
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
