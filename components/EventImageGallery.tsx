@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 
-type Props = {}
+type Props = any
 
 const EventImageGallery = (props: Props) => {
   const [images, setImages] = useState([])
