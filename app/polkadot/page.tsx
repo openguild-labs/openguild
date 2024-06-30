@@ -1,22 +1,30 @@
 // import EventImageGallery from '@/components/EventImageGallery'
 import Link from '@/components/Link'
-// import { allBlogs } from 'contentlayer/generated'
-// import { sortPosts } from 'pliny/utils/contentlayer'
+import { allBlogs } from 'contentlayer/generated'
+import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import Marquee from 'react-fast-marquee'
 import React from 'react'
 import FeaturedSectionContainer from '@/components/FeaturedSectionContainer'
+import { BlogArticleList } from '@/components/BlogArticleList'
 
-// const MAX_DISPLAY = 3
+const MAX_DISPLAY = 5
 
 export default function PolkadotMainPage() {
-  // const sortedPosts = sortPosts(allBlogs)
-  // const posts = allCoreContent(sortedPosts)
+  const sortedPosts = sortPosts(allBlogs)
+  const posts = allCoreContent(sortedPosts)
   const courses = [
     {
       title: 'Substrate Course: NFT Blockchain',
       description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
       url: 'https://github.com/openguild-labs/substrate-kitties',
       img: '/static/images/polkadot/workshops/SubstrateKitties.png',
+      released: true,
+    },
+    {
+      title: 'Substrate Course: Nominated Proof of Stake Blockchain',
+      description: `Learn how to configure the nominated proof of stake mechanism to your Substrate-based blockchain`,
+      url: 'https://github.com/openguild-labs/substrate-npos',
+      img: '/static/images/polkadot/workshops/SubstrateNpos.png',
       released: true,
     },
     {
@@ -154,7 +162,11 @@ export default function PolkadotMainPage() {
     ))
     return (
       <div className="flex-wrap lg:flex lg:justify-evenly">
-        {marquee ? <Marquee>{content}</Marquee> : <React.Fragment>{content}</React.Fragment>}
+        {marquee ? (
+          <Marquee autoFill>{content}</Marquee>
+        ) : (
+          <React.Fragment>{content}</React.Fragment>
+        )}
       </div>
     )
   }
@@ -473,7 +485,7 @@ export default function PolkadotMainPage() {
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Learn Polkadot from our Courses
           </h1>
-          <ModuleListSection marquee={false} modules={[...courses]} />
+          <ModuleListSection marquee={true} modules={[...courses]} />
         </div>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -487,6 +499,33 @@ export default function PolkadotMainPage() {
 
       {/* <EventImageGallery /> */}
 
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            Announcement & Latest Blog Posts
+          </h1>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+            Learn technical topics through our blog posts
+          </p>
+        </div>
+        <BlogArticleList
+          posts={posts
+            .filter((post) => post.tags.includes('lang-vn') && post.tags.includes('polkadot'))
+            .slice(0, 5)}
+        />
+      </div>
+      {posts.length > MAX_DISPLAY && (
+        <div className="flex justify-end text-base font-medium leading-6">
+          <Link
+            href="/blog"
+            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+            aria-label="All posts"
+          >
+            All Posts &rarr;
+          </Link>
+        </div>
+      )}
+      {/* 
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
@@ -531,7 +570,7 @@ export default function PolkadotMainPage() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }
