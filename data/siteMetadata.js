@@ -29,8 +29,8 @@ const siteMetadata = {
   theme: 'white', // system, dark or light
   siteUrl: 'https://openguild.wtf',
   siteRepo: 'https://github.com/openguild-labs/openguild',
-  siteLogo: '/static/images/polkadot/jumbotron/OG_new_branding.webp',
-  socialBanner: '/static/images/banner.png',
+  siteLogo: '/static/images/logo.png',
+  socialBanner: '/static/images/polkadot/jumbotron/OG_new_branding.webp',
   // mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'address@yoursite.com',
   github: 'https://github.com/openguild-labs',
