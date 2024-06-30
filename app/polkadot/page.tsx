@@ -1,72 +1,37 @@
-import EventImageGallery from '@/components/EventImageGallery'
+// import EventImageGallery from '@/components/EventImageGallery'
 import Link from '@/components/Link'
-// import NewsletterForm from 'pliny/ui/NewsletterForm'
-// import projectsData from '@/data/projectsData'
-// import Card from '@/components/Card'
-// import Marquee from 'react-fast-marquee'
-import { allBlogs } from 'contentlayer/generated'
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
+// import { allBlogs } from 'contentlayer/generated'
+// import { sortPosts } from 'pliny/utils/contentlayer'
 import Marquee from 'react-fast-marquee'
-// import Image from 'next/image'
-// import { BlogArticleList } from '@/components/BlogArticleList'
-// import Marquee from 'react-fast-marquee'
-// import Card from '@/components/Card'
-// import projectsData from '@/data/projectsData'
+import React from 'react'
+import FeaturedSectionContainer from '@/components/FeaturedSectionContainer'
 
-const MAX_DISPLAY = 3
+// const MAX_DISPLAY = 3
 
 export default function PolkadotMainPage() {
-  const sortedPosts = sortPosts(allBlogs)
-  const posts = allCoreContent(sortedPosts)
+  // const sortedPosts = sortPosts(allBlogs)
+  // const posts = allCoreContent(sortedPosts)
   const courses = [
     {
-      title: 'Rust Practices with Rustlings',
-      description: `Solving Rustlings problems to learn Rust interactively.`,
-      url: '/tags/rust-course-rustlings',
-      img: '/static/images/learn-rust.png',
+      title: 'Substrate Course: NFT Blockchain',
+      description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
+      url: 'https://github.com/openguild-labs/substrate-kitties',
+      img: 'https://private-user-images.githubusercontent.com/56880684/330300274-f38b36bf-8711-4dbd-91b1-90c8aa936847.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTk3MjgwODcsIm5iZiI6MTcxOTcyNzc4NywicGF0aCI6Ii81Njg4MDY4NC8zMzAzMDAyNzQtZjM4YjM2YmYtODcxMS00ZGJkLTkxYjEtOTBjOGFhOTM2ODQ3LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA2MzAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNjMwVDA2MDk0N1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTYwYmJlYzgwM2JmOGNjMzVlOWJkMDY0OTNmNzMwMzUwNmEyOTFmNzM1ZWY0N2Y0ZGUyMjRhMGQ3MGM5ODdjNTkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.EJp1tOeNxcgP5Kcmh6JxsK0aiCeiM8or2NeuUeMC4z0',
       released: true,
     },
     {
-      title: 'Rust Practices for Polkadot Blockchain Academy',
-      description: `Be ready for Polkadot Blockchain Academy by praticing mock Rust qualification exam`,
-      url: '/polkadot/substrate',
-      img: '/static/images/learn-rust.png',
-      released: false,
-    },
-    {
-      title: 'WebAssembly in Rust',
-      description: `Learn WebAssembly concepts and implement a WASM executor in Rust`,
-      url: '/polkadot/substrate',
-      img: '/static/images/learn-rust.png',
-      released: false,
-    },
-    {
-      title: 'Complete Substrate Kitties Course',
-      description: `Learn a complete pallet development with Substrate Kitties`,
-      url: 'https://github.com/openguild-labs/substrate-kitites',
-      img: '/static/images/polkadot/substrate-kitties.png',
+      title: 'Rust Programming Course: OpenRust',
+      description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
+      url: 'https://github.com/openguild-labs/open-rust',
+      img: 'https://private-user-images.githubusercontent.com/56880684/330300921-47b7f8e9-1717-4210-ac5f-e88b67890428.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTk3Mjg2NjUsIm5iZiI6MTcxOTcyODM2NSwicGF0aCI6Ii81Njg4MDY4NC8zMzAzMDA5MjEtNDdiN2Y4ZTktMTcxNy00MjEwLWFjNWYtZTg4YjY3ODkwNDI4LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA2MzAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNjMwVDA2MTkyNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTAyZDBmNzU0MTU4ZTZmZDAyOTdmMWI4YmNmYmQyNDMxYjkyM2UxNjQwNjA4ZWQ4N2UzZDQ1N2M5Zjg5MjRjNzQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.oNqkXaN8xQRNppVZdSXWECM4oEIWWzvhHfq-wOy_jek',
       released: true,
     },
     {
-      title: 'Prepare for PBA: Programming a State Machine in Rust',
+      title: 'Prepare for PBA: Rust State Machine Walkthrough',
       description: `Learn the concept of state machine through Rust hands-on experiment with Polkadot Blockchain Academy exercises`,
-      url: '/polkadot/substrate',
+      url: 'https://youtu.be/EIwDwqxaHN0?si=12YoyL65B1cmBZB8',
       img: '/static/images/polkadot/prepare-for-pba-001.png',
-      released: false,
-    },
-    {
-      title: 'Prepare for PBA: Build a blockchain from scratch',
-      description: `Learn how to write your own blockchain node from scratch using materials from Polkadot Blockchain Academy book`,
-      url: '/polkadot/substrate',
-      img: '/static/images/polkadot/prepare-for-pba-003.png',
-      released: false,
-    },
-    {
-      title: 'Prepare for PBA: Build a Substrate node from scratch',
-      description: `Learn how to write your own Substrate node from scratch`,
-      url: '/polkadot/substrate',
-      img: '/static/images/polkadot/prepare-for-pba-002.png',
-      released: false,
+      released: true,
     },
   ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
 
@@ -82,21 +47,21 @@ export default function PolkadotMainPage() {
       title: 'Blockchain Builder Tool: Substrate & OpStack',
       description: `Introducing the similarities and architecture of Substrate and OpStack.`,
       url: 'https://docs.google.com/presentation/d/1P4KHHwOQqmJDaXz2czjCU-F_mMe_U03xJEJGXlMEF4Y/edit?usp=sharing',
-      img: '/static/images/polkadot/workshops/workshop-02.png',
+      img: '/static/images/polkadot/workshops/workshop-02.webp',
       released: true,
     },
     {
       title: 'Building Rust Production-Ready System',
       description: `Walk through key features of Rust and how it is applied in the real world scalable system`,
       url: 'https://docs.google.com/presentation/d/13ebc9cS-0CWTCUDC2V1pfuBQR5cXTRj1/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/workshop-03.png',
+      img: '/static/images/polkadot/workshops/workshop-03.webp',
       released: true,
     },
     {
       title: 'In and Out of DePIN on Polkadot',
       description: `Exploring the in and out of the decentralized physical infrastructure network on Polkadot`,
       url: 'https://docs.google.com/presentation/d/1PHDHAzBbuMfue1z2XMzpa2sU9YJ1q0zc/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/workshop-04.png',
+      img: '/static/images/polkadot/workshops/Community_Call_4.webp',
       released: true,
     },
     {
@@ -110,20 +75,35 @@ export default function PolkadotMainPage() {
       title: 'JAM: Demystifying the evolution of Polkadot',
       description: `Jam introduces a decentralized hybrid system offering smart-contract functionality structured...`,
       url: 'https://docs.google.com/presentation/d/1g9WSTcpS3M1cM_lSSKdHak0s_dm_LVYB/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/workshop-06.png',
+      img: '/static/images/polkadot/workshops/Community_Call_6.webp',
       released: true,
     },
     {
       title: 'From Personal Computer to Polkadot Ubiquitous Computing Engine',
       description: `Introducing history of the computing machine and how the next generation of computation is invented`,
       url: 'https://docs.google.com/presentation/d/1TaQ1j5FEesoOYh3BKEkfjBwP7yuBexP-/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/workshop-06.png',
+      img: '/static/images/polkadot/workshops/Community_Call_4.2.webp',
+      released: true,
+    },
+    {
+      title: 'Maximizing Polkadot Capabilities with POP network',
+      description: `Introducing about the R0GUE team and their startup story behinds the invention of the POP network`,
+      url: 'https://docs.google.com/presentation/d/1FQkUhO416KiPcMOa4aOfp8iKAoxKJpbACZ6-p315eMo/edit?usp=sharing',
+      img: '/static/images/polkadot/workshops/Community_Call_10.webp',
+      released: true,
+    },
+    {
+      title: 'Getting Started with Polkadot SDK',
+      description: `Introducing the powerful Polkadot SDK for developing a blockchain with speed and security.`,
+      url: 'https://docs.google.com/presentation/d/1qH6SvWcueV2XglbVSiB3abXnBEQS9aE-AkYN4qB1He8/edit?usp=sharing',
+      img: '/static/images/polkadot/workshops/Community_Call_13.webp',
       released: true,
     },
   ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
 
   const ModuleListSection = ({
     modules,
+    marquee,
   }: {
     modules: {
       title: string
@@ -132,49 +112,49 @@ export default function PolkadotMainPage() {
       img: string
       released: boolean
     }[]
+    marquee: boolean
   }) => {
+    const content = modules.map((topic) => (
+      <div
+        key={topic.title}
+        style={{ maxWidth: 320, width: '100%', paddingBottom: 20 }}
+        className="mx-2 my-5 overflow-hidden rounded bg-white shadow-lg"
+      >
+        <div
+          style={{
+            background: `url(${topic.img})`,
+            marginBottom: 20,
+            height: 170,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <div className="px-6 py-4">
+          <div className="mb-2 text-xl font-bold">{topic.title}</div>
+          {topic.released ? (
+            <div style={{ margin: '20px 0px 20px 0px' }}>
+              <Link
+                href={topic.url}
+                className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
+              >
+                Learn more
+              </Link>
+            </div>
+          ) : (
+            <div
+              className="mt-5 rounded bg-gray-200 px-5 py-2 text-gray-600"
+              style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
+            >
+              Coming Soon
+            </div>
+          )}
+          <p className="text-base text-gray-500">{topic.description}</p>
+        </div>
+      </div>
+    ))
     return (
       <div className="flex-wrap lg:flex lg:justify-evenly">
-        <Marquee>
-          {modules.map((topic) => (
-            <div
-              key={topic.title}
-              style={{ maxWidth: 320, width: '100%', paddingBottom: 20 }}
-              className="mx-2 my-5 overflow-hidden rounded bg-white shadow-lg"
-            >
-              <div
-                style={{
-                  background: `url(${topic.img})`,
-                  marginBottom: 20,
-                  height: 170,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
-              <div className="px-6 py-4">
-                <div className="mb-2 text-xl font-bold">{topic.title}</div>
-                {topic.released ? (
-                  <div style={{ margin: '20px 0px 20px 0px' }}>
-                    <Link
-                      href={topic.url}
-                      className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
-                    >
-                      Learn more
-                    </Link>
-                  </div>
-                ) : (
-                  <div
-                    className="mt-5 rounded bg-gray-200 px-5 py-2 text-gray-600"
-                    style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
-                  >
-                    Coming Soon
-                  </div>
-                )}
-                <p className="text-base text-gray-500">{topic.description}</p>
-              </div>
-            </div>
-          ))}
-        </Marquee>
+        {marquee ? <Marquee>{content}</Marquee> : <React.Fragment>{content}</React.Fragment>}
       </div>
     )
   }
@@ -182,15 +162,18 @@ export default function PolkadotMainPage() {
   return (
     <>
       <section className="body-font text-black">
-        <div className="container mx-auto px-5 pt-32 lg:px-4 lg:py-4">
+        <div className="container mx-auto px-1 pt-20 lg:px-1 lg:py-1">
           <div className="mb-2 flex w-full flex-col text-left md:text-center">
             <div
               style={{
-                background: "url('/static/images/landing-image.webp')",
+                background: "url('/static/images/polkadot/jumbotron/OG_new_branding.webp')",
                 borderRadius: '10px',
                 marginBottom: 50,
                 height: 300,
-                backgroundSize: 'cover',
+                rotate: '-1.5deg',
+                width: '100%',
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
                 objectFit: 'cover',
                 backgroundPosition: 'center',
               }}
@@ -237,7 +220,168 @@ export default function PolkadotMainPage() {
           <span>Join our Discord for active engagement</span>
         </a>
       </div>
+      <div className="mt-3 flex items-center justify-center">
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <div className="mx-auto my-2 w-full lg:mx-1 lg:w-fit">
+            <a
+              href="https://github.com/openguild-labs"
+              className="flex items-center rounded-lg border border-gray-900 bg-gray-800 px-6 py-2 text-sm font-medium text-white shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"
+            >
+              <img width={20} style={{ marginRight: 15 }} src="/static/images/github-icon.png" />
+              <span>Visit OpenGuild Labs</span>
+            </a>
+          </div>
+          <div className="mx-auto my-2 w-full lg:mx-1 lg:w-fit">
+            <a
+              href="https://www.facebook.com/search/groups/?q=OpenGuild"
+              className="flex items-center rounded-lg border border-gray-900 bg-gray-800 px-6 py-2 text-sm font-medium text-white shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20"
+                viewBox="-204.79995 -41.33325 2074.9329 1647.9995"
+              >
+                <path
+                  d="M1365.333 682.667C1365.333 305.64 1059.693 0 682.667 0 305.64 0 0 305.64 0 682.667c0 340.738 249.641 623.16 576 674.373V880H402.667V682.667H576v-150.4c0-171.094 101.917-265.6 257.853-265.6 74.69 0 152.814 13.333 152.814 13.333v168h-86.083c-84.804 0-111.25 52.623-111.25 106.61v128.057h189.333L948.4 880H789.333v477.04c326.359-51.213 576-333.635 576-674.373"
+                  fill="#1877f2"
+                />
+                <path
+                  d="M948.4 880l30.267-197.333H789.333V554.609C789.333 500.623 815.78 448 900.584 448h86.083V280s-78.124-13.333-152.814-13.333c-155.936 0-257.853 94.506-257.853 265.6v150.4H402.667V880H576v477.04a687.805 687.805 0 00106.667 8.293c36.288 0 71.91-2.84 106.666-8.293V880H948.4"
+                  fill="#fff"
+                />
+              </svg>
+              <span>Facebook Communities</span>
+            </a>
+          </div>
+          <div className="mx-auto my-2 w-full lg:mx-1 lg:w-fit">
+            <a
+              href="https://x.com/openguildwtf/"
+              className="flex items-center rounded-lg border border-gray-900 bg-gray-800 px-6 py-2 text-sm font-medium text-white shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"
+            >
+              <img width={20} style={{ marginRight: 15 }} src="/static/images/x-icon.png" />
+              <span>Follow us on X</span>
+            </a>
+          </div>
+        </div>
+      </div>
       <br />
+      <Marquee autoFill style={{ overflow: 'hidden', marginTop: 10 }}>
+        <div style={{ display: 'flex' }}>
+          {[
+            '🔥 chasechung',
+            '🤡 cris.999',
+            'ippo3496 😀',
+            'anhanh22 😃',
+            'phamhuynhanhcn20a 😄',
+            'trongdth 😁',
+            'leopham4259 😆',
+            'danielbui12 😅',
+            'hson91 😂',
+            'cris.999 🤣',
+            'danghoanglam 😊',
+            'duonghb53 😇',
+            'phamanhtan 🙂',
+            'zrus 🙃',
+            'violet_058 😉',
+            'minhngoc169 😍',
+            '.taivisao 😘',
+            'synguyen2001 😗',
+            'rich_6721 😙',
+            'nozhoang 😚',
+            'mintduck_. 😋',
+            'polkapat 😛',
+            'quantroy19 😜',
+            'wa7n3 🤪',
+            'congnghiakhiem 😝',
+            'longphu 🤑',
+            'tanhdam 🤗',
+            'tieuyang 🤓',
+            'mkhoaa 😎',
+            'truongnguyenp 🤡',
+            'caothien7881 🤠',
+            'elenuxui 😏',
+            'oliv.sund 😶',
+            'shelvenzhou 😐',
+            'h4x3rotab 😑',
+            'arice.whynot 😒',
+            'maryxoxf 🙄',
+            'itsmia_225 😬',
+            'zoey14121 🤥',
+            'tranhuuhuy297 😌',
+            'aseiphiroa 😔',
+            'chris.casini 😪',
+            'go123 😴',
+            'langdon0003 😷',
+            'spectre_harsh07 🤒',
+            'katafo 🤕',
+            'linh085890 🤑',
+            'jingi0703 🤠',
+            'sanhey 🤡',
+            'synaeasthesia 😎',
+            'samevans_1 🤓',
+            'norencityx 🤗',
+            'tiennguyen 🤔',
+            'marciochen 😳',
+            'nguyetne_ 😵',
+            'duychamhoc 😟',
+            'name_unknow 😞',
+            'hqphuoc 😕',
+            'dvdplassie 😖',
+            'leomarlo 😣',
+            'hiamthach 😢',
+            'crishuntervn 😭',
+            'ngtantai1001 😡',
+            'tpn281 😠',
+            'near9363 😤',
+            'mingnhan 🤬',
+            'thanhvuong1105 😱',
+            'lotus06695 😨',
+            'mysgmers5230 😰',
+            'tranquanghai9141 😥',
+            'huongcin 😓',
+            'hoang4411 😩',
+            'wise_armadillo_03305 🤯',
+            'andyd5949 😬',
+            'tranngocdang1088 😦',
+            'tiger9644 😧',
+            'thaiha7066 😨',
+            'lutinkhang 😩',
+            'haing99 😬',
+            'tyler.eth6923 😓',
+            'phivu. 😢',
+            'bacxiukk 😭',
+            'luanvg 😡',
+            'lamthuy1904_20183 😠',
+            'bigtava 😤',
+            'tung1102 🤬',
+            'luuducdung 😱',
+            'giahuy00755 😨',
+            'tina_lt 😰',
+            'thailosoquit17 😥',
+            'cyyn312_34568 😓',
+            'tracycbis 😩',
+            '0xbcmarin 🤯',
+            'sammydang 😦',
+            'mr.will0713 😧',
+            'ceomilliontv 😨',
+            'caoquoc10 😩',
+            'verabc 😬',
+            'no_c1ip 😓',
+            'onniti. 😢',
+          ].map((item, index) => (
+            <h3
+              style={{
+                backgroundColor: 'white',
+                fontWeight: 'bold',
+                margin: '0px 10px',
+                rotate: index % 2 === 1 ? '4deg' : '-5deg',
+              }}
+            >
+              {item}
+            </h3>
+          ))}
+        </div>
+      </Marquee>
       <br />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
@@ -294,109 +438,48 @@ export default function PolkadotMainPage() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            What do we do?
+            Watch our latest videos
           </h1>
-          <div className="lg:flex">
+          <div className="flex-wrap lg:flex" style={{ justifyContent: 'space-evenly' }}>
             {[
-              {
-                title: 'Events',
-                description:
-                  'Weekly meetup to share about the technological advancement in the Polkadot ecosystem and establish hackathon for developers to "build to earn" with the community',
-                img: '/static/images/events.jpg',
-              },
-              {
-                title: 'Research & Development',
-                description:
-                  'Research the interesting topics of Polkadot blockchain and develop tools for the open-source community',
-                img: '/static/images/research_and_development.png',
-              },
-            ].map((topic) => (
-              <Link
-                href={'https://handbook.openguild.wtf'}
-                key={topic.title}
-                style={{
-                  minWidth: 350,
-                  width: '100%',
-                }}
-                className="my-55max-w-lg mx-3 overflow-hidden rounded bg-white pb-2 shadow-lg"
-              >
-                <div
-                  style={{
-                    background: `url(${topic.img})`,
-                    marginBottom: 5,
-                    height: 150,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
-                <div className="px-6 py-4">
-                  <div className="mb-2 text-xl font-bold">{topic.title}</div>
-                  <p className="text-base text-gray-500">{topic.description}</p>
-                </div>
-              </Link>
+              { url: 'https://www.youtube.com/embed/rT2ydAarNG8?si=SKBa4t5hMRQp7kX_' },
+              { url: 'https://www.youtube.com/embed/-GLRrdwtoqg?si=DNLPMGlDRfWdm36q' },
+              { url: 'https://www.youtube.com/embed/L4tBpW5u8WM?si=bd71NzfrJ9D0Y3bx' },
+            ].map((video) => (
+              <iframe
+                width="100%"
+                height="300px"
+                style={{ borderRadius: 10, margin: '5px', maxWidth: 550 }}
+                src={video.url}
+                title="YouTube video player"
+                allowFullScreen
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+              ></iframe>
             ))}
           </div>
         </div>
       </div>
-      {/* <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <FeaturedSectionContainer />
+        </div>
+      </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Start developing on Polkadot
+            Learn Polkadot from our Courses
           </h1>
-          <ModuleListSection
-            modules={[
-              {
-                title: 'Substrate',
-                description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
-                url: '/polkadot/substrate',
-                img: '/static/images/substrate_banner.png',
-                released: true,
-              },
-              {
-                title: 'Polkadot Network',
-                description: `Implementation of a node for the Polkadot Network using Substrate framework`,
-                url: '/polkadot/polkadot-network',
-                img: '/static/images/polkadot_network_banner.png',
-                released: false,
-              },
-              {
-                title: 'Cumulus',
-                description: `Cumulus is a set of tools for writing Substrate-based Polkadot parachains.`,
-                url: '/polkadot/cumulus',
-                img: '/static/images/cumulus_banner.png',
-                released: false,
-              },
-            ]}
-          />
+          <ModuleListSection marquee={false} modules={[...courses]} />
         </div>
-      </div> */}
-      {/* <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Projects built by us
-          </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            List of projects made or contributed by OpenGuild
-          </p>
-          <Marquee autoFill speed={150}>
-            {projectsData.map((d) => (
-              <Card
-                key={d.title}
-                title={d.title}
-                description={d.description}
-                imgSrc={d.imgSrc}
-                href={d.href}
-              />
-            ))}
-          </Marquee>
-        </div>
-      </div> */}
+      </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Our Past Workshops
           </h1>
-          <ModuleListSection modules={workshops} />
+          <ModuleListSection marquee={false} modules={workshops} />
         </div>
       </div>
 
