@@ -16,14 +16,14 @@ export default function PolkadotMainPage() {
       title: 'Substrate Course: NFT Blockchain',
       description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
       url: 'https://github.com/openguild-labs/substrate-kitties',
-      img: 'https://private-user-images.githubusercontent.com/56880684/330300274-f38b36bf-8711-4dbd-91b1-90c8aa936847.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTk3MjgwODcsIm5iZiI6MTcxOTcyNzc4NywicGF0aCI6Ii81Njg4MDY4NC8zMzAzMDAyNzQtZjM4YjM2YmYtODcxMS00ZGJkLTkxYjEtOTBjOGFhOTM2ODQ3LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA2MzAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNjMwVDA2MDk0N1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTYwYmJlYzgwM2JmOGNjMzVlOWJkMDY0OTNmNzMwMzUwNmEyOTFmNzM1ZWY0N2Y0ZGUyMjRhMGQ3MGM5ODdjNTkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.EJp1tOeNxcgP5Kcmh6JxsK0aiCeiM8or2NeuUeMC4z0',
+      img: '/static/images/polkadot/workshops/SubstrateKitties.png',
       released: true,
     },
     {
       title: 'Rust Programming Course: OpenRust',
       description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
       url: 'https://github.com/openguild-labs/open-rust',
-      img: 'https://private-user-images.githubusercontent.com/56880684/330300921-47b7f8e9-1717-4210-ac5f-e88b67890428.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTk3Mjg2NjUsIm5iZiI6MTcxOTcyODM2NSwicGF0aCI6Ii81Njg4MDY4NC8zMzAzMDA5MjEtNDdiN2Y4ZTktMTcxNy00MjEwLWFjNWYtZTg4YjY3ODkwNDI4LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA2MzAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNjMwVDA2MTkyNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTAyZDBmNzU0MTU4ZTZmZDAyOTdmMWI4YmNmYmQyNDMxYjkyM2UxNjQwNjA4ZWQ4N2UzZDQ1N2M5Zjg5MjRjNzQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.oNqkXaN8xQRNppVZdSXWECM4oEIWWzvhHfq-wOy_jek',
+      img: '/static/images/polkadot/workshops/OpenRust.png',
       released: true,
     },
     {
