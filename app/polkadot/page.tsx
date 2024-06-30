@@ -370,6 +370,7 @@ export default function PolkadotMainPage() {
             'onniti. 😢',
           ].map((item, index) => (
             <h3
+              key={item}
               style={{
                 backgroundColor: 'white',
                 fontWeight: 'bold',
@@ -447,6 +448,7 @@ export default function PolkadotMainPage() {
               { url: 'https://www.youtube.com/embed/L4tBpW5u8WM?si=bd71NzfrJ9D0Y3bx' },
             ].map((video) => (
               <iframe
+                key={video.url}
                 width="100%"
                 height="300px"
                 style={{ borderRadius: 10, margin: '5px', maxWidth: 550 }}
