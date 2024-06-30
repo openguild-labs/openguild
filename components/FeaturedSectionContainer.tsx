@@ -24,6 +24,7 @@ export default function FeaturedSectionContainer() {
             <img
               src="/static/images/polkadot/jumbotron/hackathon.png"
               loading="lazy"
+              alt="Hackathon"
               className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
             />
             <div className="relative mb-3 ml-4 inline-block bg-white p-4 text-sm md:ml-5 md:text-lg">
@@ -37,6 +38,7 @@ export default function FeaturedSectionContainer() {
             <img
               src="/static/images/polkadot/jumbotron/OG_tech.jpeg"
               loading="lazy"
+              alt="Open-source Development"
               className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
             />
 
@@ -52,7 +54,7 @@ export default function FeaturedSectionContainer() {
           >
             <img
               src="/static/images/polkadot/jumbotron/OG_event.jpeg"
-              alt="Photo by Martin Sanchez"
+              alt="Community Events"
               className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
             />
 
@@ -69,6 +71,7 @@ export default function FeaturedSectionContainer() {
             <img
               src="/static/images/polkadot/jumbotron/OG_networking.jpeg"
               loading="lazy"
+              alt="Networking"
               className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
             />
 
