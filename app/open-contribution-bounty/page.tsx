@@ -21,7 +21,7 @@ export default function Page() {
           className="space-y-2 pb-8 pt-6 md:space-y-5"
         >
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            About Us
+            🔥 Open Contribution Bounty
           </h1>
           <p>
             OpenGuild is a builder-driven community centered around Polkadot. OpenGuild is built by

@@ -109,9 +109,28 @@ export default function PolkadotMainPage() {
     },
   ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
 
+  const researchArticles = [
+    {
+      title: 'Relaychain Hybrid Consensus',
+      description:
+        'Learning about hybrid consensus in Relaychain and why it is important to the Polkadot protocol?',
+      url: 'https://x.com/openguildwtf/status/1809203505649037391',
+      img: '/static/images/polkadot/articles/research-article-1.jpeg',
+      released: true,
+    },
+    {
+      title: 'Breakdown the sharded network design of Polkadot',
+      description: `we will discover deeper into how Polkadot is designed to be a fragmented network, or we can say a multi-chain, multi-sharded network as well.`,
+      url: 'https://x.com/chungquantin/status/1809864276850704882',
+      img: '/static/images/polkadot/articles/research-article-2.jpg',
+      released: true,
+    },
+  ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
+
   const ModuleListSection = ({
     modules,
     marquee,
+    cardStyle,
   }: {
     modules: {
       title: string
@@ -121,11 +140,12 @@ export default function PolkadotMainPage() {
       released: boolean
     }[]
     marquee: boolean
+    cardStyle?: React.CSSProperties
   }) => {
     const content = modules.map((topic) => (
       <div
         key={topic.title}
-        style={{ maxWidth: 320, width: '100%', paddingBottom: 20 }}
+        style={{ maxWidth: 320, width: '100%', paddingBottom: 20, ...cardStyle }}
         className="mx-2 my-5 overflow-hidden rounded bg-white shadow-lg"
       >
         <div
@@ -199,9 +219,6 @@ export default function PolkadotMainPage() {
               <span className="font-bold text-primary-500">OpenGuild</span> is a community of Web
               3.0 builders who contribute to open-source projects, learn, and connect enthusiasts
               together with a focus on expanding the Polkadot ecosystem.{' '}
-              <a className="text-primary-500" href="/about">
-                Read more
-              </a>
             </p>
           </div>
         </div>
@@ -494,6 +511,18 @@ export default function PolkadotMainPage() {
             Our Past Workshops
           </h1>
           <ModuleListSection marquee={false} modules={workshops} />
+        </div>
+      </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            Research Articles
+          </h1>
+          <ModuleListSection
+            cardStyle={{ maxWidth: 500 }}
+            marquee={false}
+            modules={researchArticles}
+          />
         </div>
       </div>
 

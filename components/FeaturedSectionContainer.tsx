@@ -22,13 +22,16 @@ export default function FeaturedSectionContainer() {
             className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80"
           >
             <img
-              src="/static/images/polkadot/jumbotron/hackathon.png"
+              src="/static/images/polkadot/jumbotron/OG_ranking_system.png"
               loading="lazy"
               alt="Hackathon"
               className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
             />
-            <div className="relative mb-3 ml-4 inline-block bg-white p-4 text-sm md:ml-5 md:text-lg">
-              <span className="font-bold">Hackathons</span>
+            <div
+              style={{ borderRadius: 10 }}
+              className="relative mb-3 ml-4 inline-block bg-white p-2 px-4 text-sm md:ml-5 md:text-lg"
+            >
+              <span className="font-bold">💪 Membership</span>
             </div>
           </a>
           <a
@@ -36,7 +39,7 @@ export default function FeaturedSectionContainer() {
             className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80"
           >
             <img
-              src="/static/images/polkadot/jumbotron/OG_tech.jpeg"
+              src="/static/images/polkadot/jumbotron/OG_bounty.png"
               loading="lazy"
               alt="Open-source Development"
               className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
@@ -44,8 +47,11 @@ export default function FeaturedSectionContainer() {
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
 
-            <div className="border-rounded relative mb-3 ml-4 inline-block bg-white p-4 text-sm md:ml-5 md:text-lg">
-              <span className="font-bold">Open-source Development</span>
+            <div
+              style={{ borderRadius: 10 }}
+              className="relative mb-3 ml-4 inline-block bg-white p-2 px-4 text-sm md:ml-5 md:text-lg"
+            >
+              <span className="font-bold">💰 Reward, Bounty & Merchandise</span>
             </div>
           </a>
           <a
@@ -60,8 +66,11 @@ export default function FeaturedSectionContainer() {
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
 
-            <div className="border-rounded relative mb-3 ml-4 inline-block bg-white p-4 text-sm md:ml-5 md:text-lg">
-              <span className="font-bold">Community Events</span>
+            <div
+              style={{ borderRadius: 10 }}
+              className="relative mb-3 ml-4 inline-block bg-white p-2 px-4 text-sm md:ml-5 md:text-lg"
+            >
+              <span className="font-bold">🦄 Community Events</span>
             </div>
           </a>
           <a
@@ -77,8 +86,48 @@ export default function FeaturedSectionContainer() {
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
 
-            <div className="border-rounded relative mb-3 ml-4 inline-block bg-white p-4 text-sm md:ml-5 md:text-lg">
-              <span className="font-bold">Networking</span>
+            <div
+              style={{ borderRadius: 10 }}
+              className="relative mb-3 ml-4 inline-block bg-white p-2 px-4 text-sm md:ml-5 md:text-lg"
+            >
+              <span className="font-bold">🤝 Networking</span>
+            </div>
+          </a>
+          <a
+            href="https://handbook.openguild.wtf/hackathon-projects-and-events/hackathon/hackathon-general-information"
+            className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80"
+          >
+            <img
+              src="/static/images/polkadot/jumbotron/hackathon.png"
+              loading="lazy"
+              alt="Hackathon"
+              className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
+            />
+            <div
+              style={{ borderRadius: 10 }}
+              className="relative mb-3 ml-4 inline-block bg-white p-2 px-4 text-sm md:ml-5 md:text-lg"
+            >
+              <span className="font-bold">🏁 Hackathons</span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/openguild-labs"
+            className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80"
+          >
+            <img
+              src="/static/images/polkadot/jumbotron/OG_tech.jpeg"
+              loading="lazy"
+              alt="Open-source Development"
+              className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
+            />
+
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
+
+            <div
+              style={{ borderRadius: 10 }}
+              className="relative mb-3 ml-4 inline-block bg-white p-2 px-4 text-sm md:ml-5 md:text-lg"
+            >
+              <span className="font-bold">👨‍💻 Open-source Development</span>
             </div>
           </a>
         </div>
