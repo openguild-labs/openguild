@@ -23,13 +23,13 @@ _Cấp độ_: Intermediate
 
 # Code Breakdown: Template for FRAME Pallet
 
-Lý thuyết có vẻ sẽ khó giúp bạn hình dung được ứng dụng của Pallet trong Substrate, nên tốt nhất chúng ta sẽ tiếp cận trực tiếp từ code nhé. Khi clone repo `substrate-node-template` về bạn sẽ thấy có sẵn một folder là [`pallet/template`](https://github.com/substrate-developer-hub/substrate-node-template/tree/main/pallets/template) chứa code mẫu cho pallet. Trong đó có 2 file quan trọng mà bạn cần chú ý là `lib.rs` và `weights.rs`. Mục đích của `lib.rs` chứa các logic và cấu hình chính của pallet trong khi đó `weights.rs` định nghĩa thông tin về Weight của pallet. Bạn có thể tìm hiểu thêm về Weight tại đây: [Khái niệm về Transaction Fee và Weight](https://openguild.wtf/blog/polkadot/vn/polkadot-guide-transaction-fee-weights)
+Lý thuyết có vẻ sẽ khó giúp bạn hình dung được ứng dụng của Pallet trong Substrate, nên tốt nhất chúng ta sẽ tiếp cận trực tiếp từ code nhé. Khi clone repo `substrate-node-template` về bạn sẽ thấy có sẵn một folder là [`pallet/template`](https://github.com/substrate-developer-hub/substrate-node-template/tree/main/pallets/template) chứa code mẫu cho pallet. Trong đó có 2 file quan trọng mà bạn cần chú ý là `lib.rs` và `weights.rs`. Mục đích của `lib.rs` chứa các logic và cấu hình chính của pallet trong khi đó `weights.rs` định nghĩa thông tin về Weight của pallet. Bạn có thể tìm hiểu thêm về Weight tại đây: [Khái niệm về Transaction Fee và Weight](https://openguild.wtf/blog/polkadot/polkadot-guide-transaction-fee-weights)
 
 ## Bài viết liên quan
 
 - [Substrate Tutorial - Add a pallet](https://docs.substrate.io/tutorials/build-application-logic/add-a-pallet/)
 - [Substrate Official Documentation - FRAME palelts](https://docs.substrate.io/reference/frame-pallets/)
-- [Polkadot Guide: Pallet là gì?](https://openguild.wtf/blog/polkadot/vn/polkadot-guide-pallet-la-gi)
+- [Polkadot Guide: Pallet là gì?](https://openguild.wtf/blog/polkadot/polkadot-guide-pallet-la-gi)
 
 ## Phân tích code mẫu cho Pallet
 
@@ -174,7 +174,7 @@ Và macro quan trọng cuối cùng bên trong code mẫu là `pallet::call`, n�
 
 Ví dụ mẫu code dưới đây khai báo 2 hàm thức là `do_something` và `cause_error`. Các hàm thức có thể được thực thi cho phép người dùng tương tác với các pallets và thực hiện việc thay đổi trạng thái của blockchain. Chuẩn code của các hàm thức phải theo đúng cú pháp:
 
-> Hàm thức phải được khai báo weight với `pallet::weight` và phải trả về DispatchResult. Tìm hiểu thêm về weight tại đây [Khái niệm về Transaction Fee và Weight](https://openguild.wtf/blog/polkadot/vn/polkadot-guide-transaction-fee-weights)
+> Hàm thức phải được khai báo weight với `pallet::weight` và phải trả về DispatchResult. Tìm hiểu thêm về weight tại đây [Khái niệm về Transaction Fee và Weight](https://openguild.wtf/blog/polkadot/polkadot-guide-transaction-fee-weights)
 
 ```rust
 #[pallet::call]
