@@ -35,7 +35,7 @@ export default function FeaturedSectionContainer() {
             </div>
           </a>
           <a
-            href="https://github.com/openguild-labs"
+            href="/bounty"
             className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80"
           >
             <img
