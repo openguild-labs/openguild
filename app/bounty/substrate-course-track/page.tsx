@@ -39,12 +39,12 @@ export default function Page() {
           </h1>
           <ul className="rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
             {[
-              <span>
+              <span key={'item-1'}>
                 Submit the track number and your action plan with the expected delivery date in{' '}
                 <a className="bg-purple-100 font-bold">Substrate Course Track - Application Form</a>
               </span>,
               'Weekly report needs to be submitted on Discord on Saturday everyweek (4 reports in total)',
-              <span>
+              <span key={'item-3'}>
                 <b>⏰ Duration</b>: <span className="bg-purple-100 font-bold">1 MONTH</span>
               </span>,
             ].map((item, index) => (
@@ -99,36 +99,36 @@ export default function Page() {
           </p>
           <ul className="rounded-lg border border-gray-200 bg-white pr-5 text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
             {[
-              <span>
+              <span key={'item-1'}>
                 <b className="text-purple-700">Criteria 1:</b> Clear description & purpose of the
                 Substrate Course. Your deliverable must be unique at the time of creation and does
                 not exist on the market.
               </span>,
-              <span>
+              <span key={'item-2'}>
                 <b className="text-purple-700">Criteria 2:</b> Detailed explanation on the code
                 implementation
               </span>,
-              <span>
+              <span key={'item-3'}>
                 <b className="text-purple-700">Criteria 3:</b> Table of contents is required
               </span>,
-              <span>
+              <span key={'item-4'}>
                 <b className="text-purple-700">Criteria 4:</b> Development stages must be broken
                 down into small steps (similar to the below). Each step contains the code
                 implementation for that specific step. Consider using
                 https://github.com/gitorial-sdk/cli to generate the tutorials using Git. Example:
                 https://github.com/shawntabrizi/rust-state-machine
               </span>,
-              <span>
+              <span key={'item-5'}>
                 <b className="text-purple-700">Criteria 5:</b> Your content should be
                 well-structured, readable, and easy to follow. It should include clear explanations
                 for all code snippets and diagrams.
               </span>,
-              <span>
+              <span key={'item-6'}>
                 <b className="text-purple-700">Criteria 6:</b> The course should include practical
                 examples or real-world scenarios to help learners understand how to apply the
                 concepts.
               </span>,
-              <span>
+              <span key={'item-7'}>
                 <b className="text-purple-700">Criteria 7:</b> It should be open source by default
                 (forever) as a public good, promoted by the documentation bounty of OpenGuild and
                 the author.
