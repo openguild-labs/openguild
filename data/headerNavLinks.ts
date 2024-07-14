@@ -1,11 +1,10 @@
 const headerNavLinks = [
-  { href: '/', title: 'Home' },
-  { href: 'https://handbook.openguild.wtf', title: 'Handbook' },
-  { href: '/blog', title: 'Blog' },
-  { href: '/tags', title: 'Tags' },
-  { href: 'https://github.com/openguild-labs', title: 'Github' },
-  { href: 'https://handbook.openguild.wtf/general-information/membership', title: 'Membership' },
-  { href: '/about', title: 'About' },
+  { href: '/learn', title: 'Learn' },
+  { href: '/activity', title: 'Activity' },
+  { href: '/events', title: 'Events' },
+  { href: '/blogs', title: 'Blogs' },
+  { href: '/members', title: 'Members' },
+  { href: '/bounty', title: 'Bounties' },
 ]
 
 export default headerNavLinks

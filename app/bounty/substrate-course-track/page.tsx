@@ -47,12 +47,15 @@ export default function Page() {
               <span>
                 <b>⏰ Duration</b>: <span className="bg-purple-100 font-bold">1 MONTH</span>
               </span>,
-            ].map((item) => (
-              <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+            ].map((item, index) => (
+              <li
+                key={`${item}-${index}`}
+                className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+              >
                 <div className="flex items-center ps-3">
-                  <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                     {item}
-                  </label>
+                  </div>
                 </div>
               </li>
             ))}
@@ -67,17 +70,20 @@ export default function Page() {
               'Submit your action plan and describe your approaches in a clear way',
               'Has a background in software development or blockchain technology',
               'Proof of commitment to deliver the solution in time',
-            ].map((item) => (
-              <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+            ].map((item, index) => (
+              <li
+                key={`qualification-${index}`}
+                className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+              >
                 <div className="flex items-center ps-3">
                   <input
                     checked
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300 bg-purple-700 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
                   />
-                  <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                     {item}
-                  </label>
+                  </div>
                 </div>
               </li>
             ))}
@@ -127,12 +133,15 @@ export default function Page() {
                 (forever) as a public good, promoted by the documentation bounty of OpenGuild and
                 the author.
               </span>,
-            ].map((item) => (
-              <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+            ].map((item, index) => (
+              <li
+                key={`guideline-${index}`}
+                className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+              >
                 <div className="flex items-center ps-3">
-                  <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                     {item}
-                  </label>
+                  </div>
                 </div>
               </li>
             ))}

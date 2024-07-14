@@ -6,190 +6,15 @@ import Marquee from 'react-fast-marquee'
 import React from 'react'
 import FeaturedSectionContainer from '@/components/FeaturedSectionContainer'
 import { BlogArticleList } from '@/components/BlogArticleList'
+import MembersShowcaseList from '@/components/MembersShowcaseList'
+import { courses, researchArticles, workshops } from 'app/constants'
+import { ModuleListSection } from '@/components/ModuleListContainer'
 
 const MAX_DISPLAY = 5
 
 export default function PolkadotMainPage() {
   const sortedPosts = sortPosts(allBlogs)
   const posts = allCoreContent(sortedPosts)
-  const courses = [
-    {
-      title: 'Substrate Course: NFT Blockchain',
-      description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
-      url: 'https://github.com/openguild-labs/substrate-kitties',
-      img: '/static/images/polkadot/workshops/SubstrateKitties.png',
-      released: true,
-    },
-    {
-      title: 'Substrate Course: Nominated Proof of Stake Blockchain',
-      description: `Learn how to configure the nominated proof of stake mechanism to your Substrate-based blockchain`,
-      url: 'https://github.com/openguild-labs/substrate-npos',
-      img: '/static/images/polkadot/workshops/SubstrateNpos.png',
-      released: true,
-    },
-    {
-      title: 'Rust Programming Course: OpenRust',
-      description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
-      url: 'https://github.com/openguild-labs/open-rust',
-      img: '/static/images/polkadot/workshops/OpenRust.png',
-      released: true,
-    },
-    {
-      title: 'Prepare for PBA: Rust State Machine Walkthrough',
-      description: `Learn the concept of state machine through Rust hands-on experiment with Polkadot Blockchain Academy exercises`,
-      url: 'https://youtu.be/EIwDwqxaHN0?si=12YoyL65B1cmBZB8',
-      img: '/static/images/polkadot/prepare-for-pba-001.png',
-      released: true,
-    },
-  ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
-
-  const workshops = [
-    {
-      title: 'Introduction to Polkadot SDK - Substrate',
-      description: 'Framework to build blockchain with ease.',
-      url: 'https://docs.google.com/presentation/d/111Oc9ugmJW984SjAYhlnD1cX51RpRgt5/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/workshop-01.png',
-      released: true,
-    },
-    {
-      title: 'Blockchain Builder Tool: Substrate & OpStack',
-      description: `Introducing the similarities and architecture of Substrate and OpStack.`,
-      url: 'https://docs.google.com/presentation/d/1P4KHHwOQqmJDaXz2czjCU-F_mMe_U03xJEJGXlMEF4Y/edit?usp=sharing',
-      img: '/static/images/polkadot/workshops/workshop-02.webp',
-      released: true,
-    },
-    {
-      title: 'Building Rust Production-Ready System',
-      description: `Walk through key features of Rust and how it is applied in the real world scalable system`,
-      url: 'https://docs.google.com/presentation/d/13ebc9cS-0CWTCUDC2V1pfuBQR5cXTRj1/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/workshop-03.webp',
-      released: true,
-    },
-    {
-      title: 'In and Out of DePIN on Polkadot',
-      description: `Exploring the in and out of the decentralized physical infrastructure network on Polkadot`,
-      url: 'https://docs.google.com/presentation/d/1PHDHAzBbuMfue1z2XMzpa2sU9YJ1q0zc/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/Community_Call_4.webp',
-      released: true,
-    },
-    {
-      title: 'Developing Rust Applications',
-      description: `Introducing Rust language ecosystem and technical stack for building applications using Rust`,
-      url: 'https://docs.google.com/presentation/d/1s0jqtgt3DYMfYU7k_gaNOLFR9vMo6rrjJULIak2KdMU/edit?usp=sharing',
-      img: '/static/images/polkadot/workshops/workshop-05.png',
-      released: true,
-    },
-    {
-      title: 'JAM: Demystifying the evolution of Polkadot',
-      description: `Jam introduces a decentralized hybrid system offering smart-contract functionality structured...`,
-      url: 'https://docs.google.com/presentation/d/1g9WSTcpS3M1cM_lSSKdHak0s_dm_LVYB/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/Community_Call_6.webp',
-      released: true,
-    },
-    {
-      title: 'From Personal Computer to Polkadot Ubiquitous Computing Engine',
-      description: `Introducing history of the computing machine and how the next generation of computation is invented`,
-      url: 'https://docs.google.com/presentation/d/1TaQ1j5FEesoOYh3BKEkfjBwP7yuBexP-/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
-      img: '/static/images/polkadot/workshops/Community_Call_4.2.webp',
-      released: true,
-    },
-    {
-      title: 'Maximizing Polkadot Capabilities with POP network',
-      description: `Introducing about the R0GUE team and their startup story behinds the invention of the POP network`,
-      url: 'https://docs.google.com/presentation/d/1FQkUhO416KiPcMOa4aOfp8iKAoxKJpbACZ6-p315eMo/edit?usp=sharing',
-      img: '/static/images/polkadot/workshops/Community_Call_10.webp',
-      released: true,
-    },
-    {
-      title: 'Getting Started with Polkadot SDK',
-      description: `Introducing the powerful Polkadot SDK for developing a blockchain with speed and security.`,
-      url: 'https://docs.google.com/presentation/d/1qH6SvWcueV2XglbVSiB3abXnBEQS9aE-AkYN4qB1He8/edit?usp=sharing',
-      img: '/static/images/polkadot/workshops/Community_Call_13.webp',
-      released: true,
-    },
-  ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
-
-  const researchArticles = [
-    {
-      title: 'Relaychain Hybrid Consensus',
-      description:
-        'Learning about hybrid consensus in Relaychain and why it is important to the Polkadot protocol?',
-      url: 'https://x.com/openguildwtf/status/1809203505649037391',
-      img: '/static/images/polkadot/articles/research-article-1.jpeg',
-      released: true,
-    },
-    {
-      title: 'Breakdown the sharded network design of Polkadot',
-      description: `we will discover deeper into how Polkadot is designed to be a fragmented network, or we can say a multi-chain, multi-sharded network as well.`,
-      url: 'https://x.com/chungquantin/status/1809864276850704882',
-      img: '/static/images/polkadot/articles/research-article-2.jpg',
-      released: true,
-    },
-  ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
-
-  const ModuleListSection = ({
-    modules,
-    marquee,
-    cardStyle,
-  }: {
-    modules: {
-      title: string
-      description: string
-      url: string
-      img: string
-      released: boolean
-    }[]
-    marquee: boolean
-    cardStyle?: React.CSSProperties
-  }) => {
-    const content = modules.map((topic) => (
-      <div
-        key={topic.title}
-        style={{ maxWidth: 320, width: '100%', paddingBottom: 20, ...cardStyle }}
-        className="mx-2 my-5 overflow-hidden rounded bg-white shadow-lg"
-      >
-        <div
-          style={{
-            background: `url(${topic.img})`,
-            marginBottom: 20,
-            height: 170,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="px-6 py-4">
-          <div className="mb-2 text-xl font-bold">{topic.title}</div>
-          {topic.released ? (
-            <div style={{ margin: '20px 0px 20px 0px' }}>
-              <Link
-                href={topic.url}
-                className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
-              >
-                Learn more
-              </Link>
-            </div>
-          ) : (
-            <div
-              className="mt-5 rounded bg-gray-200 px-5 py-2 text-gray-600"
-              style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
-            >
-              Coming Soon
-            </div>
-          )}
-          <p className="text-base text-gray-500">{topic.description}</p>
-        </div>
-      </div>
-    ))
-    return (
-      <div className="flex-wrap lg:flex lg:justify-evenly">
-        {marquee ? (
-          <Marquee autoFill>{content}</Marquee>
-        ) : (
-          <React.Fragment>{content}</React.Fragment>
-        )}
-      </div>
-    )
-  }
 
   return (
     <>
@@ -294,124 +119,7 @@ export default function PolkadotMainPage() {
         </div>
       </div>
       <br />
-      <Marquee autoFill style={{ overflow: 'hidden', marginTop: 10 }}>
-        <div style={{ display: 'flex' }}>
-          {[
-            '🔥 chasechung',
-            '🤡 cris.999',
-            'ippo3496 😀',
-            'anhanh22 😃',
-            'phamhuynhanhcn20a 😄',
-            'trongdth 😁',
-            'leopham4259 😆',
-            'danielbui12 😅',
-            'hson91 😂',
-            'cris.999 🤣',
-            'danghoanglam 😊',
-            'duonghb53 😇',
-            'phamanhtan 🙂',
-            'zrus 🙃',
-            'violet_058 😉',
-            'minhngoc169 😍',
-            '.taivisao 😘',
-            'synguyen2001 😗',
-            'rich_6721 😙',
-            'nozhoang 😚',
-            'mintduck_. 😋',
-            'polkapat 😛',
-            'quantroy19 😜',
-            'wa7n3 🤪',
-            'congnghiakhiem 😝',
-            'longphu 🤑',
-            'tanhdam 🤗',
-            'tieuyang 🤓',
-            'mkhoaa 😎',
-            'truongnguyenp 🤡',
-            'caothien7881 🤠',
-            'elenuxui 😏',
-            'oliv.sund 😶',
-            'shelvenzhou 😐',
-            'h4x3rotab 😑',
-            'arice.whynot 😒',
-            'maryxoxf 🙄',
-            'itsmia_225 😬',
-            'zoey14121 🤥',
-            'tranhuuhuy297 😌',
-            'aseiphiroa 😔',
-            'chris.casini 😪',
-            'go123 😴',
-            'langdon0003 😷',
-            'spectre_harsh07 🤒',
-            'katafo 🤕',
-            'linh085890 🤑',
-            'jingi0703 🤠',
-            'sanhey 🤡',
-            'synaeasthesia 😎',
-            'samevans_1 🤓',
-            'norencityx 🤗',
-            'tiennguyen 🤔',
-            'marciochen 😳',
-            'nguyetne_ 😵',
-            'duychamhoc 😟',
-            'name_unknow 😞',
-            'hqphuoc 😕',
-            'dvdplassie 😖',
-            'leomarlo 😣',
-            'hiamthach 😢',
-            'crishuntervn 😭',
-            'ngtantai1001 😡',
-            'tpn281 😠',
-            'near9363 😤',
-            'mingnhan 🤬',
-            'thanhvuong1105 😱',
-            'lotus06695 😨',
-            'mysgmers5230 😰',
-            'tranquanghai9141 😥',
-            'huongcin 😓',
-            'hoang4411 😩',
-            'wise_armadillo_03305 🤯',
-            'andyd5949 😬',
-            'tranngocdang1088 😦',
-            'tiger9644 😧',
-            'thaiha7066 😨',
-            'lutinkhang 😩',
-            'haing99 😬',
-            'tyler.eth6923 😓',
-            'phivu. 😢',
-            'bacxiukk 😭',
-            'luanvg 😡',
-            'lamthuy1904_20183 😠',
-            'bigtava 😤',
-            'tung1102 🤬',
-            'luuducdung 😱',
-            'giahuy00755 😨',
-            'tina_lt 😰',
-            'thailosoquit17 😥',
-            'cyyn312_34568 😓',
-            'tracycbis 😩',
-            '0xbcmarin 🤯',
-            'sammydang 😦',
-            'mr.will0713 😧',
-            'ceomilliontv 😨',
-            'caoquoc10 😩',
-            'verabc 😬',
-            'no_c1ip 😓',
-            'onniti. 😢',
-          ].map((item, index) => (
-            <h3
-              key={item}
-              style={{
-                backgroundColor: 'white',
-                fontWeight: 'bold',
-                margin: '0px 10px',
-                rotate: index % 2 === 1 ? '4deg' : '-5deg',
-              }}
-            >
-              {item}
-            </h3>
-          ))}
-        </div>
-      </Marquee>
+      <MembersShowcaseList />
       <br />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
@@ -427,13 +135,13 @@ export default function PolkadotMainPage() {
                 href: 'https://handbook.openguild.wtf',
               },
               {
-                title: 'Discussion Forum',
-                description: 'Learn more from other community members from the discussion forum',
+                title: 'Join our Activities',
+                description: 'Participate in community activities to learn and earn rewards',
                 img: '/static/images/discussion_forum.jpg',
                 href: 'https://github.com/orgs/openguild-labs/discussions',
               },
               {
-                title: 'Members',
+                title: 'Become a Member',
                 description: 'Discover talented people in the community',
                 img: '/static/images/members.jpg',
                 href: 'http://openguild.wtf/about',
@@ -475,6 +183,7 @@ export default function PolkadotMainPage() {
               { url: 'https://www.youtube.com/embed/rT2ydAarNG8?si=SKBa4t5hMRQp7kX_' },
               { url: 'https://www.youtube.com/embed/-GLRrdwtoqg?si=DNLPMGlDRfWdm36q' },
               { url: 'https://www.youtube.com/embed/L4tBpW5u8WM?si=bd71NzfrJ9D0Y3bx' },
+              { url: 'https://www.youtube.com/embed/wIvDCHZyr1E?si=9PGHscFT8j4LPIx4' },
             ].map((video) => (
               <iframe
                 key={video.url}
@@ -502,7 +211,7 @@ export default function PolkadotMainPage() {
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
             Learn Polkadot from our Courses
           </h1>
-          <ModuleListSection marquee={true} modules={[...courses]} />
+          <ModuleListSection marquee={true} modules={courses} />
         </div>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">

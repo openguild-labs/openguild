@@ -22,29 +22,38 @@ export default function Page() {
           className="space-y-2 pb-8 pt-6 md:space-y-5"
         >
           <div style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-            <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-              💰 Open Contribution Bounty
-            </h1>
+            <section className="body-font text-black">
+              <div className="container mx-auto px-1 pt-20 lg:px-1 lg:py-1">
+                <div className="mb-2 flex w-full flex-col text-left md:text-center">
+                  <div
+                    style={{
+                      background:
+                        "url('/static/images/polkadot/jumbotron/OG_Open_Contribution_Bounty_Banner.png')",
+                      borderRadius: '10px',
+                      marginBottom: 50,
+                      height: 300,
+                      rotate: '-1.5deg',
+                      width: '100%',
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      objectFit: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  />
+                  <h1 className="mb-2 text-2xl font-bold tracking-tighter md:text-7xl lg:text-5xl">
+                    💰 Open Contribution Bounty
+                  </h1>
+                  <br></br>
+                  <p className="mx-auto  text-xl font-normal leading-relaxed text-gray-600 dark:text-gray-300 lg:w-2/3">
+                    <span className="font-bold text-primary-500">The Open Contribution Bounty</span>{' '}
+                    is a rewarding initiative offering a total prize pool of $20,000 to participants
+                    who contribute to the development and documentation of various Substrate-based
+                    blockchain projects.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
-          <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
-            About the bounty
-          </h1>
-          <p>
-            The Open Contribution Bounty is a rewarding initiative offering a total prize pool of
-            $20,000 to participants who contribute to the development and documentation of various
-            Substrate-based blockchain projects. <br />
-            <br />
-            This bounty aims to foster innovation and collaboration within the blockchain ecosystem
-            by encouraging developers to create high-quality educational materials, technical
-            documentation, and implementation guidelines for different Substrate blockchain topics.{' '}
-            <br />
-            <br />
-            Participants will not only earn monetary rewards but also gain recognition, networking
-            opportunities, and additional experience points (XPs) within the OpenGuild community.
-            The bounty is divided into multiple tracks, each focusing on specific aspects of
-            Substrate blockchains, with prizes allocated based on the complexity and impact of the
-            contributions.
-          </p>
           <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
             How to submit?
           </h1>
@@ -63,7 +72,7 @@ export default function Page() {
                   value=""
                   className="h-4 w-4 rounded border-gray-300 bg-purple-700 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
                 />
-                <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Finish{' '}
                   <a
                     className="bg-purple-100"
@@ -71,7 +80,7 @@ export default function Page() {
                   >
                     Getting Started quests and claimed at least OpenGuild Member rank
                   </a>
-                </label>
+                </div>
               </div>
             </li>
             <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
@@ -81,9 +90,9 @@ export default function Page() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 bg-purple-700 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
                 />
-                <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Must be open-source, forkable and will be archived as a public good of Polkadot
-                </label>
+                </div>
               </div>
             </li>
             <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
@@ -93,9 +102,9 @@ export default function Page() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 bg-purple-700 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
                 />
-                <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Share on X with <b>@openguild</b> as a tagged account
-                </label>
+                </div>
               </div>
             </li>
             <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
@@ -105,9 +114,9 @@ export default function Page() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 bg-purple-700 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
                 />
-                <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Content of the shared X post content must summarize of the solution you deliver
-                </label>
+                </div>
               </div>
             </li>
             <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
@@ -117,9 +126,9 @@ export default function Page() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 bg-purple-700 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
                 />
-                <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Meet the specific criterias of the applied bountry track
-                </label>
+                </div>
               </div>
             </li>
             <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
@@ -129,7 +138,7 @@ export default function Page() {
                   checked
                   className="h-4 w-4 rounded border-gray-300 bg-purple-700 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
                 />
-                <label className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Follow the{' '}
                   <a
                     className="bg-purple-100"
@@ -137,7 +146,7 @@ export default function Page() {
                   >
                     guidelines to submit your work to OpenGuild Discord channel
                   </a>
-                </label>
+                </div>
               </div>
             </li>
           </ul>
