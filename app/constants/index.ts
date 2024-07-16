@@ -106,7 +106,7 @@ export const researchArticles = [
   },
   {
     title: 'Breakdown the sharded network design of Polkadot',
-    description: `we will discover deeper into how Polkadot is designed to be a fragmented network, or we can say a multi-chain, multi-sharded network as well.`,
+    description: `Discover deeper into how Polkadot is designed to be a fragmented network, or we can say a multi-chain, multi-sharded network as well.`,
     url: 'https://x.com/chungquantin/status/1809864276850704882',
     img: '/static/images/polkadot/articles/research-article-2.jpg',
     released: true,

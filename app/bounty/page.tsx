@@ -31,7 +31,7 @@ export default function Page() {
                         "url('/static/images/polkadot/jumbotron/OG_Open_Contribution_Bounty_Banner.png')",
                       borderRadius: '10px',
                       marginBottom: 50,
-                      height: 300,
+                      height: 330,
                       rotate: '-1.5deg',
                       width: '100%',
                       backgroundSize: 'contain',
@@ -103,7 +103,7 @@ export default function Page() {
                         borderRadius: '10px',
                       }}
                     >
-                      {index}
+                      {index + 1}
                     </div>
                     {item}
                   </div>

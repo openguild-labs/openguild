@@ -20,46 +20,78 @@ export default function Page() {
           }}
           className="space-y-2 pb-8 pt-6 md:space-y-5"
         >
-          <div style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-            <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-              Substrate Course Track
-            </h1>
-          </div>
-          <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
-            Track Description
-          </h1>
-          <p>
-            Substrate courses are a series of educational materials that aim to help developers
-            understand the workflow of the Substrate blockchain framework. These courses will
-            encompass a range of topics, from basic concepts to advanced techniques, providing a
-            comprehensive guide for anyone looking to build on Substrate.
-          </p>
-          <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
-            How to submit your application?
-          </h1>
-          <ul className="rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-            {[
-              <span key={'item-1'}>
-                Submit the track number and your action plan with the expected delivery date in{' '}
-                <a className="bg-purple-100 font-bold">Substrate Course Track - Application Form</a>
-              </span>,
-              'Weekly report needs to be submitted on Discord on Saturday everyweek (4 reports in total)',
-              <span key={'item-3'}>
-                <b>⏰ Duration</b>: <span className="bg-purple-100 font-bold">1 MONTH</span>
-              </span>,
-            ].map((item, index) => (
-              <li
-                key={`${item}-${index}`}
-                className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
-              >
-                <div className="flex items-center ps-3">
-                  <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+          <img
+            className="shadow-lg"
+            style={{
+              borderRadius: '15px',
+              overflow: 'hidden',
+              width: '100%',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              objectFit: 'cover',
+              backgroundPosition: 'center',
+            }}
+            src="/static/images/polkadot/jumbotron/OG_Bounty_Track_1_full.png"
+          />
+          <div>
+            <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
+              <div>
+                {[
+                  'Total track bounty: $4,500',
+                  'Bounty per deliverable: $200-$250',
+                  'Extra OG Points: 500 XPs',
+                  'Type: Application Required',
+                ].map((item) => (
+                  <button
+                    type="button"
+                    className="mb-2 me-2 rounded-lg bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 px-5 py-1 text-center text-sm font-medium text-white shadow-lg shadow-pink-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-pink-300 dark:shadow-lg dark:shadow-pink-800/80 dark:focus:ring-pink-800"
+                  >
                     {item}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <br />
+            <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
+              How to submit your application?
+            </h1>
+            <ul className="rounded-lg border border-gray-200 bg-white px-2 text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              {[
+                <span key={'item-3'}>
+                  <b>⏰ Duration</b>: <span className="bg-purple-100 font-bold">1 MONTH</span>
+                </span>,
+                <span key={'item-1'}>
+                  Submit the track number and your action plan with the expected delivery date in{' '}
+                  <a className="bg-purple-100 font-bold">
+                    Substrate Course Track - Application Form
+                  </a>
+                </span>,
+                'Weekly report needs to be submitted on Discord on Saturday everyweek (4 reports in total)',
+              ].map((item, index) => (
+                <li
+                  key={`${item}-${index}`}
+                  className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+                >
+                  <div className="flex items-center ps-3">
+                    <div className="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                      {item}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+            <div style={{ margin: '30px 0px 0px 0px' }}>
+              <a
+                type="button"
+                style={{ width: 'fit-content' }}
+                href="https://noteforms.com/forms/workshop-technical-activity-r3e1dt"
+                className="mx-auto my-5 rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-2.5 text-center text-lg font-medium text-white shadow-lg shadow-purple-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-purple-300 dark:shadow-lg dark:shadow-purple-800/80 dark:focus:ring-purple-800"
+              >
+                Submit your application
+              </a>
+            </div>
+          </div>
+          <br />
           <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
             Preferred Qualification
           </h1>
