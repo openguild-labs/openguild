@@ -68,7 +68,7 @@ export default function Page() {
           <ul className="rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 shadow-lg dark:border-gray-600 dark:bg-gray-700 dark:text-white">
             {[
               'Total Bounty up to $20,000 !!!',
-              <span>
+              <span key={'item-1'}>
                 Getting Feature on the Official OpenGuild{' '}
                 <a className="text-bold text-purple-500" href="https://openguild.wtf/blog">
                   Website
