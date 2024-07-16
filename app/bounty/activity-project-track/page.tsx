@@ -41,8 +41,9 @@ export default function Page() {
                   'Bounty per deliverable: $80',
                   'Extra OG Points: 250 XPs',
                   'Type: Application Required',
-                ].map((item) => (
+                ].map((item, index) => (
                   <button
+                    key={`${item}-${index}`}
                     type="button"
                     className="mb-2 me-2 rounded-lg bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 px-5 py-1 text-center text-sm font-medium text-white shadow-lg shadow-pink-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-pink-300 dark:shadow-lg dark:shadow-pink-800/80 dark:focus:ring-pink-800"
                   >
