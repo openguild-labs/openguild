@@ -43,6 +43,14 @@ export default function Page() {
                   <h1 className="mb-2 text-2xl font-bold tracking-tighter md:text-7xl lg:text-5xl">
                     💰 Open Contribution Bounty
                   </h1>
+                  <a
+                    type="button"
+                    style={{ width: 'fit-content' }}
+                    href="https://noteforms.com/forms/workshop-technical-activity-r3e1dt"
+                    className="mx-auto my-5 rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-2.5 text-center text-lg font-medium text-white shadow-lg shadow-purple-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-purple-300 dark:shadow-lg dark:shadow-purple-800/80 dark:focus:ring-purple-800"
+                  >
+                    Apply now to hunt the bounty 🔥
+                  </a>
                   <br></br>
                   <p className="mx-auto  text-xl font-normal leading-relaxed text-gray-600 dark:text-gray-300 lg:w-2/3">
                     <span className="font-bold text-primary-500">The Open Contribution Bounty</span>{' '}
@@ -55,7 +63,56 @@ export default function Page() {
             </section>
           </div>
           <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
-            How to submit?
+            Benefits of Participants
+          </h1>
+          <ul className="rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 shadow-lg dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+            {[
+              'Total Bounty up to $20,000 !!!',
+              <span>
+                Getting Feature on the Official OpenGuild{' '}
+                <a className="text-bold text-purple-500" href="https://openguild.wtf/blog">
+                  Website
+                </a>{' '}
+                and{' '}
+                <a className="text-bold text-purple-500" href="https://x.com/openguildwtf/articles">
+                  X's Articles
+                </a>{' '}
+                with Full Credit.
+              </span>,
+              'Have a dedicated shoutout tweet on OpenGuild to promote the winner’s branding.',
+              'Introduce Participant’s Profiles to Ecosystem Partners for Networking, and potential careers opportunities in the ecosystem.',
+              'Get BIG EXTRA XPs - OG level UP!',
+            ].map((item, index) => (
+              <li
+                key={`${item}-${index}`}
+                className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+              >
+                <div className="flex items-center ps-3">
+                  <div className="ms-2 flex w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    <div
+                      className="bg-purple-500"
+                      style={{
+                        marginRight: 10,
+                        width: 20,
+                        height: 20,
+                        justifyContent: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      {index}
+                    </div>
+                    {item}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
+            Submission Guidelines
           </h1>
           <p>
             To submit your work and claim the bounty, you will need to provide a link to your
@@ -63,7 +120,7 @@ export default function Page() {
             the work completed and any additional notes or explanations. Please take a look at below
             criterias:
           </p>
-          <ul className="rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <ul className="rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 shadow-lg dark:border-gray-600 dark:bg-gray-700 dark:text-white">
             <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
               <div className="flex items-center ps-3">
                 <input
@@ -150,12 +207,13 @@ export default function Page() {
               </div>
             </li>
           </ul>
+          <p>You will receive the bounty payment after your work is reviewed and approved.</p>
           <p>
             <b>NOTE</b>: All submission will be transferred to the OpenGuild Labs Github
             organization and owned by the community.
           </p>
           <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
-            Tracks
+            Explore these tracks below and start contributing today!
           </h1>
           <OpenContributionBountyTracks />
         </div>
