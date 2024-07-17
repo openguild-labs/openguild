@@ -133,6 +133,57 @@ export default function Page() {
               </li>
             ))}
           </ul>
+          <div>
+            <h1 className="text-xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-14">
+              Discover ecosystem open-source requests
+            </h1>
+            <br />
+            <div className="relative overflow-x-auto">
+              <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      Name
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Description
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    {
+                      Name: 'Polkadot SDK Docs',
+                      Description:
+                        'Contribute to the Polkadot SDK Docs to help write a documentation for the Polkadot SDK. Visit the Github of Polkadot SDK and discover opened pull requests that match your interest',
+                      Reference:
+                        'https://github.com/paritytech/polkadot-sdk/issues?q=is%3Aopen+is%3Aissue+label%3AT11-documentation',
+                    },
+                    {
+                      Name: 'Polkadot Wiki',
+                      Description:
+                        'Contribute to the Polkadot Wiki to help write a documentation for the Polkadot ecosystem. Visit the Github of Polkadot Wiki and discover opened pull requests that match your interest',
+                      Reference: 'https://github.com/w3f/polkadot-wiki/pulls',
+                    },
+                  ].map((row, index) => (
+                    <tr
+                      key={`row-${index}`}
+                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                    >
+                      <td className="px-6 py-4" style={{ minWidth: 400 }}>
+                        <a className="font-bold text-purple-500" href={row['Reference']}>
+                          {row.Name}
+                        </a>
+                      </td>
+                      <td className="px-6 py-4" style={{ minWidth: 400 }}>
+                        {row['Description']}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </>
