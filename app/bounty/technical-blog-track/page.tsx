@@ -1,3 +1,5 @@
+import { ModuleListSection } from '@/components/ModuleListContainer'
+import { researchArticles } from 'app/constants'
 import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({ title: 'About' })
@@ -160,6 +162,18 @@ export default function Page() {
               </li>
             ))}
           </ul>
+          <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+            <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+              Examples of Technical Blogs
+            </h1>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <ModuleListSection
+                cardStyle={{ maxWidth: 400 }}
+                marquee={false}
+                modules={researchArticles}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>

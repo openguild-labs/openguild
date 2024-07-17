@@ -1,3 +1,5 @@
+import { ModuleListSection } from '@/components/ModuleListContainer'
+import { technicalActivityProjects } from 'app/constants'
 import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({ title: 'About' })
@@ -172,6 +174,28 @@ export default function Page() {
               </li>
             ))}
           </ul>
+          <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+            <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+              Examples of Technical Activity Projects
+            </h1>
+            <div style={{ margin: '30px 0px 0px 0px' }}>
+              <a
+                type="button"
+                style={{ width: 'fit-content' }}
+                href="https://github.com/openguild-labs/workshops/issues"
+                className="mx-auto my-5 rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-2.5 text-center text-lg font-medium text-white shadow-lg shadow-purple-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-purple-300 dark:shadow-lg dark:shadow-purple-800/80 dark:focus:ring-purple-800"
+              >
+                🔎 Discover list of technical workshops
+              </a>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <ModuleListSection
+                cardStyle={{ maxWidth: 400 }}
+                marquee={false}
+                modules={technicalActivityProjects}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>

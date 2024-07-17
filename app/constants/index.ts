@@ -1,4 +1,4 @@
-export const courses = [
+export const substrateCourses = [
   {
     title: 'Substrate Course: NFT Blockchain',
     description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
@@ -13,6 +13,10 @@ export const courses = [
     img: '/static/images/polkadot/workshops/SubstrateNpos.png',
     released: true,
   },
+]
+
+export const courses = [
+  ...substrateCourses,
   {
     title: 'Rust Programming Course: OpenRust',
     description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
@@ -109,6 +113,25 @@ export const researchArticles = [
     description: `Discover deeper into how Polkadot is designed to be a fragmented network, or we can say a multi-chain, multi-sharded network as well.`,
     url: 'https://x.com/chungquantin/status/1809864276850704882',
     img: '/static/images/polkadot/articles/research-article-2.jpg',
+    released: true,
+  },
+].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
+
+export const technicalActivityProjects = [
+  {
+    title: 'OpenHack Workshop - Rust Starter',
+    description:
+      'Repositoriy is made by the OpenGuild Labs to introduce OpenHack workshop participants about Rust programming language and help the participants to get familiar with the language.',
+    url: 'https://github.com/openguild-labs/open-hack-rust-starter',
+    img: '/static/images/polkadot/workshops/OpenHack_RustStarter.png',
+    released: true,
+  },
+  {
+    title: 'OpenHack Workshop - Substrate Starter',
+    description:
+      'Repositoriy is made by the OpenGuild Labs to introduce OpenHack workshop participants about Polkadot SDK - Substrate and help the participants to get familiar with the blockchain builder tool.',
+    url: 'https://github.com/openguild-labs/open-hack-substrate-starter',
+    img: '/static/images/polkadot/workshops/OpenHack_SubstrateStarter.png',
     released: true,
   },
 ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))

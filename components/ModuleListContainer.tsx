@@ -27,7 +27,7 @@ export const ModuleListSection = ({
         style={{
           background: `url(${topic.img})`,
           marginBottom: 20,
-          height: 170,
+          height: 220,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
