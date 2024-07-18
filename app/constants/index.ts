@@ -1,3 +1,15 @@
+export const technicalVideos = [
+  { url: 'https://www.youtube.com/embed/xWp-83KYkXs?si=ETs8dhYv0z_Zd-MZ' },
+  { url: 'https://www.youtube.com/embed/X8cyx0RK4JY?si=7H55xUwvAREt30z4' },
+]
+
+export const generalVideos = [
+  { url: 'https://www.youtube.com/embed/rT2ydAarNG8?si=SKBa4t5hMRQp7kX_' },
+  { url: 'https://www.youtube.com/embed/-GLRrdwtoqg?si=DNLPMGlDRfWdm36q' },
+  { url: 'https://www.youtube.com/embed/L4tBpW5u8WM?si=bd71NzfrJ9D0Y3bx' },
+  { url: 'https://www.youtube.com/embed/wIvDCHZyr1E?si=9PGHscFT8j4LPIx4' },
+]
+
 export const substrateCourses = [
   {
     title: 'Substrate Course: NFT Blockchain',
@@ -22,13 +34,6 @@ export const courses = [
     description: `Substrate is the primary blockchain SDK used by developers to create the parachains that make up the Polkadot network.`,
     url: 'https://github.com/openguild-labs/open-rust',
     img: '/static/images/polkadot/workshops/OpenRust.png',
-    released: true,
-  },
-  {
-    title: 'Prepare for PBA: Rust State Machine Walkthrough',
-    description: `Learn the concept of state machine through Rust hands-on experiment with Polkadot Blockchain Academy exercises`,
-    url: 'https://youtu.be/EIwDwqxaHN0?si=12YoyL65B1cmBZB8',
-    img: '/static/images/polkadot/prepare-for-pba-001.png',
     released: true,
   },
 ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
@@ -132,6 +137,14 @@ export const technicalActivityProjects = [
       'Repositoriy is made by the OpenGuild Labs to introduce OpenHack workshop participants about Polkadot SDK - Substrate and help the participants to get familiar with the blockchain builder tool.',
     url: 'https://github.com/openguild-labs/open-hack-substrate-starter',
     img: '/static/images/polkadot/workshops/OpenHack_SubstrateStarter.png',
+    released: true,
+  },
+  {
+    title: 'OpenHack Workshop - Dedot',
+    description:
+      'Made by the collaboration between OpenGuild Labs and Dedot to introduce participants about building decentralized application on Polkadot.',
+    url: 'https://github.com/openguild-labs/openhack-dedot',
+    img: '/static/images/polkadot/workshops/OpenHack_Dedot.png',
     released: true,
   },
 ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))

@@ -24,10 +24,6 @@ const MembersShowcaseList = () => {
               src={item.avatar}
               width={30}
               height={30}
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null // prevents looping
-                currentTarget.src = '/images/polkadot/polkadot-logo.png'
-              }}
               style={{ marginRight: '10', borderRadius: 50, backgroundColor: 'purple' }}
             />
             <h3

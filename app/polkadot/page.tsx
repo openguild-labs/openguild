@@ -7,8 +7,9 @@ import React from 'react'
 import FeaturedSectionContainer from '@/components/FeaturedSectionContainer'
 import { BlogArticleList } from '@/components/BlogArticleList'
 import MembersShowcaseList from '@/components/MembersShowcaseList'
-import { courses, researchArticles, workshops } from 'app/constants'
+import { courses, generalVideos, researchArticles, workshops } from 'app/constants'
 import { ModuleListSection } from '@/components/ModuleListContainer'
+import EventImageGallery from '@/components/EventImageGallery'
 
 const MAX_DISPLAY = 5
 
@@ -138,6 +139,7 @@ export default function PolkadotMainPage() {
       </div>
       <br />
       <MembersShowcaseList />
+      <EventImageGallery />
       <br />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
@@ -197,12 +199,7 @@ export default function PolkadotMainPage() {
             Watch our latest videos
           </h1>
           <div className="flex-wrap lg:flex" style={{ justifyContent: 'space-evenly' }}>
-            {[
-              { url: 'https://www.youtube.com/embed/rT2ydAarNG8?si=SKBa4t5hMRQp7kX_' },
-              { url: 'https://www.youtube.com/embed/-GLRrdwtoqg?si=DNLPMGlDRfWdm36q' },
-              { url: 'https://www.youtube.com/embed/L4tBpW5u8WM?si=bd71NzfrJ9D0Y3bx' },
-              { url: 'https://www.youtube.com/embed/wIvDCHZyr1E?si=9PGHscFT8j4LPIx4' },
-            ].map((video) => (
+            {generalVideos.map((video) => (
               <iframe
                 key={video.url}
                 width="100%"
@@ -281,52 +278,6 @@ export default function PolkadotMainPage() {
           </Link>
         </div>
       )}
-      {/* 
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Other Polkadot Communities
-          </h1>
-          <div className="lg:flex lg:justify-evenly">
-            {[
-              {
-                title: 'Polkadot for Vietnamese 🇻🇳',
-                description:
-                  'OpenGuild and Polkadot SEA jointly manage a sub-community catering to Vietnamese tech enthusiasts. This initiative provides materials and resources in Vietnamese, fostering a developer-friendly environment for the local tech community.',
-                img: '/static/images/polkadot/polkadot.jpg',
-                url: '/polkadot/vn/',
-              },
-            ].map((topic) => (
-              <div
-                key={topic.title}
-                className="mx-3 my-5 overflow-hidden rounded bg-white shadow-lg"
-              >
-                <div
-                  style={{
-                    background: `url(${topic.img})`,
-                    marginBottom: 5,
-                    height: 120,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
-                <div className="px-6 py-4">
-                  <div className="mb-2 text-xl font-bold">{topic.title}</div>
-                  <p className="text-base text-gray-500">{topic.description}</p>
-                  <div style={{ margin: '30px 0px 20px 0px' }}>
-                    <Link
-                      href={topic.url}
-                      className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
-                    >
-                      Learn more
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
     </>
   )
 }
