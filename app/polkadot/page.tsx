@@ -164,7 +164,7 @@ export default function PolkadotMainPage() {
                 title: 'Become a Member',
                 description: 'Discover talented people in the community',
                 img: '/static/images/members.jpg',
-                href: 'http://openguild.wtf/about',
+                href: 'https://handbook.openguild.wtf/general-information/membership',
               },
             ].map((topic) => (
               <Link
