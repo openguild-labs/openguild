@@ -17,7 +17,11 @@ const EventImageCarousel = () => {
       <div id="default-carousel" className="relative w-full" data-carousel="slide">
         <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
           {images.map((image, index) => (
-            <div className="hidden duration-700 ease-in-out" data-carousel-item>
+            <div
+              key={`${image}-${index}`}
+              className="hidden duration-700 ease-in-out"
+              data-carousel-item
+            >
               <img
                 key={`image-${index}`}
                 style={{ maxWidth: 350, objectFit: 'cover', margin: '5px' }}
