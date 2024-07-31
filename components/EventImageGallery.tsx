@@ -1,7 +1,6 @@
 'use client'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import Marquee from 'react-fast-marquee'
 
 const EventImageGallery = () => {
   const [images, setImages] = useState([])
@@ -14,7 +13,7 @@ const EventImageGallery = () => {
     init()
   }, [])
   return (
-    <Marquee>
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
       {images.map((image, index) => (
         <img
           key={`image-${index}`}
@@ -24,7 +23,7 @@ const EventImageGallery = () => {
           alt={`event-${index}`}
         />
       ))}
-    </Marquee>
+    </div>
   )
 }
 

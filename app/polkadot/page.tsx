@@ -10,6 +10,7 @@ import MembersShowcaseList from '@/components/MembersShowcaseList'
 import { courses, generalVideos, researchArticles, workshops } from 'app/constants'
 import { ModuleListSection } from '@/components/ModuleListContainer'
 import EventImageGallery from '@/components/EventImageGallery'
+import EventImageCarousel from '@/components/EventImageCarousel'
 
 const MAX_DISPLAY = 5
 
@@ -139,7 +140,6 @@ export default function PolkadotMainPage() {
       </div>
       <br />
       <MembersShowcaseList />
-      <EventImageGallery />
       <br />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
@@ -221,63 +221,7 @@ export default function PolkadotMainPage() {
           <FeaturedSectionContainer />
         </div>
       </div>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Learn Polkadot from our Courses
-          </h1>
-          <ModuleListSection marquee={true} modules={courses} />
-        </div>
-      </div>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Our Past Workshops
-          </h1>
-          <ModuleListSection marquee={false} modules={workshops} />
-        </div>
-      </div>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Research Articles
-          </h1>
-          <ModuleListSection
-            cardStyle={{ maxWidth: 500 }}
-            marquee={false}
-            modules={researchArticles}
-          />
-        </div>
-      </div>
-
-      {/* <EventImageGallery /> */}
-
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-            Announcement & Latest Blog Posts
-          </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Learn technical topics through our blog posts
-          </p>
-        </div>
-        <BlogArticleList
-          posts={posts
-            .filter((post) => post.tags.includes('lang-vn') && post.tags.includes('polkadot'))
-            .slice(0, 5)}
-        />
-      </div>
-      {posts.length > MAX_DISPLAY && (
-        <div className="flex justify-end text-base font-medium leading-6">
-          <Link
-            href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="All posts"
-          >
-            All Posts &rarr;
-          </Link>
-        </div>
-      )}
+      {/* <EventImageCarousel /> */}
     </>
   )
 }
