@@ -36,7 +36,6 @@ const ThumbnailComponent = ({ post, authorDetails }) => {
         alignItems: 'center',
         boxSizing: 'border-box',
         fontFamily: 'Arial, Helvetica, sans-serif',
-        backgroundColor: 'no-repeat #111827',
         backgroundSize: 'cover',
         width: '1200px',
         height: '630px',
@@ -47,12 +46,30 @@ const ThumbnailComponent = ({ post, authorDetails }) => {
         textAlign: 'center',
       }}
     >
-      <h1 style={{ color: 'white', fontSize: '2em', fontWeight: 'bold', margin: '10px 0' }}>
+      <h3
+        style={{
+          padding: '5px 20px',
+          backgroundColor: '#6D3AEE',
+          borderRadius: '20px',
+          color: 'white',
+          fontWeight: 'bold',
+          margin: '5px 0',
+        }}
+      >
+        OpenGuild Community
+      </h3>
+      <h1
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#D3FF33',
+          color: 'black',
+          fontSize: '2em',
+          fontWeight: 'bold',
+          margin: '10px 0',
+        }}
+      >
         {post.title}
       </h1>
-      <p style={{ fontSize: '1.5em', color: 'rgb(120, 120, 150)', margin: '0px' }}>
-        By {authorDetails.map((author) => author.name).join(',')}
-      </p>
       <p
         style={{
           marginTop: '5px',
@@ -70,7 +87,7 @@ const ThumbnailComponent = ({ post, authorDetails }) => {
           width={40}
           height={40}
         />
-        <p style={{ color: 'white', margin: '0px 20px', fontSize: 'smaller', fontWeight: 'bold' }}>
+        <p style={{ color: 'black', margin: '0px 20px', fontSize: 'smaller', fontWeight: 'bold' }}>
           openguild.wtf
         </p>
         <img
@@ -82,54 +99,6 @@ const ThumbnailComponent = ({ post, authorDetails }) => {
       </div>
     </div>
   )
-}
-
-async function generateOpengraphImage(slugs: string[]) {
-  const slug = decodeURI(slugs.join('/') || '')
-  const post = allBlogs.find((p) => p.slug === slug)
-  const authorList = post?.authors || ['default']
-  const authorDetails = authorList.map((author) => {
-    const authorResults = allAuthors.find((p) => p.slug === author)
-    return coreContent(authorResults as Authors)
-  })
-  if (!post) {
-    throw new Error('No post found')
-  }
-
-  const renderThumbnail = () => {
-    return `<div
-        class="no-styles"
-        style="justify-content:center;display:flex;align-items:center;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;background:no-repeat #111827;background-size:cover;width:1200px;height:630px;overflow:hidden;flex-direction:column;cursor:pointer; padding:25px 55px;"
-      >
-        <div style="text-align:center;margin-bottom:20px">
-          <h1 style="color:white;font-size:25px;font-weight:bold;margin:10px 0;">
-          ${post.title}
-          </h1>
-          <p style="color:white; font-size: 15px;color:rgb(120, 120, 150);margin:0px;">By ${authorDetails
-            .map((author) => author.name)
-            .join(',')
-            .toString()}</p>
-        </div>
-          <p style="margin-top:5px;font-size:15px;color:rgb(120, 120, 150);">
-            ${post.summary?.slice(0, 250).trim()}
-          </p>
-          <div style="display:flex;align-items:center;margin-top:10px">
-                  <img src="https://openguild.wtf/_next/image?url=%2Fstatic%2Fimages%2Flogo.png&w=48&q=75" style="border-radius:50%;width:40px;height:40px;"/>
-                  <p style="color:white; margin:0px 20px;font-size:smaller;font-weight:bold;">openguild.wtf</p>
-          <img src="https://openguild.wtf/_next/image?url=%2Fstatic%2Fimages%2Fpolkadot%2Fpolkadot-logo.png&w=48&q=75" style="border-radius:50%;width:40px;height:40px;"/>
-          </div>
-      </div>`
-  }
-  const image: Buffer = (await nodeHtmlToImage({
-    html: renderThumbnail(),
-    type: 'jpeg',
-    puppeteerArgs: {
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--disable-extensions'],
-    },
-  })) as any
-  const uint8Array = bufferToUint8Array(image)
-  return { url: buildBase64DataUrl(image.toString('base64')), data: uint8Array, image }
 }
 
 export async function GET(req: NextRequest) {
