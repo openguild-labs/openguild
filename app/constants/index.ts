@@ -3,6 +3,14 @@ export const technicalVideos = [
   { url: 'https://www.youtube.com/embed/X8cyx0RK4JY?si=7H55xUwvAREt30z4' },
 ]
 
+export const communityCallVideos = [
+  { url: 'https://www.youtube.com/embed/W08ShT6sjEg?si=A3q6cZ9yVxAqKPCA' },
+  { url: 'https://www.youtube.com/embed/vtJrd1GGyRw?si=O7QoHcmkCyGHWV37' },
+  { url: 'https://www.youtube.com/embed/-eUXFnaMknE?si=IeX472WrU9Uci2Gm' },
+  { url: 'https://www.youtube.com/embed/0C0egTSeagA?si=u2Xhc-ZX1hSgmQhW' },
+  { url: 'https://www.youtube.com/embed/fk2CCHgmKbU?si=XXAJdUm6afHIsYhr' },
+]
+
 export const generalVideos = [
   { url: 'https://www.youtube.com/embed/rT2ydAarNG8?si=SKBa4t5hMRQp7kX_' },
   { url: 'https://www.youtube.com/embed/-GLRrdwtoqg?si=DNLPMGlDRfWdm36q' },
