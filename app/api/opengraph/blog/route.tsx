@@ -4,27 +4,7 @@
 // pages/api/opengraph-image/[...slug].ts
 import { Authors, allAuthors, allBlogs } from 'contentlayer/generated'
 import { ImageResponse, NextRequest } from 'next/server'
-import nodeHtmlToImage from 'node-html-to-image'
 import { coreContent } from 'pliny/utils/contentlayer'
-
-const buildBase64DataUrl = (data: string) => {
-  return `data:image/jpeg;base64,${data}`
-}
-
-const bufferToUint8Array = (bufferData: Buffer) => {
-  return new Uint8Array(
-    bufferData.buffer,
-    bufferData.byteOffset,
-    bufferData.byteLength / Uint8Array.BYTES_PER_ELEMENT
-  )
-}
-
-const postDateTemplate: Intl.DateTimeFormatOptions = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-}
 
 const ThumbnailComponent = ({ post, authorDetails }) => {
   return (
