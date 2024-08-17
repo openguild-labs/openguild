@@ -1,6 +1,28 @@
 export const technicalVideos = [
   { url: 'https://www.youtube.com/embed/xWp-83KYkXs?si=ETs8dhYv0z_Zd-MZ' },
   { url: 'https://www.youtube.com/embed/X8cyx0RK4JY?si=7H55xUwvAREt30z4' },
+  { url: 'https://www.youtube.com/embed/G5c6yIzwxlA?si=jFb72eCUyo07Wucm' },
+  { url: 'https://www.youtube.com/embed/v1X7jQ0PFHg?si=hynlx8C3RSx3xXRB' },
+]
+
+export const twitterPosts = [
+  '1782770731795054927',
+  '1792767337713779154',
+  '1786773482858315925',
+  '1778651572098273641',
+  '1797804207988482467',
+  '1786214095072415878',
+  '1789269745331794304',
+  '1791133994891055408',
+  '1785668169291718919',
+  '1798287171276931355',
+  '1791469499969146953',
+  '1783842187291300123',
+  '1773305755241713707',
+  '1771594959575003184',
+  '1786043246130651262',
+  '1815310938595373549',
+  '1810971713532051886',
 ]
 
 export const communityCallVideos = [
@@ -9,6 +31,7 @@ export const communityCallVideos = [
   { url: 'https://www.youtube.com/embed/-eUXFnaMknE?si=IeX472WrU9Uci2Gm' },
   { url: 'https://www.youtube.com/embed/0C0egTSeagA?si=u2Xhc-ZX1hSgmQhW' },
   { url: 'https://www.youtube.com/embed/fk2CCHgmKbU?si=XXAJdUm6afHIsYhr' },
+  // { url: 'https://www.youtube.com/embed/MyNbna9GE90?si=hi0HgSbYrcRHsNwn' },
 ]
 
 export const generalVideos = [
@@ -117,7 +140,7 @@ export const researchArticles = [
     title: 'Relaychain Hybrid Consensus',
     description:
       'Learning about hybrid consensus in Relaychain and why it is important to the Polkadot protocol?',
-    url: 'https://x.com/openguildwtf/status/1809203505649037391',
+    url: '1809203505649037391',
     img: '/static/images/polkadot/articles/research-article-1.jpeg',
     released: true,
   },

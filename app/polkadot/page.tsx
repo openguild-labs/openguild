@@ -2,15 +2,11 @@
 import Link from '@/components/Link'
 import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
-import Marquee from 'react-fast-marquee'
 import React from 'react'
 import FeaturedSectionContainer from '@/components/FeaturedSectionContainer'
-import { BlogArticleList } from '@/components/BlogArticleList'
 import MembersShowcaseList from '@/components/MembersShowcaseList'
-import { courses, generalVideos, researchArticles, workshops } from 'app/constants'
-import { ModuleListSection } from '@/components/ModuleListContainer'
-import EventImageGallery from '@/components/EventImageGallery'
-import EventImageCarousel from '@/components/EventImageCarousel'
+import { generalVideos, twitterPosts } from 'app/constants'
+import { TwitterPostsShowcase } from '@/components/TwitterPostsShowcase'
 
 const MAX_DISPLAY = 5
 
@@ -222,6 +218,14 @@ export default function PolkadotMainPage() {
         </div>
       </div>
       {/* <EventImageCarousel /> */}
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-center text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+            Shaping the next generating of the Internet!
+          </h1>
+          <TwitterPostsShowcase />
+        </div>
+      </div>
     </>
   )
 }
