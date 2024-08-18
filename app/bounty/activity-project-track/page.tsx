@@ -87,7 +87,7 @@ export default function Page() {
               <a
                 type="button"
                 style={{ width: 'fit-content' }}
-                href="https://bit.ly/4665m3j"
+                href="https://noteforms.com/forms/open-contribution-bounty-jkedi6"
                 className="mx-auto my-5 rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-2.5 text-center text-lg font-medium text-white shadow-lg shadow-purple-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-purple-300 dark:shadow-lg dark:shadow-purple-800/80 dark:focus:ring-purple-800"
               >
                 Submit your application
