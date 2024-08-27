@@ -1,0 +1,272 @@
+---
+title: 'Polkadot OpenGov - Implementing Governance Proposals on Polkadot'
+date: '2024-08-15'
+authors: []
+tags: ['blockchain', 'polkadot', 'beginner', 'opengov']
+draft: false
+summary: Implementing Governance Proposals on Polkadot Description Step-by-step guide on how to create, propose, and implement governance proposals on the Polkadot network.
+---
+
+_Language_: English
+
+_Level_: Intermediate
+
+## Introduction
+
+Polkadot, a groundbreaking blockchain platform, empowers its community to shape the network's future through a robust [governance system](https://www.investopedia.com/terms/o/onchain-governance.asp). At the heart of this system lies the ability to propose and implement changes to the protocol. Governance proposals leading to [referenda](https://wiki.polkadot.network/docs/learn-polkadot-opengov#referenda) are the vehicles for introducing new features, modifying existing ones, or addressing critical issues within the Polkadot ecosystem. This process is designed to be inclusive, transparent, and community-driven, ensuring that the network evolves in alignment with the collective vision of its stakeholders.
+
+By participating in [OpenGov](https://polkadot.polkassembly.io/opengov), Polkadot's governance process, token holders can actively contribute to the network's development, making informed decisions about its direction. The implementation of governance proposals involves a series of well-defined stages, from the initial proposal submission to the final execution of approved changes. Understanding the mechanics of this process is crucial for anyone seeking to influence the trajectory of the Polkadot ecosystem.
+
+This post aims to provide a comprehensive overview of OpenGov's Referenda lifecycle on Polkadot, covering key aspects such as creating discussion posts and submitting and implementing proposals. By demystifying the process, this guide empowers community members to effectively engage in governance and contribute to the ongoing success of Polkadot.
+
+---
+
+## Background
+
+The term _"governance"_ originates from the Latin word _"gubernare"_ meaning _"to steer"_. Historically, governance was centralized, akin to steering a ship with a single captain. However, the advent of decentralized systems challenges this traditional top-down approach.
+
+Decentralization, by distributing control and decision-making across multiple entities, necessitates a reimagining of governance as a collaborative process rather than a hierarchical command structure.
+
+In Polkadot OpenGov, [referenda](https://polkadot.polkassembly.io/referenda) are the primary mechanism for steering the network's direction. Similar to voting on a proposal, referenda allow token holders to directly influence the platform's evolution. These referenda are categorized into different tracks based on the nature and impact of the proposed changes, ensuring a tailored approach to decision-making.
+
+Unlike traditional governance models, Polkadot doesn't have a fixed quorum requirement. Instead, the passage of a referendum depends on achieving specific [approval and support](https://wiki.polkadot.network/docs/learn-polkadot-opengov#approval-and-support) percentages, tailored to the significance of the proposal. This flexible approach ensures that critical decisions require a higher level of consensus while allowing for quicker decisions on less impactful matters.
+
+---
+
+## Deep Dive
+
+### PolkAssembly
+
+#### Login
+
+In Polkadot OpenGov, proposals become referenda through the [PolkAssembly dApp](https://polkadot.polkassembly.io/opengov), designed to make it easy for the community to get involved in each stage of the process in just a matter of clicks.
+
+![OpenGov dApp Homepage](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/elf3vedwa7a3up5bf9aa.png)
+
+Before we create a referendum, we'll have to login with our wallet provider. Click the `Login` button on the top right corner, and select your preferred wallet provider.
+
+![Select wallet provider](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ho10t7nq4nabihpl19vm.png)
+
+After selecting your wallet provider, you'd have to consent to log in again by clicking `Got it` and subsequently approving authentication and signature requests
+
+![Got it](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/c3clluv8nfvnm9xpy8b7.png)
+
+![Approval](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fd925mpljj9qxs8px9v5.png)
+
+![Approval](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t5bwiw0yk3zpxa9hghub.png)
+
+![Approval](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gtjb2u4z8b677f7eavil.png)
+
+Once you've signed the signature requests, you'll be presented with a success page and prompted to enter a preferred username.
+
+![Enter username](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zedx8ok6xr9uwkmv3k6x.png)
+
+Provide a username and click `Next` which takes you to a modal that prompts for an email address and a password. This stage is optional and you could `Skip`.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s4v3ltyna5aiwo74pt7b.png)
+
+The PolkAssembly homepage should be updated, and your username displayed in the top-right corner.
+
+#### Setting Up a Verified On-Chain Identity on PolkAssembly
+
+Polkadot empowers users to create verified digital identities linked to their accounts. This process involves sharing personal information and obtaining confirmation from authorized registrars.
+
+A verified on-chain identity boosts credibility in Polkadot governance, including referendum proposals. Platforms like PolkAssembly simplify the creation and management of these identities.
+
+This section walks you through the steps to establish and verify your on-chain identity.
+
+##### Understanding the Process
+
+To establish a verified identity, you'll need to provide personal information such as your name, email, and X.com username. A registrar will review these details to confirm their accuracy.
+
+##### Required Funds and Fees
+
+Some DOT is required for deposit and registrar fees. The exact amount depends on the information you provide, and you'll need sufficient funds to complete this process successfully.
+
+##### Steps to Create Your Identity
+
+Locate your profile name in the top right corner and select `Set on-chain identity` from the dropdown menu.
+
+![Set on-chain identity](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/19l8ohtk5i7zob9vrfg6.png)
+
+Choose the account you want to use for your on-chain identity and click `Confirm`.
+
+![Confirm](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h14yx2wygr8pp7xw76qg.png)
+
+The following screenshot provides details about setting up an on-chain identity, including fees and required deposits for the People Chain. Click `Let's Begin` to start the process.
+
+![Summarize](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4rowuh8g6mo5zoyxjkg8.png)
+
+The next screen lets you manage your on-chain identity details. Here, you can enter your display name, legal name, email, and X.com username.
+
+Conveniently, this window also offers a `Teleport Funds` option at the top, allowing you to seamlessly transfer the necessary funds to the People Chain before proceeding.
+
+Click `Set Identity` after completing the required details and approve the signature request from the wallet.
+
+![Details](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mazl9qz24dx7b99ke5jc.png)
+
+![Teleport](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ptv0um52qy16eipe0pg6.png)
+
+![Set identity](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eso07yzgyoz8q1aohgny.png)
+
+Once your transaction is confirmed, you can proceed to the next step: verification.
+
+Verify your information by clicking the `Verify` buttons and following the on-screen instructions.
+
+Once complete, click `Proceed` to submit your identity for review. Please allow some time for PolkAssembly to assess your information.
+
+Upon approval, your verified identity will be publicly displayed with a green check mark next to your profile.
+
+![Green Check mark](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7ys0h1vbiflugwvctzjl.png)
+
+Congratulations!, now you have a verified on-chain profile! The next section takes a look at creating a discussion post, one of the prerequisites to proposing a referendum.
+
+### Adding A Discussion Post
+
+Before submitting a referendum proposal on OpenGov, [a discussion post](https://polkadot.polkassembly.io/discussions) is mandatory. This initial step fosters community engagement, allowing for feedback, suggestions, and collaboration. By initiating a discussion, proposers can refine their ideas, gain support, and increase the chances of their proposal gaining traction within the community before formally submitting it as a referendum.
+
+To add a discussion post, click the `Discussions` navigation in the left menu panel and click on `Add Post` in the top right corner.
+
+![Add Post](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/f819j6rvqoq2fzu53iz2.png)
+
+In the new interface, please enter the discussion title in the title box, and in the textarea below, thoroughly describe the proposal, its implications, and benefits to enable community members to make an informed decision.
+
+![Discussion Post](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xdssp4n4a6mftgsn0ers.png)
+
+In the subsequent form elements, choose whether you want to add a poll to the discussion, select a topic, or add a tag. You can also open comments on the post to all users, verified users, or even decide to close commenting completely.
+
+![Post settings and metadata](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vplhehnbkmlp56kbthwv.png)
+
+Once you're satisfied with the information provided, click `Create Post` which should have your post published as a discussion on the PolkAssembly platform.
+
+The next section will look at how to propose a referendum on OpenGov. In the meantime, copy the link to the discussion post you just published, it will come in handy.
+
+### Proposing a Referendum
+
+To propose a referendum, navigate back to the `Overview` tab, hover over the _three-dots_ icon at the top-right corner, and click `Create Referendum`.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/w7v147rrgl6ung2xhk5d.png)
+
+This will lead to a new modal where you'll be presented with your linked accounts. Make sure you have at least 40 DOT in your linked wallet to be used as a [submission deposit](<https://wiki.polkadot.network/docs/learn-polkadot-opengov-origins#:~:text=The%20minimum%20amount%20to%20be%20used%20as%20a%20(refundable)%20deposit%20to%20submit%20a%20public%20referendum%20proposal.>). The refundable deposit is required to submit a public referendum proposal.
+
+Click `Next` to proceed. In the next modal, select `Yes` as the answer to the question: _Have you initiated a discussion post for your proposal already?_. Paste the link to the discussion post and decide who can comment on the referendum.
+
+![Proposal first](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o5swy6bp4f1h9bas7hz8.png)
+
+Next, provide details on the specific outcome desired for the referendum if successful. Then decide on which pallet the referendum falls under and the applicable method. In the example below, we're requesting 200 DOT from the Treasury. For more information on pallets, check out [this guide](https://wiki.polkadot.network/docs/learn-polkadot-opengov).
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7idombm2ftoloxvietqj.png)
+
+At this point, select the applicable type of origin for the chosen `Pallet`. In OpenGov, referenda are categorized into [different Origins and Tracks](https://wiki.polkadot.network/docs/learn-polkadot-opengov-origins).
+
+#### Origins and Tracks
+
+Polkadot's governance system operates on a dual structure of [Origins and Tracks](https://wiki.polkadot.network/docs/learn-polkadot-opengov-origins). Origins represent different levels of authority within the network, each possessing specific privileges. When submitting a proposal, choosing the correct Origin is crucial as it determines the proposal's execution capabilities.
+
+Tracks, on the other hand, define the specific rules and parameters for a particular type of proposal. These include factors such as voting duration, required approval thresholds, and the number of concurrent referenda. By combining Origins and Tracks, Polkadot creates a flexible and adaptable governance framework that accommodates various types of proposals and decision-making processes.
+
+In the next subsections, we'll take a look at the 34 Origins of OpenGov and explain their varying levels of authority.
+
+##### Root
+
+The Root origin holds the highest level of authority within the Polkadot network. It is reserved for the most critical and impactful changes. Referendums under this origin require an exceptionally high level of approval and support from the community to pass. Due to its significance, only one Root referendum can be active at a time.
+
+##### Whitelisted Caller
+
+This origin is used for time-sensitive proposals that require expedited processing. It allows for a shorter voting period compared to other tracks. However, it demands a specific level of support to pass, ensuring a certain level of consensus within the community.
+
+##### Wish For Change
+
+Unlike other origins, Wish For Change is primarily for gathering community sentiment rather than making immediate changes to the network. Proposals under this track serve as a signal for potential future developments and help gauge community interest.
+
+##### Staking Admin
+
+As the name suggests, the Staking Admin origin is responsible for managing staking-related operations. This includes handling slashes, which are penalties imposed on validators for misconduct.
+
+##### Treasurer
+
+The Treasurer origin oversees the management of the Polkadot treasury. It has the authority to approve or reject spending proposals from the treasury.
+
+##### Lease Admin
+
+This origin is responsible for managing slot leases, which are essential for parachains to secure their position on the Polkadot relay chain.
+
+##### Fellowship Admin
+
+The Fellowship Admin origin is dedicated to managing the composition of the Fellowship, a group of elected representatives responsible for various governance tasks.
+
+##### General Admin
+
+The General Admin origin oversees the management of the registrar and permissioned HRMP channels, which are crucial for interoperability between parachains.
+
+##### Auction Admin
+
+The Auction Admin origin is responsible for initiating and managing auctions for parachain slots.
+
+##### Referendum Canceller
+
+This origin has the power to cancel pending referendums under specific conditions.
+
+##### Referendum Killer
+
+This origin can cancel an ongoing referendum and impose penalties on those who initiated it.
+
+##### Small Tipper, Big Tipper, Small Spender, Medium Spender, Big Spender
+
+These origins manage different spending limits from the treasury. They allow for various levels of spending without requiring a full-fledged referendum for smaller amounts.
+
+Next, choose the applicable Origin for the referendum in the `Pallet` and `Method` dropdown boxes.
+
+![Create referendum](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/r46fut7qrablgqb2w0jw.png)
+
+After setting everything up according to your preference, including the right pallet and method, click on `Create Referendum` and you should see a successful message.
+
+### Implementing a Referendum
+
+After a successful proposal, our referendum gets displayed on the overview page on PolkAssembly with a `Submitted` tag. This means that the proposal has been published, but we have to satisfy one last requirement before our referendum can be moved to the decision phase.
+
+For the referendum to move from the preparing phase to the deciding phase, a decision deposit needs to be placed. The decision deposit values for each Treasury Track are listed in [this document](https://wiki.polkadot.network/docs/learn-polkadot-opengov-origins#:~:text=Decision%20Deposit%20%2D%20This%20deposit%20is,decision%20period%2C%20it%20gets%20rejected.).
+
+![Submitted](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/498x5mtmgzgsa3li6iqb.png)
+
+Now, to finish off with the implementation, open the proposal page and click on `Pay` to make the deposit.
+
+![Pay](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/scm3qz1fibn7ngavly3l.png)
+
+After a successful deposit, you should see the `Submitted` tag change to a green `Decision` tag. The decision phase allows time for a decision to be approved to move to the confirming period. If the proposal is not approved by the end of the decision period, it gets rejected.
+
+---
+
+## Challenges and Solutions
+
+Polkadot's OpenGov system faces only a few challenges. The introduction of multiple tracks and origins can increase complexity for users, requiring them to navigate different rules and processes. While the existing 40 DOT submission deposit requirement and proposal curation system help to some extent, the open nature of proposal initiation can still lead to a flood of low-quality or malicious proposals, especially when the price of DOT to levels that make the deposit insignificant. This dilutes the focus on important initiatives and can undermine community trust.
+
+---
+
+## Looking Ahead
+
+OpenGov represents a significant evolution in Polkadot's governance model, aiming to create a more inclusive, efficient, and decentralized system for decision-making. As the system matures, it is expected to continue evolving based on community feedback and the changing needs of the network.
+
+---
+
+## Conclusion
+
+Polkadot's OpenGov system offers a robust framework for community-driven decision-making. By understanding the steps involved in proposing and implementing governance proposals, token holders can actively participate in shaping the network's future.
+
+While challenges exist, such as complexity and the potential for low-quality proposals, ongoing improvements, and community engagement are essential for optimizing the governance process. As Polkadot continues to evolve, OpenGov will play a pivotal role in ensuring the network's long-term success and alignment with the collective vision of its stakeholders.
+
+---
+
+## References
+
+- Introduction to Polkadot OpenGov: https://wiki.polkadot.network/docs/learn-polkadot-opengov
+- Polkadot OpenGov Origins: https://wiki.polkadot.network/docs/learn-polkadot-opengov-origins
+- Approval and Support: https://wiki.polkadot.network/docs/learn-polkadot-opengov#approval-and-support
+
+---
+
+## About the Author
+
+mawutor ([@polymawutor](https://x.com/polymawutor)) is a web3 developer with a passion for exploring the latest advancements in blockchain technology. With a focus on providing informative content and building innovative solutions, mawutor aims to demystify complex topics and empower users with actionable insights.
+
+---

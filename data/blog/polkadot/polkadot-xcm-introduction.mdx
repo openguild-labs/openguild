@@ -1,0 +1,231 @@
+---
+title: 'Polkadot XCM - Cross-Chain Token Transfers'
+date: '2024-08-17'
+authors: []
+tags: ['blockchain', 'polkadot', 'beginner', 'opengov']
+draft: false
+summary: XCM is the message format and language used to communicate between consensus systems. Whereas XCMP is the network-layer protocol that facilitates XCM communication.
+---
+
+_Language_: English
+
+_Level_: Intermediate
+
+## Introduction
+
+Web3 is expanding into a multi-layered ecosystem of consensus systems spanning diverse blockchains and smart contract applications. This diversity in blockchain architecture and operation highlights the need for interoperability within the ecosystem.
+
+Consensus systems compete and differentiate themselves based on security, scalability, and decentralization. Some aim for speed with a high-throughput monolith while others focus on scalability and decentralization via layer 2 chains. However, all these diverse consensus systems must be interoperable for the vision of a decentralized web to be achieved.
+
+---
+
+## Background
+
+Interoperability between chains of different consensus mechanisms is a very arduous endeavor. This is evident in malicious actors exploiting more interoperability solutions over the years. Polkadot, a pioneer in blockchain technology, provides a secure way of cross-chain communication through the Cross-Consensus Message (XCM) format and the Cross-Consensus Messaging Parsing (XCMP).
+
+XCM is the message format and language used to communicate between consensus systems. Whereas XCMP is the network-layer protocol that facilitates XCM communication. XCM, although commonly used in the Polkadot ecosystem, can be used in any consensus system due to its generic and common format.
+
+Polkadot XCM is crucial in today's tech landscape as it facilitates seamless interoperability between disparate blockchains. By providing a standardized communication protocol, XCM enables the transfer of assets, data, and messages across different networks, fostering a more interconnected and collaborative ecosystem.
+
+---
+
+## Deep Dive
+
+### Core Structure of XCM
+
+XCM leverages `MultiAssets` to represent various assets across blockchains, identified by `MultiLocations`. A Holding Register temporarily stores assets during message execution, while Weight signifies the computational resources needed to process the XCM. An XCM message typically follows this structure:
+
+```
+ let message = Xcm(vec![
+    WithdrawAsset((Here, amount).into()),
+    BuyExecution{ fees: (Here, amount).into(), weight_limit: WeightLimit::Unlimited },
+    DepositAsset {
+        assets: All.into(),
+        beneficiary:  MultiLocation {
+            parents: 0,
+            interior: Junction::AccountId32 {
+                network: None,
+                id: BOB.clone().into()
+            }.into(),
+        }.into()
+    }
+]);
+```
+
+The `message` consists of three instructions: `WithdrawAsset`, `BuyExecution`, and `DepositAsset`.
+
+- `WithdrawAsset`: This instruction removes assets from the sender's account and places them in a temporary holding register.
+- `BuyExecution`: This instruction pays for the execution of the XCM message using assets from the holding register.
+- `DepositAsset`: This instruction transfers assets from the holding register to the recipient's account on the target chain.
+
+When the three instructions are combined, we withdraw the number of native tokens from the account of Alice, pay for the execution of these instructions, and deposit the remaining tokens in the account of Bob in the same consensus system.
+
+Now let's look at ways to transfer data or assets between accounts on different blockchains utilizing different consensus systems.
+
+### Cross-Chain Transfers: Asset Teleportation
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ac133q6dt7ghs2d8c3ej.png)
+Asset teleportation is one of the two methods for sending assets from one chain to another. It has only two actors, the source and the destination.
+
+The source chain removes assets from circulation, creates an XCM instruction specifying the recipient and amount, and sends it to the destination chain. The destination chain then introduces equivalent assets into its circulation and deposits them into the specified account. This process requires high trust between chains as asset preservation relies on both chains accurately managing their respective circulating supplies.
+
+Let's take a look at an example of an Asset Teleportation XCM:
+
+```
+let message = Xcm(vec![
+  WithdrawAsset((Here, teleport_amount).into()),
+  InitiateTeleport {
+    assets: All.into(),
+    dest: Parachain(1).into(),
+    xcm: Xcm(vec![DepositAsset {
+      assets: All.into(),
+      beneficiary: Junction::AccountId32 {
+        network: None,
+        id: ALICE.into(),
+      }
+    }]),
+  },
+]);
+```
+
+Now let's break down the various parts of the message.
+
+`InitiateTeleport` is an XCM instruction executed on the source chain. It removes assets matching the specified filter from the holding register and constructs a new XCM message.
+
+```
+InitiateTeleport { assets: MultiAssetFilter, dest: MultiLocation, xcm: Xcm<()> }
+```
+
+This message includes a `ReceiveTeleportedAsset` instruction for the destination chain, followed by the original XCM instructions. The destination chain will automatically process these instructions, effectively teleporting the assets.
+
+`ReceiveTeleportedAsset` is a trusted XCM instruction executed on the destination chain. It introduces new assets into circulation, populating the holding register.
+
+```
+ReceiveTeleportedAssets(MultiAssets)
+```
+
+This instruction requires strict origin verification to prevent unauthorized asset creation. The destination chain can configure allowed teleporter origins to ensure security. Once assets are in the holding register, subsequent instructions, like `DepositAsset`, can be distributed to recipient accounts.
+
+`ClearOrigin` resets the message's origin, preventing subsequent instructions from acting on behalf of the previous sender. This is crucial for the security and isolation of XCM message execution contexts. The `InitiateTeleport` instruction typically uses `ClearOrigin` to ensure the destination chain processes the teleported assets independently.
+
+Next, we'll look at another way to achieve cross-chain interoperability using reserve-backed transfers.
+
+### Cross-Chain Transfers: Reserve-Backed Transfers
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eajzkq9ilugl98950mt9.png)
+Reserve-backed transfers involve a trusted third-party reserve to facilitate cross-chain asset movement. Instead of directly transferring assets, chains mint derivative tokens representing their claims on the reserve. The source chain burns derivative tokens when transferring assets, triggering a withdrawal from its reserve account.
+
+The reserve then deposits the withdrawn assets into the destination chain's reserve account. Finally, the destination chain mints equivalent derivative tokens for the recipient. This method reduces trust requirements between chains but introduces reliance on the reserve's integrity.
+
+For instance, transferring tokens from Alice's account on parachain 1 to her account on parachain 2, with the relay chain acting as the reserve, would involve constructing an XCM message to initiate the transfer process. This message would encompass instructions for burning derivative tokens on parachain 1, withdrawing the corresponding amount from the relay chain's reserve, depositing the withdrawn funds into Alice's account on parachain 2, and finally, minting new derivative tokens on parachain 2.
+
+```
+let message = Xcm(vec![
+  WithdrawAsset((Parent, amount).into()),
+  InitiateReserveWithdraw {
+    assets: All.into(),
+    reserve: Parent.into(),
+    xcm: Xcm(vec![DepositReserveAsset {
+      assets: All.into(),
+      dest: Parachain(2).into(),
+      xcm: Xcm(vec![DepositAsset {
+        assets: All.into(),
+        beneficiary: AccountId32 { id: ALICE.into(), network: None }.into(),
+      }]),
+    }]),
+  },
+]);
+```
+
+The provided XCM message outlines a reserve-backed asset transfer from one parachain to another, utilizing the relay chain as a reserve. Let's break this down:
+
+`InitiateReserveWithdraw` triggers the reserve-backed transfer process. It burns the derivative asset. Sends an XCM message to the relay chain (specified as the reserve).
+
+```
+InitiateReserveWithdraw { assets: MultiAssetFilter, reserve: MultiLocation, xcm: Xcm<()> }
+```
+
+The embedded XCM message contains a `WithdrawAsset` instruction to withdraw the underlying asset from the source chain's sovereign account, A `ClearOrigin` instruction ensures isolated execution on the relay chain, and a `DepositReserveAsset` instruction to transfer the withdrawn asset to the destination chain's sovereign account.
+
+The `DepositReserveAsset` instruction serves a dual purpose. It transfers the withdrawn assets to the destination chain's sovereign account, essentially storing them on behalf of the destination.
+
+```
+DepositReserveAsset { assets: MultiAssetFilter, dest: MultiLocation, xcm: Xcm<()> }
+```
+
+It sends a new XCM message to the destination chain, informing it of the deposited assets and instructing it to mint equivalent derivative tokens. This message includes a `ReserveAssetDeposited` instruction for trust verification and a `DepositAsset` instruction to credit the recipient's account.
+
+The `ReserveAssetDeposited` instruction signifies that the reserve chain has successfully transferred assets to the destination chain's sovereign account. Upon receiving this notification, the destination chain mints equivalent derivative assets and credits them to the specified recipient account.
+
+This instruction requires trust in the reserve chain as it confirms the asset transfer without direct verification. To mitigate risks, the destination chain can configure which chains are trusted as reserves for specific assets.
+
+---
+
+## Challenges and Solutions
+
+### Fee Handling In XCM
+
+XCM messages require fee payments to execute. The `BuyExecution` instruction is used to purchase the necessary weight for message execution. Accurate fee estimation is crucial to prevent message failures.
+
+Here are some fee payment mechanisms you can utilize:
+
+- Prepaid Fees: The standard approach involves including a `BuyExecution` instruction with sufficient funds to cover estimated execution costs.
+- Direct Withdrawal: The `SetFeesMode` instruction allows fees to be directly withdrawn from the sender's account, useful for unpredictable fee scenarios.
+- Unpaid Execution: The `UnpaidExecution` instruction can be used for privileged messages that don't require fee payments, but require careful configuration and trust in the message origin.
+
+### Fee Management and Error Handling
+
+The `RefundSurplus` instruction can be used within error handlers to reclaim unused weight if a message fails to execute completely. Accurate weight estimation is essential to avoid overpaying fees. By effectively managing fees and handling potential errors, XCM messages can be executed reliably and efficiently.
+
+```
+let message = Xcm(vec![
+  WithdrawAsset((Parent, message_fee).into()),
+  BuyExecution {
+    fees: (Parent, message_fee).into(),
+    weight_limit: WeightLimit::Unlimited,
+  },
+  SetErrorHandler(Xcm(vec![
+    RefundSurplus,
+    DepositAsset {
+      assets: All.into(),
+      beneficiary: AccountId32 {
+        network: Some(ByGenesis([0; 32])),
+        id: relay_sovereign_account_id().into(),
+      }
+      .into(),
+    },
+  ])),
+  Trap(1),
+  ClearOrigin,
+  ClearOrigin,
+  ClearOrigin,
+]);
+```
+
+In the example above, we pay upfront for all the instructions in the XCM. When the `Trap` instruction throws an error, the error handler will be called and the weight for all the instructions that weren't executed is refunded.
+
+---
+
+## Conclusion
+
+This article explored the core structure of XCM messages, the concept of MultiAssets and MultiLocations, and the Holding Register. We delved into the mechanics of asset teleportation and reserve-backed transfers, highlighting the trust assumptions involved in each method. Finally, we discussed the importance of fee handling in XCM messages and explored different fee payment mechanisms.
+
+By understanding these core concepts, developers can construct secure and interoperable cross-chain applications using XCM. Want to delve deeper? The XCM documentation provides comprehensive examples to illustrate various XCM use cases in detail: https://github.com/polkadot-fellows/xcm-format
+
+This concludes our exploration of Polkadot's XCM, the powerful language facilitating seamless communication between blockchains.
+
+---
+
+## References
+
+- Introduction to Cross-Consensus Message Format (XCM): https://wiki.polkadot.network/docs/learn-xcm
+- XCM: Cross-Consensus Messaging: https://wiki.polkadot.network/docs/learn/xcm/introduction
+- The XCVM: https://wiki.polkadot.network/docs/learn/xcm/overview-xcvm
+
+---
+
+## About the Author
+
+mawutor ([@polymawutor](https://x.com/polymawutor)) is a web3 developer with a passion for exploring the latest advancements in blockchain technology. With a focus on providing informative content and building innovative solutions, mawutor aims to demystify complex topics and empower users with actionable insights.
+
+---
