@@ -56,6 +56,27 @@ export const substrateCourses = [
     img: '/static/images/polkadot/workshops/SubstrateNpos.png',
     released: true,
   },
+  {
+    title: 'Substrate Course: Delegated Proof of Stake Blockchain',
+    description: `Delegated Proof of Stake (DPoS) is a blockchain consensus mechanism where network users vote and elect delegates to validate the next block.`,
+    url: 'https://github.com/openguild-labs/substrate-dpos',
+    img: '/static/images/polkadot/workshops/SubstrateDpos.webp',
+    released: true,
+  },
+  {
+    title: 'Substrate Course: Tanssi Moonbeam Architecture',
+    description: `Moonbeam is a full Ethereum-like environment and works with industry-standard Ethereum tools, DApps, and protocols. The participant needs to break down the runtime architecture of Moonbeam and detailed explanation on how Moonbeam integrates and implements its pallets.	`,
+    url: 'https://github.com/openguild-labs/substrate-moonbeam',
+    img: '/static/images/polkadot/workshops/SubstrateMoonbeam.webp',
+    released: true,
+  },
+  {
+    title: 'Substrate Course: EVM-compatible blockchain',
+    description: `The Ethereum Virtual Machine (EVM) is a virtual computer with the components that enable Ethereum network participants to store data and agree on the state of the data. For a Substrate-based blockchain, the core responsibilities of the EVM are implemented in the EVM pallet.`,
+    url: 'https://github.com/openguild-labs/substrate-evm',
+    img: '/static/images/polkadot/workshops/SubstrateEvm.webp',
+    released: false,
+  },
 ]
 
 export const courses = [
@@ -151,6 +172,13 @@ export const researchArticles = [
     img: '/static/images/polkadot/articles/research-article-2.jpg',
     released: true,
   },
+  {
+    title: 'Breakdown the Tanssi network architecture',
+    description: `Discover deeper into how Tanssi network powers AppChain deployment with their infrastructure.`,
+    url: 'https://x.com/openguildwtf/status/1831633260545454471',
+    img: '/static/images/polkadot/articles/research-article-3.jpeg',
+    released: true,
+  },
 ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
 
 export const technicalActivityProjects = [
@@ -176,6 +204,20 @@ export const technicalActivityProjects = [
       'Made by the collaboration between OpenGuild Labs and Dedot to introduce participants about building decentralized application on Polkadot.',
     url: 'https://github.com/openguild-labs/openhack-dedot',
     img: '/static/images/polkadot/workshops/OpenHack_Dedot.png',
+    released: true,
+  },
+  {
+    title: 'OpenHack Workshop - ink! Starter',
+    description: 'Getting started with ink! smart contract development.',
+    url: 'https://github.com/openguild-labs/openhack-ink-starter',
+    img: '/static/images/polkadot/workshops/OpenHack_inkStarter.png',
+    released: true,
+  },
+  {
+    title: 'OpenHack Workshop - ink! Advanced',
+    description: 'Learning more advanced concepts in ink! related to token standards and more.',
+    url: 'https://github.com/openguild-labs/openhack-ink-advanced',
+    img: '/static/images/polkadot/workshops/OpenHack_inkAdvanced.png',
     released: true,
   },
 ].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))

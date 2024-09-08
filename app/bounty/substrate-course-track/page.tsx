@@ -188,7 +188,7 @@ export default function Page() {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <ModuleListSection
                 cardStyle={{ maxWidth: 400 }}
-                marquee={false}
+                marquee={true}
                 modules={substrateCourses}
               />
             </div>
