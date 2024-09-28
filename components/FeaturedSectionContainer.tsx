@@ -1,11 +1,11 @@
 export default function FeaturedSectionContainer() {
   return (
     <div className="bg-white py-6 dark:bg-gray-800 sm:py-8 lg:py-12">
-      <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
-        <div className="mb-4 flex items-center justify-between gap-8 sm:mb-8 md:mb-12">
+      <div className="mx-auto max-w-screen-2xl">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-8 sm:mb-8 md:mb-12">
           <div className="flex items-center gap-12">
-            <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-              Community Activity
+            <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
+              Community activities
             </h1>
           </div>
           <a

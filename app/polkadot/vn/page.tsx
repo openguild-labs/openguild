@@ -29,7 +29,7 @@ export default function PolkadotMainPage() {
                 backgroundSize: 'cover',
               }}
             />
-            <h1 className="mb-2 text-4xl font-bold tracking-tighter text-black md:text-7xl lg:text-5xl">
+            <h1 className="mb-2 text-3xl font-bold tracking-tighter text-black md:text-7xl lg:text-5xl">
               <span>Nghiên cứu công nghệ cốt lõi </span>
               <br className="hidden lg:block"></br>
               của mạng blockchain Polkadot
@@ -75,7 +75,7 @@ export default function PolkadotMainPage() {
       <br />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
             Mục đích của cộng đồng
           </h1>
           <div className="lg:flex lg:justify-evenly">
@@ -106,7 +106,7 @@ export default function PolkadotMainPage() {
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
             Phát triển trên Polkadot
           </h1>
           <BlogArticleList
@@ -180,7 +180,7 @@ export default function PolkadotMainPage() {
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
             Thông báo và bài viết mới nhất
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">

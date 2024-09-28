@@ -31,7 +31,8 @@ export const communityCallVideos = [
   { url: 'https://www.youtube.com/embed/-eUXFnaMknE?si=IeX472WrU9Uci2Gm' },
   { url: 'https://www.youtube.com/embed/0C0egTSeagA?si=u2Xhc-ZX1hSgmQhW' },
   { url: 'https://www.youtube.com/embed/fk2CCHgmKbU?si=XXAJdUm6afHIsYhr' },
-  // { url: 'https://www.youtube.com/embed/MyNbna9GE90?si=hi0HgSbYrcRHsNwn' },
+  { url: 'https://www.youtube.com/embed/sULMQwEQiAo?si=GEAYhfdNyXKDMxZS' },
+  { url: 'https://www.youtube.com/embed/y00WII8ninA?si=0dXYfBbIJ_knRNsT' },
 ]
 
 export const generalVideos = [
@@ -64,7 +65,7 @@ export const substrateCourses = [
     released: true,
   },
   {
-    title: 'Substrate Course: Tanssi Moonbeam Architecture',
+    title: 'Substrate Course: Breakdown Moonbeam Architecture',
     description: `Moonbeam is a full Ethereum-like environment and works with industry-standard Ethereum tools, DApps, and protocols. The participant needs to break down the runtime architecture of Moonbeam and detailed explanation on how Moonbeam integrates and implements its pallets.	`,
     url: 'https://github.com/openguild-labs/substrate-moonbeam',
     img: '/static/images/polkadot/workshops/SubstrateMoonbeam.webp',

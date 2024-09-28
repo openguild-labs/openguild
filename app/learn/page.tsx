@@ -10,8 +10,8 @@ export default function LearnPage() {
   return (
     <div>
       <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
-          Live Coding Session
+        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
+          Live Coding Sessions
         </h1>
         <div className="flex-wrap lg:flex" style={{ justifyContent: 'space-evenly' }}>
           {technicalVideos.map((video) => (
@@ -31,7 +31,7 @@ export default function LearnPage() {
         </div>
       </div>
       <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
           Research Articles
         </h1>
         <ModuleListSection
@@ -41,7 +41,7 @@ export default function LearnPage() {
         />
       </div>
       <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
           Technical Activities
         </h1>
         <ModuleListSection
@@ -51,7 +51,7 @@ export default function LearnPage() {
         />
       </div>
       <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
           Rust and Polkadot Courses
         </h1>
         <ModuleListSection marquee={false} modules={courses} cardStyle={{ maxWidth: 350 }} />

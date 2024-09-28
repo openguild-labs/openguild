@@ -20,7 +20,7 @@ export default function PolkadotSubstrateMainPage() {
                 backgroundPosition: 'center',
               }}
             />
-            <h1 className="mb-2 text-4xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
+            <h1 className="mb-2 text-3xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
               <span>Polkadot SDK - Substrate</span>
             </h1>
             <br></br>

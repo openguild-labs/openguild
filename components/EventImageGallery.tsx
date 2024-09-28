@@ -1,6 +1,7 @@
 'use client'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Marquee from 'react-fast-marquee'
 
 const EventImageGallery = () => {
   const [images, setImages] = useState([])
@@ -13,16 +14,40 @@ const EventImageGallery = () => {
     init()
   }, [])
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-      {images.map((image, index) => (
-        <img
-          key={`image-${index}`}
-          style={{ maxWidth: 350, objectFit: 'cover', margin: '5px' }}
-          className="rounded-lg"
-          src={`/static/images/polkadot/${image}`}
-          alt={`event-${index}`}
-        />
-      ))}
+    <div>
+      <Marquee>
+        {images.slice(0, 10).map((image, index) => (
+          <img
+            key={`image-${index}`}
+            style={{ maxWidth: 400, objectFit: 'cover', margin: '5px' }}
+            className="rounded-lg"
+            src={`/static/images/polkadot/${image}`}
+            alt={`event-${index}`}
+          />
+        ))}
+      </Marquee>
+      <Marquee>
+        {images.slice(10, 20).map((image, index) => (
+          <img
+            key={`image-${index}`}
+            style={{ maxWidth: 300, objectFit: 'cover', margin: '5px' }}
+            className="rounded-lg"
+            src={`/static/images/polkadot/${image}`}
+            alt={`event-${index}`}
+          />
+        ))}
+      </Marquee>
+      <Marquee>
+        {images.slice(20).map((image, index) => (
+          <img
+            key={`image-${index}`}
+            style={{ maxWidth: 400, objectFit: 'cover', margin: '5px' }}
+            className="rounded-lg"
+            src={`/static/images/polkadot/${image}`}
+            alt={`event-${index}`}
+          />
+        ))}
+      </Marquee>
     </div>
   )
 }

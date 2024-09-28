@@ -1,7 +1,7 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'OpenGuild',
-  author: 'Tin Chung',
+  title: 'OpenGuild Community',
+  author: 'OpenGuild Labs',
   headerTitle: 'OpenGuild',
   description: 'An open community driven by Web 3.0 builders elevating Polkadot',
   expandedDescription:
@@ -32,12 +32,12 @@ const siteMetadata = {
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/polkadot/jumbotron/OG_new_branding.webp',
   // mastodon: 'https://mastodon.social/@mastodonuser',
-  email: 'address@yoursite.com',
+  email: 'openguildteam@gmail.com',
   github: 'https://github.com/openguild-labs',
-  // twitter: 'https://twitter.com/Twitter',
-  // facebook: 'https://facebook.com',
-  // youtube: 'https://youtube.com',
-  // linkedin: 'https://www.linkedin.com',
+  twitter: 'https://twitter.com/openguildwtf',
+  facebook: 'https://www.facebook.com/groups/1202788154012237',
+  youtube: 'https://www.youtube.com/@openguildwtf',
+  linkedin: 'https://drive.google.com/file/d/1ZFcJFMT2CG2Ga_zdZmxF1yx6LWYSRmGz/view?usp=drive_link',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the

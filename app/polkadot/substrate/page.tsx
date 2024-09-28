@@ -22,7 +22,7 @@ export default function PolkadotSubstrateMainPage() {
                 backgroundPosition: 'center',
               }}
             />
-            <h1 className="mb-2 text-4xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
+            <h1 className="mb-2 text-3xl font-bold tracking-tighter text-white md:text-7xl lg:text-5xl">
               <span>Polkadot SDK - Substrate</span>
             </h1>
             <br></br>
@@ -37,7 +37,7 @@ export default function PolkadotSubstrateMainPage() {
       <br />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
             Libraries & Repositories
           </h1>
           <h2
@@ -65,7 +65,7 @@ export default function PolkadotSubstrateMainPage() {
               },
             ]}
           />
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-4xl md:leading-14">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
             Learning Resources
           </h1>
           <RepositoryList
