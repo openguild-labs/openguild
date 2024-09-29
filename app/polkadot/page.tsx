@@ -4,6 +4,8 @@ import React from 'react'
 import FeaturedSectionContainer from '@/components/FeaturedSectionContainer'
 import MembersShowcaseList from '@/components/MembersShowcaseList'
 import { TwitterPostsShowcase } from '@/components/TwitterPostsShowcase'
+import LearnMoreSection from '@/components/LearnMoreSection'
+import Timeline from '@/components/Timeline'
 
 export default function PolkadotMainPage() {
   return (
@@ -16,7 +18,7 @@ export default function PolkadotMainPage() {
               src="/static/images/polkadot/Community_Banner.webp"
               style={{
                 marginBottom: 50,
-                borderRadius: '10px',
+                borderRadius: '30px',
                 width: '100%',
                 height: 400,
                 objectFit: 'cover',
@@ -27,7 +29,7 @@ export default function PolkadotMainPage() {
               src="/static/images/polkadot/jumbotron/OG_new_branding.webp"
               style={{
                 marginBottom: 50,
-                borderRadius: '10px',
+                borderRadius: '15px',
                 width: '100%',
                 height: 150,
                 objectFit: 'contain',
@@ -35,7 +37,7 @@ export default function PolkadotMainPage() {
             />
             <h1 className="mb-2 text-3xl font-bold tracking-tighter md:text-4xl lg:text-4xl">
               An open community driven <br className="hidden lg:block"></br> by{' '}
-              <span style={{ color: '#E6007A' }}>Web 3.0</span> elevating builders
+              <span style={{ color: '#E6007A' }}>Web 3.0</span> elevating builders on
               <span style={{ color: '#E6007A' }}> Polkadot</span>
             </h1>
             <br></br>
@@ -121,75 +123,96 @@ export default function PolkadotMainPage() {
       </div> */}
       <br />
       <h1 className="text-md mb-5 text-center font-bold">
-        Connect with +1000 builders in 🇻🇳🇵🇭🇲🇾🇹🇭🇸🇬
+        Connect with +3000 builders in 🇻🇳🇵🇭🇲🇾🇹🇭🇸🇬
       </h1>
       <MembersShowcaseList />
       <br />
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
-            Learn more about us
-          </h1>
-          <div className="lg:flex lg:justify-evenly">
-            {[
-              {
-                title: 'Community Handbook',
-                description: 'Find all information about OpenGuild community in the handbook',
-                img: '/static/images/community_handbook.jpg',
-                href: 'https://handbook.openguild.wtf',
-              },
-              {
-                title: 'Join our Activities',
-                description: 'Participate in community activities to learn and earn rewards',
-                img: '/static/images/discussion_forum.jpg',
-                href: '/activity',
-              },
-              {
-                title: 'Become a Member',
-                description: 'Discover talented people in the community',
-                img: '/static/images/members.jpg',
-                href: 'https://handbook.openguild.wtf/general-information/membership',
-              },
-            ].map((topic) => (
-              <Link
-                href={topic.href}
-                key={topic.title}
-                style={{
-                  minWidth: 300,
-                }}
-                className="mx-3 my-5 max-w-lg overflow-hidden rounded bg-white shadow-lg"
-              >
-                <div
-                  style={{
-                    background: `url(${topic.img})`,
-                    marginBottom: 5,
-                    height: 170,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
-                <div className="px-6 py-4">
-                  <div className="mb-2 text-xl font-bold">{topic.title}</div>
-                  <p className="text-base text-gray-500">{topic.description}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-      {/* <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+      <LearnMoreSection />
+      <br />
+      <div>
+        <div className="space-y-2 pb-8 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
             Why should you join us?
           </h1>
         </div>
-      </div> */}
+        <div className="flex-wrap lg:flex lg:justify-evenly">
+          {[
+            {
+              icon: '🫂',
+              number: '+3000',
+              title: 'Community Members',
+              description: 'Total number of members across platforms.',
+            },
+            {
+              icon: '💰',
+              number: '+$20K',
+              title: 'Total Bounty Pool',
+              description: 'Icentives for community members to build and learn to earn.',
+            },
+            {
+              icon: '🎓',
+              number: 7,
+              title: 'PBA Participants',
+              description: 'Community members that finished past Polkadot Blockchain Academy.',
+            },
+            {
+              icon: '🎮',
+              number: '+50',
+              title: 'Community Calls & Workshops',
+              description: 'Online & offline sections for knowledge sharing about Polkadot.',
+            },
+            {
+              icon: '🎉',
+              number: '+32K',
+              title: 'XP Distributed',
+              description: 'Experience point is a unit of activeness in the community.',
+            },
+            {
+              icon: '🧱',
+              number: '+30',
+              title: 'Projects & courses',
+              description: 'Open-source projects and educational materials built by us.',
+            },
+          ].map((metric) => (
+            <div
+              key={metric.title}
+              style={{
+                borderRadius: 20,
+              }}
+              className="mx-3 my-3 w-full max-w-lg overflow-hidden bg-white px-5 py-4 shadow-lg"
+            >
+              <h2 className="flex" style={{ alignItems: 'center' }}>
+                <div className="mb-6 mr-5 flex h-14 w-14 rotate-3 items-center justify-center rounded bg-white text-4xl shadow-md">
+                  {metric.icon}
+                </div>
+                <span className="mb-2 flex text-3xl font-extrabold text-slate-900">
+                  {metric.number}
+                </span>
+              </h2>
+              <span className="mb-2 inline-flex bg-gradient-to-r from-indigo-500 to-indigo-300 bg-clip-text font-semibold text-transparent">
+                {metric.title}
+              </span>
+              <p className="text-sm text-slate-500">{metric.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <br />
+      <div className="mt-5">
+        <div className="space-y-2 pb-8 md:space-y-5">
+          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
+            Community Features
+          </h1>
+        </div>
+      </div>
+      <Timeline />
+      <br />
       <FeaturedSectionContainer />
       {/* <EventImageCarousel /> */}
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-center text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
-            Shaping the next generating of the Internet!
+            Shaping the Next Generation of the Internet!
           </h1>
           <TwitterPostsShowcase />
         </div>

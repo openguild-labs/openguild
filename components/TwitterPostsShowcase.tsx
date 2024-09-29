@@ -7,7 +7,7 @@ export function TwitterPostsShowcase() {
   return (
     <div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-        {twitterPosts.slice(0, showAll ? twitterPosts.length : 6).map((postId) => (
+        {twitterPosts.slice(0, showAll ? twitterPosts.length : 3).map((postId) => (
           <div key={postId} style={{ margin: '10px 10px' }}>
             <iframe
               loading="lazy"

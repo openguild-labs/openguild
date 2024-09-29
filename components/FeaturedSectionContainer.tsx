@@ -5,7 +5,7 @@ export default function FeaturedSectionContainer() {
         <div className="mb-4 flex flex-wrap items-center justify-between gap-8 sm:mb-8 md:mb-12">
           <div className="flex items-center gap-12">
             <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
-              Community activities
+              Community Activities
             </h1>
           </div>
           <a
@@ -18,13 +18,13 @@ export default function FeaturedSectionContainer() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
           <a
-            href="https://handbook.openguild.wtf/hackathon-projects-and-events/hackathon/hackathon-general-information"
+            href="https://handbook.openguild.wtf/general-information/membership"
             className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80"
           >
             <img
               src="/static/images/polkadot/jumbotron/OG_ranking_system.png"
               loading="lazy"
-              alt="Hackathon"
+              alt="Membership"
               className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
             />
             <div
@@ -55,7 +55,7 @@ export default function FeaturedSectionContainer() {
             </div>
           </a>
           <a
-            href="https://handbook.openguild.wtf/general-information/channels-by-regions"
+            href="/events"
             className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80"
           >
             <img
