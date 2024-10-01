@@ -8,7 +8,10 @@ export default function ActivityPage() {
         <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
           Community Calls
         </h1>
-        <div className="flex-wrap lg:flex" style={{ justifyContent: 'space-evenly' }}>
+        <div
+          className="flex"
+          style={{ justifyContent: 'space-evenly', overflow: 'scroll', maxWidth: '100%' }}
+        >
           {communityCallVideos.map((video) => (
             <iframe
               key={video.url}
@@ -36,9 +39,6 @@ export default function ActivityPage() {
                 <th scope="col" className="px-6 py-3">
                   Workshop Slide Name
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  Description
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -48,13 +48,11 @@ export default function ActivityPage() {
                   className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                 >
                   <th scope="row" style={{ minWidth: 300 }} className="px-6 py-4">
-                    <a href={row.url} className="text-blue-500">
-                      {row.title}
+                    <a href={row.url} className="text-medium text-blue-500">
+                      #{index + 1} - {row.title}
                     </a>
+                    <p className="text-sm font-normal italic text-gray-500">{row.description}</p>
                   </th>
-                  <td className="px-6 py-4" style={{ minWidth: 400 }}>
-                    {row.description}
-                  </td>
                 </tr>
               ))}
             </tbody>

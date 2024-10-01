@@ -137,7 +137,7 @@ export const workshops = [
   {
     title: 'From Personal Computer to Polkadot Ubiquitous Computing Engine',
     description: `Introducing history of the computing machine and how the next generation of computation is invented`,
-    url: 'https://docs.google.com/presentation/d/1TaQ1j5FEesoOYh3BKEkfjBwP7yuBexP-/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
+    url: 'https://docs.google.com/presentation/d/1apZtV0p8cE_B0eT4KtLeVhQoR3Se81r0/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
     img: '/static/images/polkadot/workshops/Community_Call_4.2.webp',
     released: true,
   },
@@ -155,7 +155,83 @@ export const workshops = [
     img: '/static/images/polkadot/workshops/Community_Call_13.webp',
     released: true,
   },
-].sort((ca, cb) => (cb.released ? 1 : -1) - (ca.released ? 1 : -1))
+  {
+    title: 'Demystifying the workflow of Polkadot decentralized applications with Dedot',
+    description:
+      'A deep dive into Dedot, exploring the workflow of building decentralized applications on Polkadot.',
+    url: 'https://docs.google.com/presentation/d/15LgOETDplI34M1NnU5v7Hs-izrUdoDaiaEeRGdNCSKk/edit?usp=sharing',
+    released: true,
+  },
+  {
+    title: 'Breaking down the Polkadot SDK source code',
+    description:
+      'An analysis of Polkadot SDK source code, providing insights into its architecture and functionality.',
+    url: 'https://docs.google.com/presentation/d/1bLQfpPXc268k61Q5eYTeTOodMJxwfFnXt8ZrIpoMO8w/edit#slide=id.p',
+    released: true,
+  },
+  {
+    title: 'How Polkadot empowers cross-chain decentralized finance',
+    description:
+      'An exploration of how Polkadot facilitates decentralized finance across multiple blockchains.',
+    url: 'https://docs.google.com/presentation/d/1xOa3YngT5iH-WMDHrJ8H4RinYP1Pzr5bqjIYhutbZfc/edit?usp=sharing',
+    released: true,
+  },
+  {
+    title: 'Peer-to-peer Network and Why it is the END GAME of the Internet?',
+    description:
+      'An introduction to peer-to-peer networks and why they represent the future of internet infrastructure.',
+    url: 'https://docs.google.com/presentation/d/11GMPMg0fIM2GwP4GKVbShkgbhEPvsWR-tIUfK0gfbYM/edit?usp=sharing',
+    released: true,
+  },
+  {
+    title: 'The Next Generation Of The Internet - Web 3.0',
+    description:
+      'A comprehensive guide to Web 3.0 and its potential to revolutionize the internet.',
+    url: 'https://docs.google.com/presentation/d/1efPd-PxcdC3nPimASNiN744EJWIwqp7Y/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
+    released: true,
+  },
+  {
+    title: 'Building a decentralized applications on Polkadot',
+    description:
+      'A step-by-step guide on building decentralized applications (dApps) using Polkadot.',
+    url: 'https://docs.google.com/presentation/d/1mWR4Y75-IFg3gtnN7X_u_IJzIbtdG87g/edit?usp=sharing&ouid=114747115887247911480&rtpof=true&sd=true',
+    released: true,
+  },
+  {
+    title: 'Upgradeable Proxy - Techniques for Creating and Managing Upgradeable Contracts',
+    description:
+      'Learn about techniques for creating and managing upgradeable smart contracts on Polkadot.',
+    url: 'https://docs.google.com/presentation/d/1LL2_CPGvbGfhhMpwKm_VzLZeDxFVahPph5cM37QUftI/edit?usp=drive_link',
+    released: true,
+  },
+  {
+    title: 'Demystifying Vara Network: Inftrastructure for Secure Smart Contract Development',
+    description:
+      'An overview of Vara Network, designed to support secure and efficient smart contract development.',
+    url: 'https://docs.google.com/presentation/d/1pmpZ6zqegfIjD7UngRbN1dxFwktTMmuCfABwfNNTcug/edit?usp=drive_link',
+    released: true,
+  },
+  {
+    title: 'Hyperbridge - Cryptographically secure cross-chain interoperability',
+    description:
+      'Explaining Hyperbridge, the cryptographic solution enabling secure cross-chain interoperability in the Polkadot ecosystem.',
+    url: 'https://docs.google.com/presentation/d/1hT3zc-Zmv6S0uKT4W-0SxBBjjqtIwwGj/edit?usp=drive_link&ouid=114747115887247911480&rtpof=true&sd=true',
+    released: true,
+  },
+  {
+    title: 'Unlock the power of appchain infrastructure with Tanssi Network',
+    description:
+      'Explore how Tanssi Network provides appchain infrastructure and its role in the decentralized ecosystem.',
+    url: 'https://docs.google.com/presentation/d/1XmOwA7KidoE7MDzn_SvVJAtlFKjKH5x-i_Hnqa4Hb70/edit?usp=drive_link',
+    released: true,
+  },
+  {
+    title: 'Seamless Polkadot development with POP',
+    description: 'A guide to developing on Polkadot seamlessly using the POP network.',
+    url: 'https://docs.google.com/presentation/d/1jwd4BTvaaMNDR5a8yYkp-S5baORXVMrkc8rMe48mqi4/edit?usp=drive_link',
+    released: true,
+  },
+].sort((ca, cb) => (cb.title > ca.title ? -1 : 1))
 
 export const researchArticles = [
   {
