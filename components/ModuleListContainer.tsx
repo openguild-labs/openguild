@@ -20,8 +20,8 @@ export const ModuleListSection = ({
   const content = modules.map((topic) => (
     <div
       key={topic.title}
-      style={{ maxWidth: 320, width: '100%', paddingBottom: 20, ...cardStyle }}
-      className="mx-2 my-5 overflow-hidden rounded bg-white shadow-lg"
+      style={{ maxWidth: 320, width: '100%', borderRadius: 15, paddingBottom: 20, ...cardStyle }}
+      className="mx-2 my-5 overflow-hidden bg-white shadow-lg"
     >
       <div
         style={{
@@ -32,8 +32,8 @@ export const ModuleListSection = ({
           backgroundPosition: 'center',
         }}
       />
-      <div className="px-6 py-4">
-        <div className="mb-2 text-xl font-bold">{topic.title}</div>
+      <div className="px-4 py-1">
+        <div className="text-md mb-2 font-bold">{topic.title}</div>
         {topic.released ? (
           <div style={{ margin: '20px 0px 20px 0px' }}>
             <Link
@@ -51,7 +51,7 @@ export const ModuleListSection = ({
             Coming Soon
           </div>
         )}
-        <p className="text-base text-gray-500">{topic.description}</p>
+        <p className="text-base text-sm text-gray-500">{topic.description}</p>
       </div>
     </div>
   ))

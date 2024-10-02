@@ -1,5 +1,5 @@
 import { ModuleListSection } from '@/components/ModuleListContainer'
-import { communityCallVideos, workshops } from 'app/constants'
+import { communityCallVideos, technicalVideos, workshops } from 'app/constants'
 
 export default function ActivityPage() {
   return (
@@ -18,6 +18,27 @@ export default function ActivityPage() {
               width="100%"
               height="200px"
               style={{ borderRadius: 10, margin: '5px', maxWidth: 350 }}
+              src={video.url}
+              title="YouTube video player"
+              allowFullScreen
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          ))}
+        </div>
+      </div>
+      <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
+          Live Coding Sessions
+        </h1>
+        <div className="flex-wrap lg:flex" style={{ justifyContent: 'space-evenly' }}>
+          {technicalVideos.map((video) => (
+            <iframe
+              key={video.url}
+              width="100%"
+              height="200px"
+              style={{ borderRadius: 10, margin: '5px', maxWidth: 270 }}
               src={video.url}
               title="YouTube video player"
               allowFullScreen
