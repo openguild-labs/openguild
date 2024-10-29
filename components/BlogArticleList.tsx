@@ -17,7 +17,7 @@ export const BlogArticleList = ({
       {!posts.length && 'No posts found.'}
       {posts
         .filter((post) => post.tags.includes('polkadot') && post.tags.includes('lang-vn'))
-        // .slice(0, MAX_DISPLAY)
+        // .slice(0, 3)
         .map((post) => {
           const { slug, date, title, summary, tags } = post
           return (

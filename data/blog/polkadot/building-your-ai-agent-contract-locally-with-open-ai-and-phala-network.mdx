@@ -1,0 +1,130 @@
+---
+title: Building Your AI Agent Contract Locally with OpenAI and Phala Network
+date: 2024-10-29
+authors: ['']
+tags: ['technical', 'language', 'polkadot', 'parachain']
+draft: false
+summary: Learn how to create an AI agent contract locally using OpenAI and Phala Network in the Polkadot ecosystem. Over the past several years, we’ve witnessed the drastic progress of Artificial Intelligence.
+---
+
+## AI Agent Contract
+
+Learn how to create an AI agent contract locally using OpenAI and Phala Network in the Polkadot ecosystem. Over the past several years, we’ve witnessed the drastic progress of Artificial Intelligence. Notably, various research papers on small to large language models have been developed, transitioning from general-purpose to domain-focused products.
+
+The shift towards automation with AI across various fields and industries is now the next frontier that companies, from Web2 to Web3, are exploring. I recall when I started learning about [Playing Super Mario Bros with Reinforcement Learning](https://sohum-padhye.medium.com/playing-super-mario-bros-with-reinforcement-learning-81ee0c235372) and experimented with neural networks, realizing how reinforcement learning played a crucial role in its capabilities through the concepts of rewards and trial and error.
+
+## Learning through AI and Reinforcement
+
+In my previous role as a Data Scientist, I worked on projects related to supervised machine learning, and I see this concept as similar to a child learning to read and write. Initially, the child must familiarize themselves with grouping letters into vowels and consonants.
+
+At this stage, they might be shown images or videos to visually depict what a dog or cat looks like, helping them connect words with their meanings.
+
+**_"To be honest, I appreciate how predictive models focus on labeled data points, allowing them to generate results based on the input data and learn from it over time"._**
+
+Meanwhile, reinforcement learning is entirely different and uniquely complex, as it operates within its own environment.
+
+**_"It adapts based on attempts to gain rewards by performing favorable actions while avoiding penalties for errors."._**
+
+As we transition from supervised learning to reinforcement learning, the child learns to play their first chess game, where each move has a corresponding name and label.
+
+As they grasp the game techniques, they gradually adapt and test their skills by playing and experiencing the outcomes of winning or losing.
+
+This directive method relies on the child's existing knowledge of chess to anticipate results. However, the complexities increase based on the child's experience and understanding of which moves and techniques can lead to victory or defeat.
+
+Imagine that child competing against players from different areas; each opponent may employ tactics and moves the child hasn’t encountered. This situation requires the child to understand the chess [environment] thoroughly and take [actions] based on the [responses] of their opponents.
+
+![AI Agent](https://github.com/armlynobinguar/OpenGuild-Exploration/blob/main/images/article-1/General-workflow-of-AI-agent-Typically-an-AI-agent-consists-of-three-components.png?raw=true)
+
+## AI Agents in Web3 Environment
+
+So, how do AI agents work in a Web3 environment?
+
+Let’s first introduce **Phala Network**, a platform that serves as an execution layer for Web3 AI. By enabling AI to understand and interact with blockchains, developers can now build, launch, use, and profit from their agents with built-in security guarantees. Phala's AI Agent Contract provides an ideal toolset for creating intelligent applications.
+
+![Phala Network](https://github.com/armlynobinguar/OpenGuild-Exploration/blob/main/images/article-1/phala-network.jpg?raw=true)
+
+Learning about Web3 can initially seem complex, as it requires foundational knowledge to build your first decentralized applications (dApps). For those unfamiliar, dApps are the decentralized counterparts to the apps we typically use, operating on a decentralized server instead of a centralized one.
+
+Projects like Autonolas, Polywrap, Fetch.ai, and Virtuals Protocol are examples of how AI agents assist in this process.
+
+## Phala Network's AI Agent Contract
+
+Phala Network's multi-proof system is the answer to the AI execution problem. On top of the Phala Network, you can easily build tamper-proof and unstoppable AI Agents that are closely integrated with on-chain smart contracts.
+
+With this, **AI Agent Contract** allows you to build your smart contract-centric AI Agents in three steps:
+
+1. **Agentize smart contracts**: Create smart contract-centric AI Agents for popular web3 services and smart contracts. "Regulate" your AI Agents through a DAO to enforce business logic for your agents.
+2. **Connect to the internet of multi-agents**: Make your agents accessible by other cross-platform AI Agents deployed on Autonolas, FLock.io, Morpheus, Polywrap, etc.
+3. **Launch and get incentivized**: Own your agents and build a profitable tokenomic through our default tokenomic model or customize your own.
+
+## Building Your AI Agent
+
+This is the exciting part where we build our local AI agent with Phala Network using OpenAI and LangChain.
+
+First, ensure you have an OpenAI account and access to the API, as you’ll need it to run the AI agent.
+
+Begin by cloning this repository:
+
+```bash
+git clone https://github.com/Phala-Network/ai-agent-template-langchain.git
+```
+
+This is how it looks like:
+
+![Installation](https://github.com/armlynobinguar/OpenGuild-Polkadot-Open-Source-Contribution/blob/main/images/article-1/installation.jpg)
+
+If in case, you already cloned it. You’re good to go on the next step.
+
+## Install dependencies
+
+```bash
+npm install
+```
+
+From here, it does make sure that the dependencies is install on your end. If you encounter any issues do type this:
+
+```bash
+ npm audit fix
+```
+
+Build your Agent
+
+```bash
+npm run build
+```
+
+Following to that part is testing you AI Agent using the OpenAI API keys you have provided. If in case you do encounter issue make sure to do this:
+
+## OpenAI API Keys
+
+```bash
+echo $OPENAI_API_KEY
+```
+
+## Set Your Environment
+
+```bash
+export OPENAI_API_KEY=Insert your API Keys
+```
+
+You can use your Visual Studio Code or any IDE and do use this with your API Keys.
+
+Test your Agent locally
+
+```bash
+npm run test
+```
+
+Now once, these are all finished. You may now be able to test it out to see how it works.
+
+Although AI agents are autonomous in their decision-making processes, they still require goals and environments defined by humans. There are three main influences on the behavior of autonomous agents:
+
+- The team of developers who design and train the AI system.
+
+- The team responsible for deploying the agent and providing user access.
+
+- The user who defines specific goals for the AI agent to accomplish and establishes the tools available for its use.
+
+Given the user’s goals and the agent’s available tools, the AI agent performs task decomposition to enhance performance. Essentially, the agent creates a plan consisting of specific tasks and subtasks to achieve the complex goal.
+
+For simple tasks, planning may not be necessary. Instead, an agent can iteratively reflect on its responses and improve them without needing to plan its next steps.
