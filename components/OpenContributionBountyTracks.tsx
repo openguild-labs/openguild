@@ -57,20 +57,7 @@ const OpenContributionBountyTracks = () => {
 
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
         </a>
-        <a
-          href="/bounty/open-track"
-          className="group relative flex items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2"
-          style={{ width: '100%', aspectRatio: '1/1' }}
-        >
-          <img
-            src="/static/images/polkadot/jumbotron/OG_Bounty_Track_5_title.webp"
-            loading="lazy"
-            alt="Networking"
-            className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-          />
 
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
-        </a>
       </div>
     </div>
   )
