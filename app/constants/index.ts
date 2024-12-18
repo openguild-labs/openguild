@@ -262,14 +262,14 @@ export const inkTutorials = [
   {
     title: 'OpenHack Workshop - ink! Starter',
     description: 'Getting started with ink! smart contract development.',
-    url: 'https://github.com/openguild-labs/openhack-ink-starter',
+    url: 'https://github.com/openguild-labs/open-hack-ink-starter',
     img: '/static/images/polkadot/workshops/OpenHack_inkStarter.png',
     released: true,
   },
   {
     title: 'OpenHack Workshop - ink! Advanced',
     description: 'Learning more advanced concepts in ink! related to token standards and more.',
-    url: 'https://github.com/openguild-labs/openhack-ink-advanced',
+    url: 'https://github.com/openguild-labs/open-hack-ink-advanced',
     img: '/static/images/polkadot/workshops/OpenHack_inkAdvanced.png',
     released: true,
   },
@@ -277,9 +277,202 @@ export const inkTutorials = [
     title: 'OpenHack Workshop - Dedot',
     description:
       'Introduction to the client library Dedot to interact with Substrate-based nodes and ink! smart contract language.',
-    url: 'https://github.com/openguild-labs/openhack-dedot',
+    url: 'https://github.com/openguild-labs/open-hack-dedot',
     img: '/static/images/polkadot/workshops/OpenHack_Dedot.png',
     released: true,
+  },
+]
+
+export const bootcampPolkadotSdkVideos = [
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Introduce the Developer Bootcamp',
+    description:
+      'In this series, Tin Chung will take you step-by-step through the Polkadot SDK, empowering you to build scalable dApps and parachains on the Polkadot ecosystem.',
+    url: 'https://www.youtube.com/embed/JEvsI41bhUg?si=LwTpbT7-1B7HkEtc',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Introduce to Polkadot & Polkadot SDK [Section 1]',
+    description:
+      'In this video, we’ll introduce you to the Polkadot network, its revolutionary blockchain architecture, and the Polkadot SDK that powers developers to build scalable, interoperable blockchains',
+    url: 'https://www.youtube.com/embed/h-a0_i5WomA?si=m96gxM6tEoftEAvd',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Create a blockchain with Polkadot SDK [Section 2]',
+    description:
+      'In this video, we’ll guide you through creating a blockchain from scratch using the Polkadot SDK. You’ll learn the fundamentals of Substrate-based development and how to customize your chain for specific use cases.',
+    url: 'https://www.youtube.com/embed/5G6YazQnPI4?si=3zQ_m-vVtDs69jQW',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Build a State Machine from scratch [Section 3]',
+    description:
+      'In this tutorial, we’ll walk you through building a state machine—the foundation of any blockchain—entirely from scratch. Learn how states transition and how to implement efficient and secure state management.',
+    url: 'https://www.youtube.com/embed/QettrQIXA1c?si=KvHq27HvdbSGkT9Y',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Adding a custom logic to a Runtime [Section 4 | Part 1]',
+    description:
+      'This video explores how to add custom logic to your blockchain runtime using the Polkadot SDK. Whether you’re designing a dApp or a parachain, this tutorial will show you how to tailor your chain to meet specific needs.',
+    url: 'https://www.youtube.com/embed/diMgOaIYo-s?si=WGfx1tReH26jKGHn',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Common Runtime Modules [Section 4 | Part 2]',
+    description:
+      'This video provides an overview of commonly used runtime modules and their functionalities. From account management to governance, you’ll learn how to utilize these building blocks to accelerate your blockchain development.',
+    url: 'https://www.youtube.com/embed/zCIvp_P5atY?si=uF-AeIIA-4nZx9KA',
+  },
+  {
+    title:
+      'Open Polkadot Bootcamp 2025 - Substrate Storage Abstractions & Common Storage [Section 4 | Part 3]',
+    description:
+      'In this video, we break down the storage abstraction in Substrate and explore common storage types. Learn how to store and manage on-chain data efficiently and securely for your dApps or parachains.',
+    url: 'https://www.youtube.com/embed/Fco3oc1JuoI?si=BzT175YUSt_3O_-0',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Hooks (Polkadot SDK) [Section 4 | Part 4]',
+    description:
+      'In this tutorial, we explain what hooks are, how they work, and how to implement them for lifecycle management in your runtime modules.',
+    url: 'https://www.youtube.com/embed/jGLb5Jlh8WI?si=lfOeN1x2N0-gj9Bl',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Runtime API (Polkadot SDK) [Section 4 | Part 5]',
+    description:
+      'This video focuses on exposing logic from your runtime to external nodes. Learn how Runtime APIs work and how to use them to build efficient and interactive blockchain solutions.',
+    url: 'https://www.youtube.com/embed/BTz39Kzlv-U?si=qxXAhMB3jD99QJJO',
+  },
+  {
+    title:
+      'Open Polkadot Bootcamp - Interact with Substrate node on PolkadotJS Apps [Section 5 | Part 1]',
+    description:
+      "This tutorial demonstrates how to interact with a Substrate node using PolkadotJS Apps. You’ll learn how to test transactions, query storage, and deploy smart contracts via Polkadot's web interface.",
+    url: 'https://www.youtube.com/embed/uMaSEWajHT0?si=-MJ20uPmy58c1Bl_',
+  },
+  {
+    title: 'Open Polkadot Bootcamp - Mainnet, Testnet and Canary Network [Section 5 | Part 2]',
+    description:
+      'This video explains the purpose of each environment and provides best practices for deploying and testing your blockchain.',
+    url: 'https://www.youtube.com/embed/HL0Y0vseNuE?si=UkwnoYPIX43G8sYP',
+  },
+
+  {
+    title: 'Open Polkadot Bootcamp - Bump a Polkadot SDK version [Section 6]',
+    description:
+      'This tutorial covers how to bump a Polkadot SDK version, ensuring your project benefits from the latest features, security updates, and optimizations.',
+    url: 'https://www.youtube.com/embed/6nhIZmE1Nck?si=jkU0dNIvUaLhJ1uR',
+  },
+  {
+    title: 'Open Polkadot Bootcamp - Path of Parachain block breakdown [Section 7]',
+    description:
+      'In this video, we break down the path of a parachain block, explaining how data flows through the network and ensuring security, validation, and consensus.',
+    url: 'https://www.youtube.com/embed/qv_kCjFvq8k?si=fV5lZKwZcn-SWLM2',
+  },
+  {
+    title: 'Open Polkadot Bootcamp - Polkadot SDK - Introduce to Cumulus [Section 8]',
+    description:
+      'In this video, we’ll introduce you to the Cumulus framework, its architecture, and how it connects parachains to the relay chain for seamless interoperability.',
+    url: 'https://www.youtube.com/embed/97qt3AdZZnQ?si=CR4WEIuz1bqyJRHa',
+  },
+  {
+    title: 'Open Polkadot Bootcamp - Connect A Parachain To Relaychain Network [Section 9]',
+    description:
+      'This tutorial provides a step-by-step guide on configuring and registering your parachain for full network integration.',
+    url: 'https://www.youtube.com/embed/1epyfBorXI8?si=TnsBICT11xdTWLso',
+  },
+  {
+    title:
+      'Open Polkadot Bootcamp - Introduction to XCM, Transport Protocols & XCVM [Section 10 | Part 1]',
+    description:
+      'This video explains the basics of XCM, the transport protocol, and XCVM, enabling seamless communication and interactions across blockchains.',
+    url: 'https://www.youtube.com/embed/4dcqMtPOlbk?si=aIeqBVb91bSLChs4',
+  },
+  {
+    title:
+      'Open Polkadot Bootcamp - XCM Fundamentals with Locations & Assets [Section 10 | Part 2]',
+    description:
+      'In this video, we explore location concepts, asset transfers, and the fundamentals of cross-chain messaging within the Polkadot ecosystem.',
+    url: 'https://www.youtube.com/embed/bd-vz5E2Vyk?si=I5qDHMHW_vnCBV50',
+  },
+  {
+    title: 'Open Polkadot Bootcamp - Teleport, Transfers and Transact [Section 10 Part 3]',
+    description:
+      'This tutorial demonstrates how to use Teleport, Transfer, and Transact functions to move assets across chains and execute transactions securely and efficiently.',
+    url: 'https://www.youtube.com/embed/GQU3EXX8v4Q?si=wKJ2iaSU4YdhKmE3',
+  },
+]
+
+export const bootcampSolidityOnPolkaVmVideos = [
+  {
+    title: 'Open Polkadot Bootcamp 2025 - Introduce PolkaVM',
+    description:
+      'In this video, we introduce you to PolkaVM, a revolutionary smart contract platform built on RISC-V. Learn how PolkaVM empowers EVM developers to build efficient, scalable, and interoperable smart contracts on Polkadot.',
+    url: 'https://www.youtube.com/embed/EFTMgkqZDNE?si=xUbT4b91qgqUQXAR',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Getting Started [Section 1 | Part 1]',
+    description:
+      'In this tutorial, we’ll set up the tools and environment needed for developing and deploying smart contracts on PolkaVM. By the end, you’ll have everything ready to start building on this innovative platform.',
+    url: 'https://www.youtube.com/embed/01Day_18Eio?si=RifGFW_WVNhlqq4E',
+  },
+  {
+    title:
+      'Open Polkadot Bootcamp 2025 - PolkaVM - Structure of a Solidity file - [Section 1 | Part 2]',
+    description:
+      'This video breaks down the anatomy of a Solidity file, including its essential components, and shows how PolkaVM adapts Solidity for RISC-V-based execution.',
+    url: 'https://www.youtube.com/embed/b61wDEsjxpE?si=YXfzkP7JXUUFOkt2',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Contract structure - [Section 1 | Part 3]',
+    url: 'https://www.youtube.com/embed/DGa6EcMsoe8?si=xApgsuysoB-E9iAF',
+    description:
+      'In this tutorial, we’ll explore the overall structure of a smart contract in PolkaVM, including state variables, functions, and modifiers. Gain a solid foundation for building complex and secure contracts.',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Simple Storage [Section 2]',
+    url: 'https://www.youtube.com/embed/QQyOH0eivTc?si=z7a4zMbkO6iEULgT',
+    description:
+      'In this video, we’ll create a basic storage contract to demonstrate how PolkaVM handles state changes and persistent data on the blockchain.',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Value Types [Section 2 | Part 2]',
+    url: 'https://www.youtube.com/embed/iYgPpoxXEYw?si=xe4JfBtRVkbqj2Ux',
+    description:
+      'This tutorial covers common value types like integers, booleans, and addresses, explaining how they’re used and managed within the PolkaVM framework.',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Reference Types [Section 2 | Part 3]',
+    url: 'https://www.youtube.com/embed/oYcc_ZWTsic?si=_QjPolEjwr0BmhEA',
+    description:
+      'In this video, we’ll discuss arrays, structs, and other reference types, showing how to store and manipulate complex data structures in smart contracts.',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Mapping Types - [Section 2 | Part 4]',
+    url: 'https://www.youtube.com/embed/lhgvmmMbDkc?si=MfHkBnEDUKYMaiCX',
+    description:
+      'This tutorial demonstrates how mappings work in PolkaVM, their syntax, and best practices for organizing and retrieving data in your contracts.',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Advanced Storage [Section 3]',
+    url: 'https://www.youtube.com/embed/J2Zi44l5LwA?si=kd3AMx94910yRIwl',
+    description:
+      'In this video, we’ll explore advanced storage concepts in PolkaVM, including dynamic data handling and optimization techniques for more efficient smart contracts.',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Units [Section 3 | Part 2]',
+    url: 'https://www.youtube.com/embed/91yjmtDWUok?si=WiDxXgPy80814_L1',
+    description:
+      'This tutorial explains how to work with time units, currency denominations, and other measurement systems within smart contracts.',
+  },
+  {
+    title: 'Open Polkadot Bootcamp 2025 - PolkaVM - Global Variables [Section 3 | Part 3]',
+    url: 'https://www.youtube.com/embed/ZHA1tt1qYB0?si=aAq1Cbp4mt6a2t4I',
+    description:
+      'In this video, we’ll cover essential global variables like msg.sender and block.timestamp, demonstrating how they’re used to build dynamic and secure contracts.',
+  },
+  {
+    title:
+      'Open Polkadot Bootcamp 2025 - PolkaVM - Expression and Control Structures - [Section 3 | Part 4]',
+    url: 'https://www.youtube.com/embed/UdIxAO_Jha8?si=ax5xEh3C-ooaft2Q',
+    description:
+      'This tutorial teaches you how to use if-else statements, loops, and other control structures to create logic for your smart contracts in PolkaVM.',
   },
 ]
 
