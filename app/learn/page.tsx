@@ -86,7 +86,7 @@ export default function LearnPage() {
         <h1 className="mb-2 text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
           Learn Polkadot Development
         </h1>
-        <div className="flex gap-4 sm:flex-wrap lg:flex-nowrap">
+        <div className="block gap-4 sm:flex">
           <div style={{ maxWidth: 400 }}>
             <SectionWithBanner
               title="Open Polkadot Bootcamp"
