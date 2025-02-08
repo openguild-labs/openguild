@@ -11,7 +11,7 @@ export function TwitterPostsMarquee({ tweetIds }: { tweetIds: string[] }) {
             <iframe
               loading="lazy"
               src={`https://platform.twitter.com/embed/Tweet.html?frame=false&hideCard=false&hideThread=false&id=${postId}&origin=https://openguild.wtf&theme=light&width=550px`}
-              style={{ height: '600px', maxWidth: '350px', minWidth: '100%' }}
+              style={{ height: '600px', width: '400px', minWidth: '100%' }}
               title={`Twitter Post ${postId}`}
               frameBorder="0"
               scrolling="no"
