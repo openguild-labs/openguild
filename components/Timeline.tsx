@@ -37,14 +37,23 @@ export default function Timeline() {
       description:
         'Explore missions on OpenGuild Community Platform, finish tasks and claim rewards.',
     },
+    // {
+    //   url: '/static/images/polkadot-hackcamp.png',
+    //   title: 'Community Platform',
+    //   buttonTitle: 'Register course & hackathon',
+    //   href: 'https://polkadot.openedu101.com/',
+    //   header: 'Polkadot Hackcamp 2024 🇻🇳',
+    //   description:
+    //     'Learn blockchain development from experts in the Polkadot Hackcamp Vietnam 2024 and prepare for upcoming hackathons.',
+    // },
     {
-      url: '/static/images/polkadot-hackcamp.png',
-      title: 'Community Platform',
-      buttonTitle: 'Register course & hackathon',
-      href: 'https://polkadot.openedu101.com/',
-      header: 'Polkadot Hackcamp 2024 🇻🇳',
+      url: '/static/images/polkadot/bootcamp/bootcamp-banner.png',
+      title: '📚 Open-source Education',
+      buttonTitle: 'Register bootcamp',
+      href: '/learn/bootcamp',
+      header: 'Open Polkadot Bootcamp',
       description:
-        'Learn blockchain development from experts in the Polkadot Hackcamp Vietnam 2024 and prepare for upcoming hackathons.',
+        'Open Polkadot Bootcamp, created by OpenGuild Labs, is designed to educate learners on all aspects of the Polkadot protocol and development within the Polkadot ecosystem.',
     },
   ]
 
@@ -52,7 +61,7 @@ export default function Timeline() {
     <section>
       <SectionContainer>
         <div className="container mx-auto h-full w-full bg-white">
-          <div className="wrap relative h-full overflow-hidden">
+          <div className="wrap relative h-full">
             {/* <!-- Large device screen --> */}
             {TimelineItems.map((item, index) => (
               <React.Fragment>

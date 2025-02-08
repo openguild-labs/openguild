@@ -1,13 +1,40 @@
 'use client'
-import { twitterPosts } from 'app/constants'
 import React, { useState } from 'react'
+import Marquee from 'react-fast-marquee'
 
-export function TwitterPostsShowcase() {
+export function TwitterPostsMarquee({ tweetIds }: { tweetIds: string[] }) {
+  return (
+    <div>
+      <Marquee autoFill>
+        {tweetIds.map((postId) => (
+          <div key={postId} style={{ margin: '10px 10px' }}>
+            <iframe
+              loading="lazy"
+              src={`https://platform.twitter.com/embed/Tweet.html?frame=false&hideCard=false&hideThread=false&id=${postId}&origin=https://openguild.wtf&theme=light&width=550px`}
+              style={{ height: '600px', maxWidth: '350px', minWidth: '100%' }}
+              title={`Twitter Post ${postId}`}
+              frameBorder="0"
+              scrolling="no"
+            ></iframe>
+          </div>
+        ))}
+      </Marquee>
+    </div>
+  )
+}
+
+export function TwitterPostsShowcase({
+  seeMoreEnabled,
+  tweetIds,
+}: {
+  seeMoreEnabled?: boolean
+  tweetIds: string[]
+}) {
   const [showAll, setShowAll] = useState(false)
   return (
     <div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-        {twitterPosts.slice(0, showAll ? twitterPosts.length : 3).map((postId) => (
+        {tweetIds.slice(0, showAll ? tweetIds.length : 3).map((postId) => (
           <div key={postId} style={{ margin: '10px 10px' }}>
             <iframe
               loading="lazy"
@@ -20,7 +47,7 @@ export function TwitterPostsShowcase() {
           </div>
         ))}
       </div>
-      {!showAll && (
+      {seeMoreEnabled && !showAll && (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <button
             onClick={() => setShowAll(true)}

@@ -1,11 +1,12 @@
 // import EventImageGallery from '@/components/EventImageGallery'
-import Link from '@/components/Link'
 import React from 'react'
 import FeaturedSectionContainer from '@/components/FeaturedSectionContainer'
 import MembersShowcaseList from '@/components/MembersShowcaseList'
-import { TwitterPostsShowcase } from '@/components/TwitterPostsShowcase'
+import { TwitterPostsMarquee, TwitterPostsShowcase } from '@/components/TwitterPostsShowcase'
 import LearnMoreSection from '@/components/LearnMoreSection'
 import Timeline from '@/components/Timeline'
+import Countup from '@/components/Countup'
+import { communityTwitterFeedback, twitterPosts } from 'app/constants'
 
 export default function PolkadotMainPage() {
   return (
@@ -123,7 +124,7 @@ export default function PolkadotMainPage() {
       </div> */}
       <br />
       <h1 className="text-md mb-5 text-center font-bold">
-        Connect with +3000 builders in 🇻🇳🇵🇭🇲🇾🇹🇭🇸🇬
+        Connect with more than <Countup end={3500} duration={5} /> builders in 🇻🇳🇵🇭🇲🇾🇹🇭🇸🇬
       </h1>
       <MembersShowcaseList />
       <br />
@@ -139,37 +140,58 @@ export default function PolkadotMainPage() {
           {[
             {
               icon: '🫂',
-              number: '+3000',
+              number: (
+                <div>
+                  + <Countup end={3500} duration={5} />
+                </div>
+              ),
               title: 'Community Members',
               description: 'Total number of members across platforms.',
             },
             {
               icon: '💰',
-              number: '+$20K',
+              number: (
+                <div>
+                  + <Countup end={20000} duration={5} />$
+                </div>
+              ),
               title: 'Total Bounty Pool',
               description: 'Icentives for community members to build and learn to earn.',
             },
             {
               icon: '🎓',
-              number: 7,
+              number: <Countup end={20} duration={5} />,
               title: 'PBA Participants',
               description: 'Community members that finished past Polkadot Blockchain Academy.',
             },
             {
               icon: '🎮',
-              number: '+50',
+              number: (
+                <div>
+                  + <Countup end={70} duration={5} />
+                </div>
+              ),
               title: 'Community Calls & Workshops',
               description: 'Online & offline sections for knowledge sharing about Polkadot.',
             },
             {
               icon: '🎉',
-              number: '+32K',
+              number: (
+                <div>
+                  + <Countup end={50000} duration={5} />
+                  XP
+                </div>
+              ),
               title: 'XP Distributed',
               description: 'Experience point is a unit of activeness in the community.',
             },
             {
               icon: '🧱',
-              number: '+30',
+              number: (
+                <div>
+                  + <Countup end={50} duration={5} />
+                </div>
+              ),
               title: 'Projects & courses',
               description: 'Open-source projects and educational materials built by us.',
             },
@@ -198,6 +220,15 @@ export default function PolkadotMainPage() {
         </div>
       </div>
       <br />
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-center text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
+            Feedback from our members
+          </h1>
+          <TwitterPostsMarquee tweetIds={communityTwitterFeedback} />
+        </div>
+      </div>
+      <br />
       <div className="mt-5">
         <div className="space-y-2 pb-8 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
@@ -214,7 +245,7 @@ export default function PolkadotMainPage() {
           <h1 className="text-center text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
             Shaping the Next Generation of the Internet!
           </h1>
-          <TwitterPostsShowcase />
+          <TwitterPostsShowcase seeMoreEnabled={true} tweetIds={twitterPosts} />
         </div>
       </div>
     </React.Fragment>
