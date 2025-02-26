@@ -13,18 +13,21 @@ export default function Projects() {
             Projects
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            List of projects made or contributed by OpenGuild
+            List of projects built for OpenGuild hackathons
           </p>
         </div>
         <div className="container py-12">
           <div className="-m-4 flex flex-wrap">
-            {projectsData.map((d) => (
+            {projectsData.map((d, index) => (
               <Card
-                key={d.title}
+                key={`${d.title}-${index}`}
                 title={d.title}
                 description={d.description}
                 imgSrc={d.imgSrc}
                 href={d.href}
+                competition={d.competition}
+                award={d.award}
+                github={d.github}
               />
             ))}
           </div>

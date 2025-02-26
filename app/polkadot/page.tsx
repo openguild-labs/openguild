@@ -7,6 +7,7 @@ import LearnMoreSection from '@/components/LearnMoreSection'
 import Timeline from '@/components/Timeline'
 import Countup from '@/components/Countup'
 import { communityTwitterFeedback, twitterPosts } from 'app/constants'
+import ProjectShowcaseSection from '@/components/ProjectShowcaseSection'
 
 export default function PolkadotMainPage() {
   return (
@@ -129,6 +130,8 @@ export default function PolkadotMainPage() {
       <MembersShowcaseList />
       <br />
       <LearnMoreSection />
+      <br />
+      <ProjectShowcaseSection />
       <br />
       <div>
         <div className="space-y-2 pb-8 md:space-y-5">

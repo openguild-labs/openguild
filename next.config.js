@@ -13,7 +13,7 @@ const ContentSecurityPolicy = `
   media-src *.s3.amazonaws.com;
   connect-src *;
   font-src 'self';
-  frame-src https://platform.twitter.com https://www.youtube.com
+  frame-src https://platform.twitter.com https://www.youtube.com 
 `
 
 const securityHeaders = [
@@ -66,7 +66,7 @@ module.exports = () => {
       dirs: ['app', 'components', 'layouts', 'scripts'],
     },
     images: {
-      domains: ['picsum.photos'],
+      domains: ['picsum.photos', 'cdn.dorahacks.io'],
     },
     async headers() {
       return [
