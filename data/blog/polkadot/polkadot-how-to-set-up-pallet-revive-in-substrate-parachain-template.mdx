@@ -217,13 +217,20 @@ Reference: [View Commit](https://github.com/openguild-labs/substrate-revive-node
 
 You will need to define how Ethereum-style transactions are converted into Substrate extrinsics and implement the necessary runtime APIs for `pallet-revive` to function. This involves defining `UncheckedExtrinsic` and implementing the `revive_rpc::ReviveRuntimeApi`.
 
-Reference for Extrinsic conversion: [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/59dcf99b2c8328d661d7fa84ab863e5a09a71965)
+* Reference for Extrinsic conversion: [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/59dcf99b2c8328d661d7fa84ab863e5a09a71965)
 
-Reference for Runtime API implementation: [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/328bdf3b79b691de0e12da72270379097592b686)
+* Reference for Runtime API implementation: [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/328bdf3b79b691de0e12da72270379097592b686)
 
-Reference for Fixing Bug due to missing functions/types import : [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/72ccd3bdba2d6ef8469e057e275b9df8bdcb98e2)
+* Reference for Fixing Bug due to missing functions/types import : [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/72ccd3bdba2d6ef8469e057e275b9df8bdcb98e2)
 
-**Note**: Following these modifications, rebuild the project using `cargo build --release`. Subsequently, regenerate the chain specification.
+**Note**: Following these modifications, rebuild the project using `cargo build --release`. 
+
+Subsequently, regenerate the chain specification.
+
+```
+chain-spec-builder create --relay-chain "rococo-local" --para-id 1000 --runtime \
+    target/release/wbuild/parachain-template-runtime/parachain_template_runtime.wasm named-preset development
+```
 
 ## 🛠️ Deploy and Interact with Solidity Smart Contracts
 
@@ -295,13 +302,13 @@ Should you require guidance on configuring a network within MetaMask, please con
 
 ### Step 4: Map Substrate Account to ETH Account
 
-Use the `revive.mapAccount` extrinsic in Polkadot-JS Apps (Developer \> Extrinsics) to link your Substrate account (e.g., Alice) to its corresponding Ethereum account. This enables the EVM to recognize your Substrate account's identity.
+Use the `revive.mapAccount` extrinsic in Polkadot-JS Apps (`Developer` \> `Extrinsics`) to link your Substrate account (e.g., Alice) to its corresponding Ethereum account. This enables the EVM to recognize your Substrate account's identity.
 
 ![Map Account](/static/images/polkadot/blog/polkadot-pallet-revive/map-account.png)
 
 ### Step 5: Transfer Funds to Your ETH Account
 
-Use the `revive.call` extrinsic to transfer native REVIVE tokens to your ETH address. This will fund your account for gas fees.
+Use the `revive.call` extrinsic to transfer native `REVIVE` tokens to your ETH address. This will fund your account for gas fees.
 
 | Field | Description                                 | Example (if applicable)        |
 | :---- | :------------------------------------------ | :----------------------------- |
