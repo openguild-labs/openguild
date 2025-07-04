@@ -1,0 +1,330 @@
+---
+title: 'How to set up pallet revive in substrate parachain template'
+date: '2025-07-04'
+authors: ['1-dustin']
+tags: ['technical', 'blockchain', 'polkadot', 'polkadot-sdk', 'polkaVM', 'lang-en']
+draft: false
+summary: 'A deep dive into the substrate-revive-node, a minimal Substrate node template with pallet-revive, and its strategic importance for developers building for the next generation of Polkadot.'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Intermediate
+
+
+## 🚀 What is `substrate-revive-node`?
+
+`substrate-revive-node` is a minimal Substrate template powered by `pallet-revive`, enabling developers to build and test smart contracts on `PolkaVM` — the core of Polkadot 2.0.
+
+### The Power of `pallet-revive`
+
+| Feature                                | Description                                                                 |
+|----------------------------------------|-----------------------------------------------------------------------------|
+| **Execution Engine**                   | `pallet-revive` runs smart contracts compiled for **PolkaVM**              |
+| **Ecosystem Compatibility**            | Built for the next wave of dApps on **Polkadot**                           |
+| **Advantages**                         | High performance, better efficiency, greater versatility                   |
+| **RPC Interface**                      | Includes an **Ethereum-compatible RPC** interface                          |
+| **Developer Tools Support**           | Works with familiar tools like **Remix** and **MetaMask** or **web3** library   |
+| **Smart Contract Support**            | Deploy and interact with **Solidity smart contracts** on **Substrate**     |
+
+
+
+### Why This Matters in the Age of PolkaVM
+
+The introduction of PolkaVM represents a fundamental shift in how logic will be executed on Polkadot. As the designated successor to the current WASM engine, PolkaVM promises greater performance, efficiency, and versatility, forming the core of the JAM architecture.
+
+This is where `substrate-revive-node` becomes strategically important. Via `pallet-revive` means developers can:
+
+* Test new runtime migrations and features repeatedly with newer PolkaVM development.
+* Deploy and test complex Solidity Dapps without the overhead of slow, manual resets.
+
+In short, `substrate-revive-node` is a perfect sandbox for preparing for the PolkaVM future.
+
+## 🛠️ Quick Start: Running the Pre-Built Node
+
+This section is for developers who want to quickly run the pre-built `substrate-revive-node`.
+
+### Prerequisites
+
+Ensure your machine is configured for Substrate development:
+
+* **Rust**: Install the Rust toolchain.
+* **Substrate Environment**: Follow the official installation guide to set up all necessary dependencies.
+* Install `polkadot-omni-node`: This tool allows you to run different parachain and relay-chain nodes in a single executable.
+
+    ```bash
+    cargo install --locked polkadot-omni-node@0.5.0
+    ```
+
+* Install `staging-chain-spec-builder`: This tool helps generate the chain specification file for your parachain.
+
+    ```bash
+    cargo install --locked staging-chain-spec-builder@10.0.0
+    ```
+
+* Install `revive-eth-rpc`: This tool provides an Ethereum-compatible JSON-RPC interface to your node.
+
+    ```bash
+    cargo install pallet-revive-eth-rpc@0.4.0
+    ```
+
+### 1. Clone the Repository
+
+```bash
+git clone [https://github.com/openguild-labs/substrate-revive-node.git](https://github.com/openguild-labs/substrate-revive-node.git)
+cd substrate-revive-node
+````
+
+### 2\. Build the Node
+
+Compile the node and launch it in development mode.
+
+```bash
+cargo build --release
+```
+
+### 3\. Generate the Chain Spec
+
+Use the builder to create `chain_spec.json` for a local Rococo relay chain.
+
+```bash
+chain-spec-builder create --relay-chain "rococo-local" --para-id 1000 --runtime \
+    target/release/wbuild/parachain-template-runtime/parachain_template_runtime.wasm named-preset development
+```
+
+## 🔬 Optional: Integrating `pallet-revive` From Scratch
+
+This section provides a detailed, step-by-step guide for developers who want to integrate `pallet-revive` into their own parachain project based on the `polkadot-sdk-parachain-template`.
+
+**Note**: If you're not integrating `pallet-revive` from scratch, you can bypass this section and proceed to the "Deploy and Interact with Solidity Smart Contracts" guide.
+
+### Step 1: Install Rust
+
+👉 Check the [Rust installation instructions](https://www.rust-lang.org/tools/install) for your system.
+
+🛠️ Depending on your OS, you may need additional packages. Pay attention to the Rust compiler output.
+
+### Step 2: Fetch Parachain Template Code
+
+```bash
+git clone [https://github.com/paritytech/polkadot-sdk-parachain-template.git](https://github.com/paritytech/polkadot-sdk-parachain-template.git)
+cd polkadot-sdk-parachain-template
+```
+
+### Step 3: Build the Project
+
+```bash
+cargo build --release
+```
+
+### Step 4: Add `pallet-revive` to `Cargo.toml`
+
+In your `runtime/Cargo.toml` file, add `pallet-revive` to the `features` list for `polkadot-sdk`.
+
+```toml
+# In runtime/Cargo.toml
+polkadot-sdk = { workspace = true, features = ["...", "pallet-revive"], default-features = false }
+```
+
+Reference: [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/2c1bd2d0966331c9f0cd9e5a2db2f0f7fbdbae25)
+
+### Step 5: Configure `pallet-revive` in the Runtime
+
+In `runtime/src/lib.rs`, add the pallet to `construct_runtime!` and implement its `Config` trait.
+
+#### 1\. Add to `construct_runtime!`
+
+```rust
+// In runtime/src/lib.rs
+construct_runtime! {
+    pub enum Runtime {
+        ...,
+        #[runtime::pallet_index(60)]
+        Revive = pallet_revive,
+        ...
+    }
+}
+```
+
+#### 2\. Implement the `Config` trait
+
+```rust
+// In runtime/src/lib.rs
+use frame_support::{
+	parameter_types,
+	traits::{ConstBool, ConstU32, Nothing},
+	weights::constants::WEIGHT_REF_TIME_PER_SECOND,
+};
+use sp_runtime::Perbill;
+
+// Define necessary constants and parameter types
+const ETH: u128 = 1_000_000_000_000_000_000;
+pub const fn deposit(items: u32, bytes: u32) -> Balance {
+	(items as Balance * UNIT + (bytes as Balance) * (5 * MILLI_UNIT / 100)) / 10
+}
+parameter_types! {
+	pub ChainId: u64 = u32::from(crate::genesis_config_presets::PARACHAIN_ID) as u64;
+	pub const DepositPerItem: Balance = deposit(1, 0);
+	pub const DepositPerByte: Balance = deposit(0, 1);
+	pub const DefaultDepositLimit: Balance = deposit(1024, 1024 * 1024);
+	pub const CodeHashLockupDepositPercent: Perbill = Perbill::from_percent(30);
+	pub const NativeToEthRatio: u32 = (ETH/UNIT) as u32;
+}
+
+// Implement the pallet_revive::Config trait
+impl pallet_revive::Config for Runtime {
+	type AddressMapper = pallet_revive::AccountId32Mapper<Self>;
+	type CallFilter = Nothing;
+	type ChainExtension = ();
+	type ChainId = ChainId;
+	type CodeHashLockupDepositPercent = CodeHashLockupDepositPercent;
+	type Currency = Balances;
+	type DepositPerByte = DepositPerByte;
+	type DepositPerItem = DepositPerItem;
+	type InstantiateOrigin = EnsureSigned<Self::AccountId>;
+	type NativeToEthRatio = NativeToEthRatio;
+	type PVFMemory = ConstU32<{ 512 * 1024 * 1024 }>;
+	type RuntimeCall = RuntimeCall;
+	type RuntimeEvent = RuntimeEvent;
+	type RuntimeHoldReason = RuntimeHoldReason;
+	type RuntimeMemory = ConstU32<{ 128 * 1024 * 1024 }>;
+	type Time = Timestamp;
+	type UnsafeUnstableInterface = ConstBool<false>;
+	type UploadOrigin = EnsureSigned<Self::AccountId>;
+	type WeightInfo = pallet_revive::weights::SubstrateWeight<Self>;
+	type WeightPrice = TransactionPayment;
+	type Xcm = ();
+	type EthGasEncoder = ();
+    type FindAuthor = pallet_authorship::Pallet<Self>;
+}
+
+impl TryFrom<RuntimeCall> for pallet_revive::Call<Runtime> {
+	type Error = ();
+	fn try_from(value: RuntimeCall) -> Result<Self, Self::Error> {
+		match value {
+			RuntimeCall::Revive(call) => Ok(call),
+			_ => Err(()),
+		}
+	}
+}
+```
+
+Reference: [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/f6a0b5feb8516f0a8061e692b367ed0cb46e500a)
+
+### Step 6: Add Runtime APIs and Extrinsics
+
+You will need to define how Ethereum-style transactions are converted into Substrate extrinsics and implement the necessary runtime APIs for `pallet-revive` to function. This involves defining `UncheckedExtrinsic` and implementing the `revive_rpc::ReviveRuntimeApi`.
+
+Reference for Extrinsic conversion: [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/59dcf99b2c8328d661d7fa84ab863e5a09a71965)
+
+Reference for Runtime API implementation: [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/328bdf3b79b691de0e12da72270379097592b686)
+
+Reference for Fixing Bug due to missing functions/types import : [View Commit](https://github.com/openguild-labs/substrate-revive-node/commit/72ccd3bdba2d6ef8469e057e275b9df8bdcb98e2)
+
+**Note**: Following these modifications, rebuild the project using `cargo build --release`. Subsequently, regenerate the chain specification.
+
+## 🛠️ Deploy and Interact with Solidity Smart Contracts
+
+Once your node is running with `pallet-revive`, you can deploy Solidity contracts to its EVM environment.
+
+### Prerequisites
+
+Install either [SubWallet](https://subwallet.app/) or the [Polkadot-JS Extension Wallet](https://polkadot.js.org/extension/) to interact with `pallet-revive`. These browser extensions provide the necessary interface for managing accounts and signing transactions on your Substrate chain.
+
+### Step 1: Run Your Node and the ETH RPC
+
+Run your parachain node using `polkadot-omni-node` and the ETH RPC server in separate terminals.
+
+**Terminal 1: Omni Node**
+
+```bash
+polkadot-omni-node --chain chain_spec.json --dev -lruntime::revive=debug --dev-block-time 1000
+```
+
+If your setup is successful, you'll see blocks finalizing, as demonstrated in the screenshot below.
+
+![Omni Node](/static/images/polkadot/blog/polkadot-pallet-revive/run-substrate-node.png)
+
+**Terminal 2: ETH RPC**
+
+```bash
+eth-rpc --dev
+```
+
+Upon successful execution, the ETH-compatible RPC will be enabled, as illustrated in the screenshot below:
+
+![Eth RPC](/static/images/polkadot/blog/polkadot-pallet-revive/run-eth-rpc-revive.png)
+
+**Note**: The provided commands are tailored for macOS. If you are operating on a Windows or Ubuntu system, please adjust the commands accordingly (e.g., use `./eth-rpc --dev` for execution).
+
+### Step 2: Check the RPC Endpoint
+
+Open another terminal and verify the RPC is working by querying for the latest block.
+
+```bash
+curl -X POST [http://127.0.0.1:8545](http://127.0.0.1:8545) \
+ -H "Content-Type: application/json" \
+ -d '{
+   "jsonrpc":"2.0",
+   "method":"eth_getBlockByNumber",
+   "params":["latest", false],
+   "id":1
+ }'
+```
+
+**Result on terminal:**
+
+```json
+{"jsonrpc":"2.0","id":1,"result":{"baseFeePerGas":"0x3e8","difficulty":"0x0","extraData":"0x","gasLimit":"0xacd7562ed58","gasUsed":"0x0","hash":"0x02cde1577e473247acf571b8f5b897f1260041c97f192ac1b279bfd925c5902d","logsBloom":"0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000","miner":"0x0000000000000000000000000000000000000000","mixHash":"0x0000000000000000000000000000000000000000000000000000000000000000","nonce":"0x0000000000000000","number":"0x223","parentHash":"0xdff0e158ef27c61596d507fe5db8ebca42093285205f9bd2fad3b2745ecc7851","receiptsRoot":"0x1a87fdedf1adb6675f0bb4b306666b715b45bc1fee8ceafcca3b3b1135e5e0a5","sha3Uncles":"0x0000000000000000000000000000000000000000000000000000000000000000","size":"0x0","stateRoot":"0x80d5f063d8162216863f3fe3b18f6d003126ac4ea33e9869b64782da661a44ef","timestamp":"0x0","transactions":[],"transactionsRoot":"0x1a87fdedf1adb6675f0bb4b306666b715b45bc1fee8ceafcca3b3b1135e5e0a5","uncles":[]}}
+```
+
+### Step 3: Add Local Network to MetaMask
+
+Configure MetaMask to connect to your local node.
+
+| Properties      | Network Details       |
+| :-------------- | :-------------------- |
+| Network name    | Substrate Node Revive |
+| RPC URL         | `http://127.0.0.1:8545` |
+| Chain ID        | `1000`                |
+| Currency Symbol | `REVIVE`              |
+
+Should you require guidance on configuring a network within MetaMask, please consult the following documentation: [https://support.metamask.io/configure/networks/how-to-add-a-custom-network-rpc/](https://support.metamask.io/configure/networks/how-to-add-a-custom-network-rpc/)
+
+### Step 4: Map Substrate Account to ETH Account
+
+Use the `revive.mapAccount` extrinsic in Polkadot-JS Apps (Developer \> Extrinsics) to link your Substrate account (e.g., Alice) to its corresponding Ethereum account. This enables the EVM to recognize your Substrate account's identity.
+
+![Map Account](/static/images/polkadot/blog/polkadot-pallet-revive/map-account.png)
+
+### Step 5: Transfer Funds to Your ETH Account
+
+Use the `revive.call` extrinsic to transfer native REVIVE tokens to your ETH address. This will fund your account for gas fees.
+
+| Field | Description                                 | Example (if applicable)        |
+| :---- | :------------------------------------------ | :----------------------------- |
+| `dest`  | Your MetaMask ETH address                   | `0x783FC27915754512E72b5811599504eCa458E4C5` |
+| `value` | Amount of tokens to transfer (in wei)       | `1000000000000000` (1000 REVIVE) |
+| `data`  | Hex-encoded data for contract interaction | `0x` (for simple transfers)      |
+
+
+
+![Transfer Funds](/static/images/polkadot/blog/polkadot-pallet-revive/transfer-native-token-evm-account.png)
+
+Check balance on Metamask
+
+![Check Balance](/static/images/polkadot/blog/polkadot-pallet-revive/check-balance.png)
+
+### Step 6: Deploy Smart Contract with Remix
+
+You can now use an EVM-compatible tool like [Remix](https://remix.ethereum.org/) to deploy your Solidity smart contracts. Connect Remix to your local node (Injected Provider - MetaMask) and deploy as you would on any other EVM network.
+
+## Conclusion
+
+The `substrate-revive-node` is more than a mere template; it's a productivity multiplier for today's Polkadot developer. It directly addresses the needs of builders looking ahead to the PolkaVM and JAM era.
+
+For any developer serious about building on the cutting edge of Polkadot, this tool and the techniques described here are invaluable assets.
+
+Happy hacking\!
