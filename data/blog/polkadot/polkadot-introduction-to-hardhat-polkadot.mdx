@@ -1,0 +1,274 @@
+---
+title: 'Introduction to Hardhat Polkadot'
+date: '2025-07-23'
+authors: ['1-dustin']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
+draft: false
+summary: 'This guide details setting up a Solidity development environment for PolkaVM on Polkadot, using Hardhat to deploy ERC20 tokens on Paseo Asset Hub.'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Beginner
+
+
+-----
+
+# Introduction to Hardhat Polkadot 🚀
+
+This guide will walk you through setting up a development environment to deploy Solidity smart contracts on Polkadot's PolkaVM using the Hardhat Polkadot plugin. We'll cover everything from project initialization to deploying and interacting with an ERC20 token on the Paseo Asset Hub testnet.
+
+## What is Hardhat Polkadot?
+
+**Hardhat Polkadot** is a plugin for the popular Ethereum development environment, Hardhat. It extends Hardhat's capabilities, allowing developers to compile, deploy, and test Solidity smart contracts directly on Polkadot parachains that feature the PolkaVM (a RISC-V based virtual machine). This enables a familiar workflow for EVM developers to build on the Polkadot ecosystem.
+
+-----
+
+## 1\. Project Setup and Installation 🛠️
+
+First, let's create a new project directory and initialize it.
+
+1.  **Create and navigate into your project folder:**
+
+    ```bash
+    mkdir hardhat-example
+    cd hardhat-example
+    ```
+
+2.  **Initialize a Node.js project:**
+
+    ```bash
+    npm init -y
+    ```
+
+3.  **Install the Hardhat Polkadot plugin:**
+
+    ```bash
+    npm install --save-dev @parity/hardhat-polkadot@0.1.5
+    ```
+
+4.  **Initialize a Hardhat Polkadot project:**
+
+    ```bash
+    npx hardhat-polkadot init
+    ```
+
+    You will be prompted to choose a project type. For this guide, select `Create a JavaScript project`.
+
+    > **📝 Important Note:**
+    > When the installer asks: `Do you want to install this sample project's dependencies with npm (@nomicfoundation/hardhat-toolbox)?`
+
+    > **Choose `n` (No).** We will install the required dependency manually in a later step to ensure compatibility.
+
+5.  **Install `dotenv` to manage environment variables:**
+
+    ```bash
+    npm i dotenv
+    ```
+
+-----
+
+## 2\. Hardhat Configuration ⚙️
+
+Now, let's configure Hardhat to connect to the Paseo Asset Hub and enable PolkaVM.
+
+1.  Open the `hardhat.config.js` file and replace its contents with the following configuration.
+
+    > **Key Point:** The `polkavm: true` flag is essential. It tells the Hardhat Polkadot plugin to compile and deploy the contract for the PolkaVM environment.
+
+    ```javascript
+    require('@nomicfoundation/hardhat-toolbox');
+    require('@parity/hardhat-polkadot');
+    require('dotenv').config();
+
+    /** @type import('hardhat/config').HardhatUserConfig */
+    module.exports = {
+        solidity: '0.8.28',
+        networks: {
+            // Local development network
+            hardhat: {
+                polkavm: true,
+            },
+            // Paseo Asset Hub testnet
+            paseo: {
+                polkavm: true,
+                url: 'https://testnet-passet-hub-eth-rpc.polkadot.io/',
+                accounts: [process.env.PASEO_PK],
+            },
+        }
+    };
+    ```
+
+2.  Create a `.env` file in your project's root directory to store your private key securely.
+
+    ```bash
+    touch .env
+    ```
+
+3.  Add your account's private key to the `.env` file.
+
+    ```env
+    PASEO_PK=<your_private_key_here>
+    ```
+
+    > **💰 Get Testnet Funds:**
+    > Make sure your account has a sufficient balance. You can get free testnet tokens from the official Polkadot faucet:
+    > **[https://faucet.polkadot.io/?parachain=paseo\_asset\_hub](https://www.google.com/search?q=https://faucet.polkadot.io/%3Fparachain%3Dpaseo_asset_hub)**
+
+-----
+
+## 3\. Deploy ERC20 on Paseo Asset Hub 🚢
+
+The initialization process created an example ERC20 contract. Let's compile and deploy it.
+
+### Compile the Contract
+
+1.  Run the standard Hardhat compile command.
+
+    ```bash
+    npx hardhat compile
+    ```
+
+    You will likely encounter the following error:
+
+    ```
+    An unexpected error occurred:
+
+    Error: Cannot find module '@nomicfoundation/hardhat-toolbox'
+    Require stack:
+    ...
+    ```
+
+2.  **Fix the Compilation Error**
+    This error occurs because the initializer is not yet stable. To fix it, manually install the correct version of `@nomicfoundation/hardhat-toolbox`.
+
+    > **💡 Solution:**
+    > Run the following command to install the necessary dependency. The `--force` flag may be needed to resolve peer dependency conflicts.
+
+    > ```bash
+    > npm install --save-dev @nomicfoundation/hardhat-toolbox@5.0.0 --force
+    > ```
+
+3.  Now, run the compile command again. It should complete successfully.
+
+    ```bash
+    npx hardhat compile
+    ```
+
+### Deploy with Ignition
+
+We will use Hardhat Ignition to deploy our `MyToken.sol` contract to the Paseo network.
+
+1.  Execute the deployment script.
+
+    ```bash
+    npx hardhat ignition deploy ignition/modules/MyToken.js --network paseo
+    ```
+
+2.  **Check the result.** A successful deployment will look like this:
+
+    ```
+    Hardhat Ignition 🚀
+
+    Deploying [ MyTokenModule ]
+
+    Batch #1
+      Executed MyTokenModule#MyToken
+
+    [ MyTokenModule ] successfully deployed 🚀
+
+    Deployed Addresses
+
+    MyTokenModule#MyToken - 0x30d1868A104c74C79694345536b38E4d098C6146
+    ```
+
+3.  You can verify your deployed contract on the Paseo Asset Hub block explorer:
+    **[https://blockscout-passet-hub.parity-testnet.parity.io/token/0x30d1868A104c74C79694345536b38E4d098C6146](https://blockscout-passet-hub.parity-testnet.parity.io/token/0x30d1868A104c74C79694345536b38E4d098C6146)**
+
+-----
+
+## 4\. Interact with the ERC20 Contract 💸
+
+Let's interact with our newly deployed token by transferring some to another address.
+
+1.  Create a new script file `scripts/transferERC20.js` and add the following code. This script reads the deployed contract address, checks the sender's balance, and transfers 100 tokens.
+
+    ```javascript
+    const { ethers } = require("hardhat");
+    const { readFileSync } = require("fs");
+    const path = require("path");
+
+    async function main() {
+
+      const deploymentPath = path.join(
+        __dirname,
+        "../ignition/deployments/chain-1003/deployed_addresses.json"
+      );
+
+      const deployment = JSON.parse(readFileSync(deploymentPath, "utf8"));
+      const contractAddress = deployment["MyTokenModule#MyToken"];
+
+      if (!contractAddress) {
+        throw new Error("ERC20 contract address not found in deployment artifact");
+      }
+
+      const erc20Abi = [
+        "function transfer(address to, uint256 amount) public returns (bool)",
+        "function balanceOf(address account) public view returns (uint256)",
+      ];
+
+      const [signer] = await ethers.getSigners();
+      console.log("Transferring from account:", signer.address);
+
+      const erc20Contract = await ethers.getContractAt(erc20Abi, contractAddress, signer);
+
+      const recipientAddress = "0xD08B851df86AD3777239e26016Bc2695817bD86c"; 
+      const amount = ethers.parseUnits("100", 18);
+
+      const balance = await erc20Contract.balanceOf(signer.address);
+      console.log("Sender's balance:", ethers.formatUnits(balance, 18), "tokens");
+
+      if (balance < amount) {
+        throw new Error("Insufficient balance for transfer");
+      }
+
+      console.log(`Transferring ${ethers.formatUnits(amount, 18)} tokens to ${recipientAddress}...`);
+      const tx = await erc20Contract.transfer(recipientAddress, amount);
+      await tx.wait(); 
+
+      console.log("Transfer successful! Transaction hash:", tx.hash);
+    }
+
+    main()
+      .then(() => process.exit(0))
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+    ```
+
+2.  Run the script on the `paseo` network.
+
+    ```bash
+    npx hardhat run scripts/transferERC20.js --network paseo
+    ```
+
+3.  The output will confirm the successful transfer.
+
+    ```
+    Transferring from account: 0x783FC27915754512E72b5811599504eCa458E4C5
+    Sender's balance: 1000000.0 tokens
+    Transferring 100.0 tokens to 0xD08B851df86AD3777239e26016Bc2695817bD86c...
+    Transfer successful! Transaction hash: 0x1e4e265791231ed513cd3fdda2e36e599f9e5c77568bad2bc5f29f507ee1abf8
+    ```
+
+-----
+
+## Conclusion ✅
+
+Congratulations\! You have successfully deployed and interacted with a Solidity smart contract on a Polkadot parachain using the Hardhat Polkadot plugin. The workflow is remarkably similar to developing for any EVM-compatible chain, with the key difference being the simple `polkavm: true` configuration flag. This powerful tool significantly lowers the barrier for developers looking to build on PolkaVM.
+
+**Full Source Code:** [https://github.com/CocDap/introduction-to-hardhat-polkadot](https://github.com/CocDap/introduction-to-hardhat-polkadot)
+
