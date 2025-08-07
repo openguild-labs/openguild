@@ -1,5 +1,5 @@
 ---
-title: 'Introduction to Hardhat Polkadot'
+title: 'Introduction to Foundry Polkadot'
 date: '2025-08-07'
 authors: ['1-dustin']
 tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
@@ -16,9 +16,9 @@ _Level_: Beginner
 
 -----
 
-# Getting Started with Foundry on Polkadot 🦀
+# Getting Started with Foundry on Polkadot
 
-With Foundry Polkadot, you can use your existing Solidity skills to build on Polkadot's ecosystem. This works through PolkaVM, a virtual machine that runs EVM-compatible code on Polkadot parachains. We'll show you how to compile your code for PolkaVM and get it live on-chain.
+Learn to deploy Solidity smart contracts to a Polkadot testnet using Foundry Polkadot and the PolkaVM.
 
 Let's deploy a simple `Counter` contract\!
 
@@ -91,7 +91,7 @@ You will receive a `CodeRejected` error. This happens because, by default, `forg
 
 **✅ The Solution:** Just like with building, you must add the **`--resolc`** flag to your deployment command. This ensures Foundry sends the correct PolkaVM-compatible bytecode.
 
-Let's run the correct command. Remember to replace `YOUR_PRIVATE_KEY` with your actual private key.
+Let's run the correct command
 
 ```bash
 forge create src/Counter.sol:Counter --resolc --rpc-url https://testnet-passet-hub-eth-rpc.polkadot.io --private-key YOUR_PRIVATE_KEY --broadcast
