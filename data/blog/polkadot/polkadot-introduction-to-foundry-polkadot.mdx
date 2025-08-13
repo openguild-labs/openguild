@@ -1,0 +1,173 @@
+---
+title: 'Introduction to Foundry Polkadot'
+date: '2025-08-07'
+authors: ['1-dustin']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
+draft: false
+summary: 'This tutorial explains how to deploy a Solidity smart contract to a Polkadot testnet using Foundry Polkadot'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Beginner
+
+
+-----
+
+# Getting Started with Foundry on Polkadot
+
+Learn to deploy Solidity smart contracts to a Polkadot testnet using Foundry Polkadot and the PolkaVM.
+
+Let's deploy a simple `Counter` contract\!
+
+## Step 1: Set Up Your Environment 🛠️
+
+
+Open your terminal and run the following command to download and execute the installer:
+
+```bash
+curl -L https://raw.githubusercontent.com/paritytech/foundry-polkadot/refs/heads/master/foundryup/install | bash
+```
+
+Once that's done, simply run the installer command to get the necessary tools (`forge`, `cast`, etc.):
+
+```bash
+foundryup-polkadot
+```
+
+And that's it\! Your environment is ready.
+
+-----
+
+## Step 2: Create a New Foundry Project 📁
+
+Now, let's create a standard Foundry project. We'll call it `counter`.
+
+```bash
+forge init counter
+cd counter
+```
+
+This command creates a new directory named `counter` with a default project structure, including a sample `src/Counter.sol` contract, which is perfect for our needs.
+
+-----
+
+## Step 3: Compile for PolkaVM 🧩
+
+To deploy on a Polkadot parachain, we can't use the standard EVM compiler. We need to compile our Solidity code into PolkaVM-compatible bytecode.
+
+To do this, we use the **`--resolc`** flag. This tells Foundry to use the `resolc` compiler instead of the default `solc`.
+
+```bash
+forge build --resolc
+```
+
+-----
+
+## Step 4: Deploy to a Testnet 🚀
+
+We'll deploy our contract to the Asset Hub testnet.
+
+### Get Testnet Tokens
+
+First, you'll need some testnet tokens to pay for transaction fees. You can get them for free from the Polkadot faucet.
+
+➡️ **Faucet**: [https://faucet.polkadot.io/?parachain=1111](https://faucet.polkadot.io/?parachain=1111)
+
+Make sure you have a private key for a test account funded with these tokens.
+
+### The Common Mistake (and the Solution)
+
+If you try to deploy using a standard `forge create` command, you'll run into an error.
+
+```bash
+# THIS COMMAND WILL FAIL!
+forge create src/Counter.sol:Counter --rpc-url https://testnet-passet-hub-eth-rpc.polkadot.io --private-key YOUR_PRIVATE_KEY --broadcast
+```
+
+You will receive a `CodeRejected` error. This happens because, by default, `forge` sends EVM bytecode, but the Polkadot parachain is expecting PolkaVM bytecode.
+
+**✅ The Solution:** Just like with building, you must add the **`--resolc`** flag to your deployment command. This ensures Foundry sends the correct PolkaVM-compatible bytecode.
+
+Let's run the correct command
+
+```bash
+forge create src/Counter.sol:Counter --resolc --rpc-url https://testnet-passet-hub-eth-rpc.polkadot.io --private-key YOUR_PRIVATE_KEY --broadcast
+```
+
+**Result:** You should see a successful deployment output\!
+
+```
+[⠰] Compiling...
+Compiler run successful!
+Deployer: 0x783FC27915754512E72b5811599504eCa458E4C5
+Deployed to: 0x5e8D67D918daC7e69906ae0a13880ACA889FaCC3
+Transaction hash: 0xc0d4ccab85396765d8f5e90a7d5ff2a2036d82e1532b2d969f0119ef1741f7b1
+```
+
+Congratulations\! Your smart contract is now live on a Polkadot testnet. **Save the `Deployed to` address**, as you'll need it in the next step.
+
+-----
+
+## Step 5: Interact with Your Deployed Contract 🎛️
+
+
+**Note:** In the following commands, replace `YOUR_CONTRACT_ADDRESS` with the address you just deployed to, and `YOUR_PRIVATE_KEY` with your private key.
+
+### Set the Number
+
+Let's call the `setNumber` function to change the state of our contract. We'll set the number to `42`.
+
+```bash
+cast send YOUR_CONTRACT_ADDRESS "setNumber(uint256)" 42 --rpc-url https://testnet-passet-hub-eth-rpc.polkadot.io --private-key YOUR_PRIVATE_KEY
+```
+
+You will get a transaction receipt confirming the call was successful.
+
+### Increment the Number
+
+Next, let's call the `increment` function, which should increase the number from 42 to 43.
+
+```bash
+cast send YOUR_CONTRACT_ADDRESS "increment()" --rpc-url https://testnet-passet-hub-eth-rpc.polkadot.io --private-key YOUR_PRIVATE_KEY
+```
+
+Again, you'll receive a successful transaction receipt.
+
+### Query the Current Number
+
+Finally, let's read the value from the contract to confirm our changes. We use `cast call` for read-only operations, which don't require a private key or gas fees.
+
+```bash
+cast call YOUR_CONTRACT_ADDRESS "number()" --rpc-url https://testnet-passet-hub-eth-rpc.polkadot.io
+```
+
+The result will be a hexadecimal value:
+
+```
+0x000000000000000000000000000000000000000000000000000000000000002b
+```
+
+To make this human-readable, we can use `cast` to convert it to a decimal number:
+
+```bash
+cast to-base 0x000000000000000000000000000000000000000000000000000000000000002b dec
+```
+
+**Result:**
+
+```
+43
+```
+
+It worked perfectly\!
+
+-----
+
+## Conclusion 🎉
+
+You've successfully used Foundry to compile, deploy, and interact with a Solidity smart contract on a Polkadot parachain.
+
+The key takeaway is how seamless the process is for anyone familiar with the Foundry toolkit. With the simple addition of the **`--resolc`** flag, you can extend your existing Solidity development skills into the powerful and interoperable world of Polkadot. Happy building\!
