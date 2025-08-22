@@ -10,6 +10,7 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+import Script from 'next/script'
 
 const space_grotesk = Unbounded({
   subsets: ['latin'],
@@ -80,6 +81,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         rel="stylesheet"
       ></link>
       <meta property="og:image" content="<generated>" />
+      <head>
+        {/* Google Analytics Measurement ID */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-SWM75PHDYT"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-SWM75PHDYT');
+          `}
+        </Script>
+      </head>
       <body
         suppressHydrationWarning={true}
         className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white"
