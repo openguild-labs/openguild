@@ -1,5 +1,5 @@
 ---
-title: 'Polkadot 2.0 Tutorial: Upgrading a Parachain to Async Backing'
+title: 'Polkadot 2.0 Tutorial: Upgrading a Parachain with Async Backing'
 date: '2025-09-10'
 authors: ['1-dustin']
 tags: ['technical', 'async-backing', 'polkadot', 'parachain', 'polkadot-2.0', 'lang-en']
@@ -18,7 +18,11 @@ _Level_: Imtermidiate
 
 ## **What is Async Backing?**
 
-Asynchronous Backing is a major Polkadot network upgrade that decouples parachain block production from the Relay Chain's block production. This allows parachains to build blocks in a continuous pipeline, targeting a **6-second block time** instead of 12 seconds, which significantly increases network throughput and efficiency.
++ Twice as Fast: Parachain block time is cut in half, from 12 seconds down to 6 seconds.
+
++ More Independent: Parachains can build blocks continuously without having to wait for the Relay Chain each time.
+
++ Better Performance: This results in a faster, more efficient network that can handle more transactions.
 
 ## **Prerequisites**
 
@@ -78,8 +82,17 @@ Your parachain's runtime and node logic must be conditionally compiled using fea
 
 > **ℹ️ Note:**
 > For a detailed guide on the required code changes, refer to the official Polkadot documentation on [configuring async backing](https://docs.polkadot.com/develop/parachains/maintenance/configure-asynchronous-backing/).
-
+> Link existing pre-configured project: https://github.com/CocDap/parachain-async-backing
 -----
+
+
+## **Phase 0: Clone the project**
+
+```bash
+git clone https://github.com/CocDap/parachain-async-backing
+cd parachain-async-backing
+```
+
 
 ## **Phase 1: Launch the Synchronous Parachain**
 
