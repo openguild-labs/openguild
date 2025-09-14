@@ -1,0 +1,199 @@
+---
+title: 'Polkadot 2.0 Tutorial: Upgrading a Parachain with Async Backing'
+date: '2025-09-10'
+authors: ['1-dustin']
+tags: ['technical', 'async-backing', 'polkadot', 'parachain', 'polkadot-2.0', 'lang-en']
+draft: false
+summary: 'This guide provides a comprehensive walkthrough for upgrading an existing Substrate-based parachain to enable the **Async Backing** feature. The process involves preparing a new client binary and runtime, then executing a live runtime upgrade and client migration on a local test network managed by Zombienet.'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Imtermidiate
+
+
+-----
+
+## **What is Async Backing?**
+
++ Twice as Fast: Parachain block time is cut in half, from 12 seconds down to 6 seconds.
+
++ More Independent: Parachains can build blocks continuously without having to wait for the Relay Chain each time.
+
++ Better Performance: This results in a faster, more efficient network that can handle more transactions.
+
+## **Prerequisites**
+
+Before starting, ensure your development environment is correctly configured.
+
+#### **1. Rust Toolchain** 🦀
+
+Compatibility between your Rust version and the Polkadot SDK is critical. Build failures are often due to a toolchain mismatch.
+
+> **💡 Tip:**
+> The Polkadot SDK frequently requires a specific nightly Rust toolchain. To prevent compatibility issues, install and set the recommended version:
+>
+> ```bash
+> rustup default nightly-2024-06-12
+> ```
+
+#### **2. Relay Chain Binary & Zombienet** ⛓️
+
+A local Relay Chain and the Zombienet testing orchestrator are required. A helper script is often provided to build these components.
+
+```bash
+./scripts/zombienet.sh build
+```
+
+This script will output the necessary binaries into two new folders:
+
+  * `bin-stable2407-1`: Contains the Polkadot Relay Chain binary.
+  * `zombienet-macos-arm64`: Contains the Zombienet binary (your OS may differ)..
+
+> **⚠️ Important:**
+> This build process is resource-intensive and can take **30-40 minutes**.
+
+#### **3. Zombienet CLI** 🧟
+
+Install the Zombienet CLI globally for easy access to its commands.
+
+```bash
+npm i @zombienet/cli@latest -g
+```
+
+-----
+
+## **Phase 0: Code Configuration for Async Backing**
+
+Your parachain's runtime and node logic must be conditionally compiled using feature flags to support both synchronous and asynchronous modes.
+
+  * **Normal (Synchronous) Parachain Code:**
+    ```rust
+    #[cfg(not(feature = "async-backing"))]
+    // ... synchronous logic ...
+    ```
+  * **Async Backing Parachain Code:**
+    ```rust
+    #[cfg(feature = "async-backing")]
+    // ... async backing logic ...
+    ```
+
+> **ℹ️ Note:**
+> For a detailed guide on the required code changes, refer to the official Polkadot documentation on [configuring async backing](https://docs.polkadot.com/develop/parachains/maintenance/configure-asynchronous-backing/).
+
+> Link existing pre-configured project: https://github.com/CocDap/parachain-async-backing
+
+### Clone the project 
+
+```bash
+git clone https://github.com/CocDap/parachain-async-backing
+cd parachain-async-backing
+```
+
+-----
+
+
+## **Phase 1: Launch the Synchronous Parachain**
+
+First, we build and launch the parachain in its original, synchronous state (12-second block time).
+
+#### **1. Build the "Old" Binary**
+
+Compile the parachain node without the `async-backing` feature.
+
+```bash
+cargo build --release
+```
+
+This creates the initial client executable at `/target/release/generic-template-node`, which we'll refer to as the "old binary."
+
+#### **2. Launch the Network**
+
+Use Zombienet to spawn your local testnet, consisting of a Relay Chain and your parachain.
+
+```bash
+zombienet --provider native spawn zombienet-config/devnet.toml
+```
+
+![Zombienet](/static/images/polkadot/blog/polkadot-async-backing/zombienet.png)
+
+
+#### **3. Verify the Initial State**
+
+Connect to your parachain via Polkadot-JS Apps to confirm it's running correctly.
+
+  * **RPC Endpoint:** `ws://127.0.0.1:8833`
+  * **Initial State Check:**
+      * The runtime `spec_version` should be **1**.
+      * The target block time will be **12 seconds**.
+
+-----
+
+![Polkadot JS App](/static/images/polkadot/blog/polkadot-async-backing/polkadot-js-app.png)
+
+
+
+## **Phase 2: Prepare the Async Backing Upgrade**
+
+Next, we'll prepare the new runtime and client binary required for the upgrade.
+
+#### **1. Increment the Runtime `spec_version`**
+
+A runtime upgrade is only accepted by the network if the `spec_version` is greater than the current version. Update this in your runtime's constants file.
+
+```rust
+// src/constants.rs
+
+#[sp_version::runtime_version]
+pub const VERSION: RuntimeVersion = RuntimeVersion {
+    spec_name: create_runtime_str!("template-parachain"),
+    impl_name: create_runtime_str!("template-parachain"),
+    authoring_version: 1,
+    spec_version: 2, // INCREASE HERE
+    impl_version: 0,
+    apis: apis::RUNTIME_API_VERSIONS,
+    transaction_version: 1,
+    state_version: 1,
+};
+```
+
+#### **2. Build the "New" Binary**
+
+In a **new terminal window**, build the node again, but this time enable the `async-backing` feature flag. This compiles the new logic into the client.
+
+> **⚠️ Keep the Zombienet network running in the other terminal\!**
+
+```bash
+cargo build --release --features async-backing
+```
+
+This command creates the "new binary" with async backing capabilities, overwriting the old file at `/target/release/generic-template-node`.
+
+-----
+
+## **Phase 3: Execute the Runtime Upgrade**
+
+With the new Wasm blob compiled, we can perform the on-chain runtime upgrade.
+
+1.  **Navigate to Polkadot-JS Apps** for your parachain and go to **Developer \> Sudo**.
+2.  Select the **`system`** pallet and the **`setCode`** extrinsic.
+3.  Upload the new, compressed Wasm blob and submit the sudo transaction.
+
+> **ℹ️ Wasm File Location:**
+> The required file is located at `target/release/wbuild/generic-runtime-template/generic_runtime_template.compact.compressed.wasm`.
+
+After the transaction is finalized, the on-chain `spec_version` will increase to **2**. The block time will remain at 12 seconds because the running client is still the old binary, which does not have the async backing client-side logic.
+
+-----
+
+![Upgrade Runtime](/static/images/polkadot/blog/polkadot-async-backing/upgrade-runtime.png)
+
+
+## **Phase 4: Migrate the Client Node**
+
+The final step is to replace the running "old binary" with the "new binary" that understands the upgraded runtime logic.
+
+This client-side migration is orchestrated using a **Zombienet test script**. The script programmatically stops the old node, updates its launch command to point to the new binary, and restarts it to complete the upgrade to a 6-second block time.
+
