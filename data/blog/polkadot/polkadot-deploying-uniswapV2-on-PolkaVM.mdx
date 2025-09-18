@@ -1,0 +1,259 @@
+
+---
+title: 'Tutorial: Deploying Uniswap V2 on PolkaVM'
+date: '2025-18-09'
+authors: ['1-dustin']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
+draft: false
+summary: 'This guide provides a complete walkthrough for deploying a Uniswap V2 instance to the PolkaVM, the EVM-compatible layer on Asset Hub. By following these steps, you can migrate your existing Web3 dApps to the Polkadot ecosystem.'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Beginner
+
+
+-----
+
+
+## ✅ Prerequisites
+
+
+Before you begin, you need to have tokens on the appropriate network.
+
+### Supported Networks
+
+| Network | Type | Faucet Link |
+| :--- | :--- | :--- |
+| **Kusama Asset Hub** | Mainnet | N/A (Requires real KSM) |
+| **Paseo Asset Hub** | Testnet | https://faucet.polkadot.io/?parachain=1111 |
+
+
+
+Before you begin, you need to have KUS tokens on the Kusama Asset Hub.
+
+> **💡 Tip: Getting KUS on Asset Hub**
+> The KUS you need is the *native* asset of the Kusama Asset Hub, not the KSM from the Relay Chain. If you have KSM on the Relay Chain, you can use an XCM tool like the [ParaSpell Playground](https://playground.paraspell.xyz/xcm-sdk/xcm-transfer) to transfer it to Asset Hub.
+
+## Step 1: Bridge Native KUS to PolkaVM (EVM)
+
+To pay for gas and interact with smart contracts, you must move your native KUS balance to the PolkaVM. This is a two-part process.
+
+### 1.1. Map Your Substrate Account to an EVM Account
+
+First, create an association between your Substrate-based account and your EVM address.
+
+1.  Go to **Polkadot-JS Apps** and connect to the **Kusama Asset Hub** network.
+
+![Access Kusama Asset AssetHub](/static/images/polkadot/blog/polkadot-deploy-uniswapv2/assset_hub.png)
+
+2.  Navigate to **Developer \> Extrinsics**.
+3.  Submit the extrinsic: `revive.mapAccount()`.
+
+![Map Account](/static/images/polkadot/blog/polkadot-deploy-uniswapv2/map-account.png)
+
+
+
+### 1.2. Transfer Native KUS to Your EVM Balance
+
+Next, transfer the funds from your native balance to your newly mapped EVM balance.
+
+1.  Navigate to **Developer \> Extrinsics**.
+2.  Submit the extrinsic: `revive.call()` with the following parameters:
+
+| Parameter | Value | Example |
+| :--- | :--- | :--- |
+| `dest` | Your ETH address | `0x...` |
+| `value` | Amount in Wei | `500000000000` |
+| `storageDepositLimit` | Gas limit | `1000000000000000` |
+| `data` | Calldata | `0x` |
+
+
+![Call](/static/images/polkadot/blog/polkadot-deploy-uniswapv2/call.png)
+
+
+
+## Step 2: Verify Your EVM Balance
+
+Confirm that your funds have successfully arrived in your PolkaVM account.
+
+#### Option A: Use an RPC Call
+
+You can query your balance directly using the public RPC endpoint.
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+--data '{"jsonrpc":"2.0","method":"eth_getBalance","params":["<YOUR_EVM_ADDRESS>", "latest"],"id":1}' \
+https://kusama-asset-hub-eth-rpc.polkadot.io
+```
+
+#### Option B: Use a Block Explorer
+
+Check your account on Subscan's EVM explorer:
+`https://assethub-kusama.subscan.io/account/<YOUR_EVM_ADDRESS>`
+
+## Step 3: Set Up Your Deployment Project
+
+Now, let's prepare the Uniswap V2 smart contracts for deployment.
+
+1.  **Clone the example repository:**
+
+    ```bash
+    git clone https://github.com/CocDap/uniswap-v2-polkavm
+    cd uniswap-v2-polkavm
+    ```
+
+2.  **Configure your environment:**
+
+    ```bash
+    cp .env.example .env
+    ```
+
+    > **⚠️ Important:**
+    > Open the new `.env` file and add the private key for the EVM account you funded in Step 1.
+
+3.  **Install dependencies:**
+
+    ```bash
+    npm install
+    ```
+
+## Step 4: Compile and Deploy the Smart Contracts
+
+We will now compile the contracts and deploy them one by one using Hardhat.
+
+### 4.1. Compile the Contracts
+
+```bash
+npx hardhat compile
+```
+
+*You will see some warnings, which are expected. The key is the `Successfully compiled` message at the end.*
+
+```
+Compiling 12 Solidity files
+Warning: Visibility for constructor is ignored. If you want the contract to be non-deployable, making it "abstract" is sufficient.
+ --> contracts/test/ERC20.sol:7:5:
+  |
+7 |     constructor(uint256 _totalSupply) public {
+  |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+
+Warning: It looks like you are using 'ecrecover' to validate a signature of a user account.
+Polkadot comes with native account abstraction support, therefore it is highly recommended NOT
+to rely on the fact that the account has an ECDSA private key attached to it since accounts might
+implement other signature schemes.
+
+--> contracts/UniswapV2ERC20.sol
+
+Successfully compiled 12 Solidity files
+```
+
+### 4.2. Deploy the ERC20 Token Contract
+
+```bash
+npx hardhat ignition deploy ignition/modules/UniswapV2ERC20.js --network kusamaHub
+```
+
+*Result: A new ERC20 token contract will be deployed. Note the address.*
+
+```
+Deploying UniswapV2ERC20Module...
+Deploying UniswapV2ERC20 contract...
+Hardhat Ignition 🚀
+
+Deploying [ UniswapV2ERC20Module ]
+
+Batch #1
+  Executed UniswapV2ERC20Module#UniswapV2ERC20
+
+[ UniswapV2ERC20Module ] successfully deployed 🚀
+
+Deployed Addresses
+
+UniswapV2ERC20Module#UniswapV2ERC20 - 0xDE950Fa08AA869F17028cfA107EEe593124fDe03
+```
+
+### 4.3. Deploy the WETH Contract
+
+```bash
+npx hardhat ignition deploy ignition/modules/UniswapV2WETH.js --network kusamaHub
+```
+
+*Result: The WETH contract will be deployed.*
+
+```
+Batch #1
+  Executed UniswapV2WETHModule#WETH
+
+[ UniswapV2WETHModule ] successfully deployed 🚀
+
+Deployed Addresses
+
+UniswapV2ERC20Module#UniswapV2ERC20 - 0xDE950Fa08AA869F17028cfA107EEe593124fDe03
+UniswapV2WETHModule#WETH - 0xea2B9312CE3B867AAd92c8fC033C9640b136383b
+```
+
+### 4.4. Deploy the Factory Contract
+
+```bash
+npx hardhat ignition deploy ignition/modules/UniswapV2Factory.js --network kusamaHub
+```
+
+*Result: The core Uniswap V2 Factory contract will be deployed.*
+
+```
+Batch #1
+  Executed UniswapV2FactoryModule#UniswapV2Factory
+
+[ UniswapV2FactoryModule ] successfully deployed 🚀
+
+Deployed Addresses
+
+UniswapV2ERC20Module#UniswapV2ERC20 - 0xDE950Fa08AA869F17028cfA107EEe593124fDe03
+UniswapV2WETHModule#WETH - 0xea2B9312CE3B867AAd92c8fC033C9640b136383b
+UniswapV2FactoryModule#UniswapV2Factory - 0xE4979C8F7f4AC4354304E11B6211ABB3b40Cf1EC
+```
+
+### 4.5. Deploy a Liquidity Pair
+
+```bash
+npx hardhat ignition deploy ignition/modules/UniswapV2Pair.js --network kusamaHub
+```
+
+*Result: The Factory's `createPair` function is called, creating a new trading pair.*
+
+```
+Batch #1
+  Executed UniswapV2PairModule#UniswapV2ERC20
+  Executed UniswapV2PairModule#UniswapV2Factory
+  Executed UniswapV2PairModule#WETH
+
+Batch #2
+  Executed UniswapV2PairModule#UniswapV2Factory.createPair
+
+[ UniswapV2PairModule ] successfully deployed 🚀
+
+Deployed Addresses
+
+UniswapV2ERC20Module#UniswapV2ERC20 - 0xDE950Fa08AA869F17028cfA107EEe593124fDe03
+UniswapV2WETHModule#WETH - 0xea2B9312CE3B867AAd92c8fC033C9640b136383b
+UniswapV2FactoryModule#UniswapV2Factory - 0xE4979C8F7f4AC4354304E11B6211ABB3b40Cf1EC
+UniswapV2PairModule#UniswapV2ERC20 - 0xDE950Fa08AA869F17028cfA107EEe593124fDe03
+UniswapV2PairModule#UniswapV2Factory - 0xE4979C8F7f4AC4354304E11B6211ABB3b40Cf1EC
+UniswapV2PairModule#WETH - 0xea2B9312CE3B867AAd92c8fC033C9640b136383b
+```
+
+## 🎉 Congratulations & Next Steps
+
+You have successfully deployed a full Uniswap V2 instance to Kusama Asset Hub\! This process demonstrates how to deploy any Solidity smart contract to PolkaVM.
+
+Your next steps could be:
+
+  * **Build a User Interface:** Create a front-end to interact with your deployed contracts.
+  * **Provide Liquidity:** Create new pairs and add funds to your liquidity pools.
+  * **Swap Tokens:** Execute trades using the UI.
+  * **Explore:** Query and display information about all available liquidity pools.
