@@ -22,31 +22,31 @@ _Level_: Beginner
 
 Before you begin, you need to have tokens on the appropriate network.
 
-### Supported Networks
+-> Supported Networks
 
 | Network | Type |
 | :--- | :--- |
 | **Kusama Asset Hub** | Mainnet |
-| **Paseo Asset Hub** | Testnet |
+| **Passet Asset Hub** | Testnet |
 
-#### Optional: If you want to deploy to Paseo Asset Hub
+### Optional: If you want to deploy to Passet Asset Hub
 
 You can get free testnet tokens from the official Polkadot faucet:
 https://faucet.polkadot.io/?parachain=1111
 
 
-#### Optional: If you want to deploy to Kusama Asset Hub (Mainnet)
+### Optional: If you want to deploy to Kusama Asset Hub (Mainnet)
 
 This tutorial will help you how to get `KUS` PolkaVM from `KUS` native asset on Kusama Asset Hub.
 
 > **💡 Tip: Getting KUS on Asset Hub**
 > The KUS you need is the *native* asset of the Kusama Asset Hub, not the KSM from the Relay Chain. If you have KSM on the Relay Chain, you can use an XCM tool like the [ParaSpell Playground](https://playground.paraspell.xyz/xcm-sdk/xcm-transfer) to transfer it to Asset Hub.
 
-## Step 1: Bridge Native KUS to PolkaVM (EVM)
+#### Step 1: Bridge Native KUS to PolkaVM (EVM)
 
 To pay for gas and interact with smart contracts, you must move your native KUS balance to the PolkaVM. This is a two-part process.
 
-### 1.1. Map Your Substrate Account to an EVM Account
+#### 1.1. Map Your Substrate Account to an EVM Account
 
 First, create an association between your Substrate-based account and your EVM address.
 
@@ -61,7 +61,7 @@ First, create an association between your Substrate-based account and your EVM a
 
 
 
-### 1.2. Transfer Native KUS to Your EVM Balance
+#### 1.2. Transfer Native KUS to Your EVM Balance
 
 Next, transfer the funds from your native balance to your newly mapped EVM balance.
 
@@ -80,11 +80,11 @@ Next, transfer the funds from your native balance to your newly mapped EVM balan
 
 
 
-## Step 2: Verify Your EVM Balance
+#### Step 2: Verify Your EVM Balance
 
 Confirm that your funds have successfully arrived in your PolkaVM account.
 
-#### Option A: Use an RPC Call
+1. **Option A: Use an RPC Call**
 
 You can query your balance directly using the public RPC endpoint.
 
@@ -94,7 +94,7 @@ curl -X POST -H "Content-Type: application/json" \
 https://kusama-asset-hub-eth-rpc.polkadot.io
 ```
 
-#### Option B: Use a Block Explorer
+2. **Option B: Use a Block Explorer**
 
 Check your account on Subscan's EVM explorer:
 `https://assethub-kusama.subscan.io/account/<YOUR_EVM_ADDRESS>`
