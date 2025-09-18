@@ -1,5 +1,5 @@
 ---
-title: 'Tutorial: Deploying Uniswap V2 to Asset Hub's PolkaVM'
+title: 'Tutorial: Deploying Uniswap V2 to Asset Hub PolkaVM'
 date: '2025-08-19'
 authors: ['1-dustin']
 tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
@@ -24,14 +24,20 @@ Before you begin, you need to have tokens on the appropriate network.
 
 ### Supported Networks
 
-| Network | Type | Faucet Link |
-| :--- | :--- | :--- |
-| **Kusama Asset Hub** | Mainnet | N/A (Requires real KSM) |
-| **Paseo Asset Hub** | Testnet | https://faucet.polkadot.io/?parachain=1111 |
+| Network | Type |
+| :--- | :--- |
+| **Kusama Asset Hub** | Mainnet |
+| **Paseo Asset Hub** | Testnet |
+
+#### Optional: If you want to deploy to Paseo Asset Hub
+
+You can get free testnet tokens from the official Polkadot faucet:
+https://faucet.polkadot.io/?parachain=1111
 
 
+#### Optional: If you want to deploy to Kusama Asset Hub (Mainnet)
 
-Before you begin, you need to have KUS tokens on the Kusama Asset Hub.
+This tutorial will help you how to get `KUS` PolkaVM from `KUS` native asset on Kusama Asset Hub.
 
 > **💡 Tip: Getting KUS on Asset Hub**
 > The KUS you need is the *native* asset of the Kusama Asset Hub, not the KSM from the Relay Chain. If you have KSM on the Relay Chain, you can use an XCM tool like the [ParaSpell Playground](https://playground.paraspell.xyz/xcm-sdk/xcm-transfer) to transfer it to Asset Hub.
@@ -93,7 +99,7 @@ https://kusama-asset-hub-eth-rpc.polkadot.io
 Check your account on Subscan's EVM explorer:
 `https://assethub-kusama.subscan.io/account/<YOUR_EVM_ADDRESS>`
 
-## Step 3: Set Up Your Deployment Project
+## Set Up Your Deployment Project
 
 Now, let's prepare the Uniswap V2 smart contracts for deployment.
 
@@ -119,11 +125,14 @@ Now, let's prepare the Uniswap V2 smart contracts for deployment.
     npm install
     ```
 
-## Step 4: Compile and Deploy the Smart Contracts
+> **💡 Important: The project already configured `Passet Asset Hub` and `Kusama Asset Hub` on `hardhat.config.js` **
+
+
+### Compile and Deploy the Smart Contracts
 
 We will now compile the contracts and deploy them one by one using Hardhat.
 
-### 4.1. Compile the Contracts
+#### Compile the Contracts
 
 ```bash
 npx hardhat compile
@@ -151,10 +160,10 @@ implement other signature schemes.
 Successfully compiled 12 Solidity files
 ```
 
-### 4.2. Deploy the ERC20 Token Contract
+#### Deploy the ERC20 Token Contract
 
 ```bash
-npx hardhat ignition deploy ignition/modules/UniswapV2ERC20.js --network kusamaHub
+npx hardhat ignition deploy ignition/modules/UniswapV2ERC20.js --network <passetHub or kusamaHub>
 ```
 
 *Result: A new ERC20 token contract will be deployed. Note the address.*
@@ -176,10 +185,10 @@ Deployed Addresses
 UniswapV2ERC20Module#UniswapV2ERC20 - 0xDE950Fa08AA869F17028cfA107EEe593124fDe03
 ```
 
-### 4.3. Deploy the WETH Contract
+#### Deploy the WETH Contract
 
 ```bash
-npx hardhat ignition deploy ignition/modules/UniswapV2WETH.js --network kusamaHub
+npx hardhat ignition deploy ignition/modules/UniswapV2WETH.js --network <passetHub or kusamaHub>
 ```
 
 *Result: The WETH contract will be deployed.*
@@ -196,10 +205,10 @@ UniswapV2ERC20Module#UniswapV2ERC20 - 0xDE950Fa08AA869F17028cfA107EEe593124fDe03
 UniswapV2WETHModule#WETH - 0xea2B9312CE3B867AAd92c8fC033C9640b136383b
 ```
 
-### 4.4. Deploy the Factory Contract
+#### Deploy the Factory Contract
 
 ```bash
-npx hardhat ignition deploy ignition/modules/UniswapV2Factory.js --network kusamaHub
+npx hardhat ignition deploy ignition/modules/UniswapV2Factory.js --network <passetHub or kusamaHub>
 ```
 
 *Result: The core Uniswap V2 Factory contract will be deployed.*
@@ -217,10 +226,10 @@ UniswapV2WETHModule#WETH - 0xea2B9312CE3B867AAd92c8fC033C9640b136383b
 UniswapV2FactoryModule#UniswapV2Factory - 0xE4979C8F7f4AC4354304E11B6211ABB3b40Cf1EC
 ```
 
-### 4.5. Deploy a Liquidity Pair
+#### Deploy a Liquidity Pair
 
 ```bash
-npx hardhat ignition deploy ignition/modules/UniswapV2Pair.js --network kusamaHub
+npx hardhat ignition deploy ignition/modules/UniswapV2Pair.js --network <passetHub or kusamaHub>
 ```
 
 *Result: The Factory's `createPair` function is called, creating a new trading pair.*
@@ -248,7 +257,7 @@ UniswapV2PairModule#WETH - 0xea2B9312CE3B867AAd92c8fC033C9640b136383b
 
 ## 🎉 Congratulations & Next Steps
 
-You have successfully deployed a full Uniswap V2 instance to Kusama Asset Hub\! This process demonstrates how to deploy any Solidity smart contract to PolkaVM.
+You have successfully deployed a full Uniswap V2 instance to Asset Hub\! This process demonstrates how to deploy any Solidity smart contract to PolkaVM.
 
 Your next steps could be:
 
