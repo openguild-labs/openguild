@@ -1,0 +1,175 @@
+---
+title: 'No More Barriers: The Ultimate Dev Experience on PolkaVM is Here'
+date: '2025-09-19'
+authors: ['1-dustin']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
+draft: false
+summary: 'This tutorial shows you how to use the official Smart Contract DevContainer to seamlessly set up a local development environment for Polkadot smart contracts using either Hardhat or Foundry.'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Beginner
+
+
+-----
+
+
+## ✅ Prerequisites
+
+Before you begin, make sure you have the following installed and running:
+
+  * **Docker:** Must be running on your system.
+  * **Operating System:** macOS, Linux, or Windows with WSL2 (Windows Subsystem for Linux) installed.
+  * **VS Code Extension:** The [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) for Visual Studio Code.
+
+## 🏁 Quickstart Guide
+
+Follow these steps to get your environment up and running in minutes.
+
+### 1\. Create Your Project Directory
+
+Open your terminal and create a new folder for your project.
+
+```bash
+mkdir polkavm-devcontainer
+cd polkavm-devcontainer
+```
+
+### 2\. Install the DevContainer Configuration
+
+Run the following script to fetch and set up the DevContainer files in your project.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/paritytech/smart-contracts-devcontainer/main/.devcontainer/fetch-devcontainer.sh | bash -s --
+```
+
+### 3\. Reopen in Container
+
+Now, open the project folder in VS Code.
+
+> **💡 Important:**
+> VS Code will automatically detect the `.devcontainer` folder and prompt you in the bottom-right corner. Click **"Reopen in Container"** to launch the development environment.
+
+
+
+![DevContainer](../../../public/static/images/polkadot/blog/polkadot-smartcontract-devcontainer/devcontainer.png)
+
+After the DevContainer finishes loading, a new terminal will appear, prompting you to choose and install either a Hardhat or Foundry starter project.
+
+![Install](../../../public/static/images/polkadot/blog/polkadot-smartcontract-devcontainer/install.png)
+
+
+## 🛠️ Using the Environment (Hardhat Example)
+
+Let's walk through setting up a Hardhat project. The process is fully automated.
+
+### 1\. Initialize the Hardhat Project
+
+Follow the prompts in the VS Code terminal. The DevContainer will automatically:
+
+  * Create an `npm` project.
+  * Install `@parity/hardhat-polkadot` and the correct `solc` version.
+  * Install the `@nomicfoundation/hardhat-toolbox`.
+  * Download the necessary `dev-node` and `eth-rpc` binaries.
+  * Prompt you to import or generate a private key for deployment.
+
+### 2\. Run Common Commands
+
+You can now use the built-in VS Code terminal to manage your project.
+
+#### Compile the smart contracts:
+
+```bash
+npx hardhat compile
+```
+
+*You'll see a success message once the Solidity files are compiled.*
+
+```
+vscode ➜ /project $ npx hardhat compile
+Downloading compiler 0.8.28
+Downloading latest version of the resolc compiler
+Compiling 12 Solidity files
+Generating typings for: 14 artifacts in dir: typechain-types for target: ethers-v6
+Successfully generated 52 typings!
+Successfully compiled 12 Solidity files
+```
+
+#### Run the test suite:
+
+```bash
+npx hardhat test
+```
+
+*The output will show a list of passing tests, confirming your setup is working correctly.*
+
+```
+vscode ➜ /project $ npx hardhat test
+
+
+  MyToken
+    ✔ assigns initial supply to deployer
+    ✔ allows minting by MINTER_ROLE (174ms)
+    ✔ rejects minting by non-minters (51ms)
+    ✔ allows burning (177ms)
+    ✔ pauses transfers (221ms)
+    ✔ rejects pause by non-pauser (42ms)
+    ✔ unpauses transfers (545ms)
+    ✔ assigns roles correctly
+
+
+  8 passing (4s)
+```
+
+### 3\. Deploy to Your Local Node
+
+The DevContainer includes a local PolkaVM node for instant testing.
+
+#### Start the local node:
+
+Open a **new** VS Code terminal (`Terminal > New Terminal`) and run:
+
+```bash
+npx hardhat node
+```
+
+#### Deploy your contract:
+
+Open a **third** terminal and run the deployment script.
+
+```bash
+npx hardhat ignition deploy ./ignition/modules/MyToken.ts --network localNode
+```
+
+After confirming, you'll see a success message with your newly deployed contract address:
+
+```
+✔ Confirm deploy to network localNode (420420420)? … yes
+Hardhat Ignition 🚀
+
+Deploying [ MyTokenModule ]
+
+Batch #1
+  Executed MyTokenModule#MyToken
+
+[ MyTokenModule ] successfully deployed 🚀
+
+Deployed Addresses
+
+MyTokenModule#MyToken - 0xc01Ee7f10EA4aF4673cFff62710E1D7792aBa8f3
+```
+
+## 🎉 Conclusion: Your PolkaVM Launchpad
+
+Congratulations\! This DevContainer is your launchpad for building on PolkaVM.
+
+  * ✅ **No More Setup:** It removes complex configuration.
+  * ✅ **All-in-One:** Bundles a local node, RPC tools, and Hardhat/Foundry.
+  * ✅ **Build Faster:** Go directly from idea to deployment.
+
+## 📚 Resources
+
+For more information, check out the full resource repository: [paritytech/smart-contracts-devcontainer](https://github.com/paritytech/smart-contracts-devcontainer)
