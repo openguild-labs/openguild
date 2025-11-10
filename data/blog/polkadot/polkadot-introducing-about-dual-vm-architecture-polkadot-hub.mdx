@@ -1,0 +1,119 @@
+---
+title: 'Introducing about dual-VM architecture of Polkadot Hub'
+date: '2025-11-10'
+authors: ['1-dustin']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en','evm','revm']
+draft: false
+summary: 'Polkadot Hub is introducing a dual-VM architecture to get the best of both worlds. It uses REVM to provide immediate, 100% EVM compatibility for existing Solidity apps, and PolkaVM (a next-gen RISC-V engine) for superior performance and low-cost execution.'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Beginner
+
+
+-----
+
+## 1\. What is Polkadot Hub?
+
+**Polkadot Hub** is a **Layer 1 system chain** within the Polkadot Cloud ecosystem that enables **smart contract deployment** and execution. It serves as the central hub for asset management, cross-chain communication, and decentralized finance applications. It combines **Ethereum compatibility** with native Polkadot innovations to create a unified platform for building scalable, interoperable DeFi applications.
+
+## 2\. The Multi-VM Trend
+
+Given the current demand for computationally intensive applications—such as those involving privacy, ZK, and AI—and the trend towards developing diverse use cases, **multi-VM support** on a blockchain has become a necessity.
+
+Here are some typical examples:
+
+### \#\#\# Polkadot Hub
+
+  * It features a dual-VM architecture with two virtual machines: a **`PolkaVM` (RISC-V)** for native Polkadot logic and an **`REVM`** for Ethereum compatibility.
+  * This dual-VM approach allows developers to deploy smart contracts using either Polkadot's native environment or Solidity, enhancing scalability, interoperability, and performance.
+
+### \#\#\# Arbitrum
+
+  * Arbitrum’s **Stylus** upgrade introduced a multi-VM environment, running the standard **EVM** alongside a **WASM VM**.
+  * This gives developers language flexibility (Rust, C++) and leverages WASM's strengths for high-performance logic, advanced DeFi, and on-chain gaming.
+
+### \#\#\# Avalanche
+
+  * Supports three primary VMs: **Coreth (C-Chain)** which is EVM-compatible, **Platform VM (P-Chain)** for staking and L1 operations, and **Avalanche VM (X-Chain)** for native token operations.
+  * Developers can also create custom VMs using any programming language with familiar tools.
+
+## 3\. The Two Virtual Machines on Polkadot Hub
+
+### \#\#\# 3.1 PolkaVM
+
+`PolkaVM` is Polkadot's modern, next-generation execution environment built on the **RISC-V** architecture.
+
+  * **Faster execution:** Designed to be orders of magnitude faster than traditional EVM environments.
+  * **Lower costs:** Contracts run cheaper due to more efficient resource usage.
+  * **Better performance:** Uses a register-based design (like modern computer chips) instead of older stack-based systems.
+  * **Future-proof:** Optimized for advanced features like zero-knowledge proofs.
+
+### \#\#\# 3.2 EVM/REVM
+
+The second environment is EVM compatibility, delivered through `REVM`. Think of this as a bridge to the existing Ethereum ecosystem.
+
+  * **Existing apps work unchanged:** Developers can deploy unmodified Solidity contracts directly to Polkadot Hub.
+  * **No rewriting needed:** Developers don't need to change their code or tools—everything they know from Ethereum works the same way.
+  * **Rapid adoption:** Existing Ethereum projects can migrate with minimal effort.
+
+![Dual VM Walkthrough](/static/images/polkadot/blog/polkadot-dual-vm/dual-vm.png)
+
+
+### \#\#\# 3.3 PolkaVM vs. REVM: Quick Comparison
+
+| Aspect | PolkaVM | REVM (EVM-Compatible) |
+| :--- | :--- | :--- |
+| **Core Tech** | RISC-V (hardware-efficient) | Rust-based EVM interpreter |
+| **Speed/Cost** | 2-5x faster, lower gas | Matches Ethereum, higher overhead |
+| **Languages** | `ink!` (Rust) + Solidity | Solidity only |
+| **Use Case** | Native Polkadot apps, ZK-heavy | Ethereum dApp ports |
+| **Maturity** | Live on testnet (2025 rollout) | Production-ready now |
+
+## 4\. Dual-VM Architecture Overview
+
+`pallet-revive` is an experimental smart contract pallet that executes contracts using two virtual machines:
+
+  * **High-Performance Mode:** Native RISC-V 64-bit execution engine using `PolkaVM`.
+  * **Compatibility Mode:** Ethereum bytecode compatibility layer using `REVM`.
+
+
+![Architecture Overview](/static/images/polkadot/blog/polkadot-dual-vm/pallet-revive.png)
+
+
+### \#\#\# The On/Off Switch
+
+The `AllowEVMBytecode` setting is simply the switch that tells the system which mode to use:
+
+  * **Switch = ON (`true`):** The system runs in **Compatibility Mode** to welcome dApps from EVM-compatible chains.
+  * **Switch = OFF (`false`):** The system runs in **High-Performance Mode** to use Polkadot's own advanced engine.
+
+## 5\. Why This Dual Approach?
+
+The strategy is pragmatic: **quick adoption now, innovation later.**
+
+  * **Short-term (REVM first):** By offering full Ethereum compatibility through `REVM`, Polkadot Hub can immediately attract existing Ethereum applications, users, and liquidity. This gets the ecosystem growing fast.
+  * **Long-term (PolkaVM focused):** Once the ecosystem has momentum, developers can gradually migrate to `PolkaVM` to benefit from the superior performance and lower costs.
+  * **Developer choice:** Developers aren't forced into one path. Early apps might use EVM for simplicity, then switch to `PolkaVM` as they mature.
+
+## 6\. The Practical Benefits
+
+For users and developers, the dual-VM architecture means:
+
+  * **Easy migration:** Ethereum projects can move to Polkadot Hub almost instantly through `REVM`.
+  * **Better performance:** Over time, apps can upgrade to `PolkaVM` for faster, cheaper execution.
+  * **Growing ecosystem:** More applications create more network effects, attracting more users and builders.
+  * **Security:** All applications get Polkadot's robust, shared security system regardless of which VM they use.
+
+## 7\. Conclusion
+
+This architecture represents Polkadot's balanced approach: bringing both immediate market adoption and long-term technical innovation to enable complex applications while maintaining the developer experience everyone already knows.
+
+## 8\. Resources
+
+  * [Arbitrum Stylus: Gentle Introduction](https://docs.arbitrum.io/stylus/gentle-introduction%23:~:text%3DIt%2520has%2520sandboxed%2520execution%2520environments,faster%252C%2520cheaper%252C%2520or%2520safer.)
+  * [Avalanche: Virtual Machines](https://build.avax.network/docs/quick-start/virtual-machines)
+  * [Polkadot Forum: Prioritizing Ecosystem Growth (EVM)](https://forum.polkadot.network/t/polkadot-hub-prioritizing-growing-ecosystem-3rd-party-providers-inc-defi-asap-through-evm/14130)
