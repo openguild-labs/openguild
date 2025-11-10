@@ -43,7 +43,7 @@ Here are some typical examples:
 
 ## 3\. The Two Virtual Machines on Polkadot Hub
 
-### \#\#\# 3.1 PolkaVM
+### 3.1 PolkaVM
 
 `PolkaVM` is Polkadot's modern, next-generation execution environment built on the **RISC-V** architecture.
 
@@ -52,7 +52,7 @@ Here are some typical examples:
   * **Better performance:** Uses a register-based design (like modern computer chips) instead of older stack-based systems.
   * **Future-proof:** Optimized for advanced features like zero-knowledge proofs.
 
-### \#\#\# 3.2 EVM/REVM
+### 3.2 EVM/REVM
 
 The second environment is EVM compatibility, delivered through `REVM`. Think of this as a bridge to the existing Ethereum ecosystem.
 
@@ -63,7 +63,7 @@ The second environment is EVM compatibility, delivered through `REVM`. Think of 
 ![Dual VM Walkthrough](/static/images/polkadot/blog/polkadot-dual-vm/dual-vm.png)
 
 
-### \#\#\# 3.3 PolkaVM vs. REVM: Quick Comparison
+### 3.3 PolkaVM vs. REVM: Quick Comparison
 
 | Aspect | PolkaVM | REVM (EVM-Compatible) |
 | :--- | :--- | :--- |
@@ -84,7 +84,7 @@ The second environment is EVM compatibility, delivered through `REVM`. Think of 
 ![Architecture Overview](/static/images/polkadot/blog/polkadot-dual-vm/pallet-revive.png)
 
 
-### \#\#\# The On/Off Switch
+### The On/Off Switch
 
 The `AllowEVMBytecode` setting is simply the switch that tells the system which mode to use:
 
@@ -95,18 +95,24 @@ The `AllowEVMBytecode` setting is simply the switch that tells the system which 
 
 The strategy is pragmatic: **quick adoption now, innovation later.**
 
-  * **Short-term (REVM first):** By offering full Ethereum compatibility through `REVM`, Polkadot Hub can immediately attract existing Ethereum applications, users, and liquidity. This gets the ecosystem growing fast.
+  * **Short-term (REVM first):** By offering full Ethereum compatibility through `REVM`, `Polkadot Hub can immediately attract existing Ethereum applications, users, and liquidity. This gets the ecosystem growing fast`.
   * **Long-term (PolkaVM focused):** Once the ecosystem has momentum, developers can gradually migrate to `PolkaVM` to benefit from the superior performance and lower costs.
-  * **Developer choice:** Developers aren't forced into one path. Early apps might use EVM for simplicity, then switch to `PolkaVM` as they mature.
+
 
 ## 6\. The Practical Benefits
 
+
 For users and developers, the dual-VM architecture means:
 
-  * **Easy migration:** Ethereum projects can move to Polkadot Hub almost instantly through `REVM`.
-  * **Better performance:** Over time, apps can upgrade to `PolkaVM` for faster, cheaper execution.
-  * **Growing ecosystem:** More applications create more network effects, attracting more users and builders.
-  * **Security:** All applications get Polkadot's robust, shared security system regardless of which VM they use.
+- `For Ethereum Developers:`
+    - **Easy migration**: EVM’s compatible projects can move to Polkadot Hub almost instantly through REVM
+    - Familiar dev tools , apps and knowledges
+- `For Polkadot Developers:`
+    - Building next-generation applications with PolkaVM with more advanced use-case
+- `For Users:`
+    - **Better performance**: Over time, apps can upgrade to PolkaVM for faster, cheaper execution
+    - **Growing ecosystem**: More applications create more network effects, attracting more users and builders
+    - **Security**: All applications get Polkadot's robust, shared security system regardless of which VM they use
 
 ## 7\. Conclusion
 
