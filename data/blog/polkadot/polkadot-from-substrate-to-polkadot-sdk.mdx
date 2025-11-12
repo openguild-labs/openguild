@@ -1,0 +1,115 @@
+---
+title: 'From Substrate to Polkadot SDK: Re-engineering the Foundation of the Polkadot Ecosystem'
+date: '2025-11-12'
+authors: ['1-yuki-papermoon']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en','polkadot-sdk','evm']
+draft: false
+summary: 'From Substrate to Polkadot SDK: Re-engineering the Foundation of the Polkadot Ecosystem'
+---
+
+_Language_: English
+
+_Author_: Yuki - PaperMoon
+
+_Level_: Beginner
+
+
+-----
+
+
+## **From Substrate to the Polkadot SDK: A New Era of Composability**
+
+From the earliest days of Substrate to the current Polkadot SDK, Polkadot’s goal has never been to chase the ultimate performance of a single chain, but rather to build a universal foundation for heterogeneous multi-chains, enabling anyone to create their own blockchain-like building blocks.
+
+This system emphasizes not compatibility but **composability**; not single-point optimization but **system-level collaboration**. Through modular governance, security mechanisms, and the native cross-chain protocol XCM, it provides developers with a “reusable underlying order.”
+
+> As Gavin Wood has said, Polkadot is not “just another chain competing on compatibility,” but a chain-building system that serves ecological innovation and the multi-chain future.
+
+The Polkadot SDK is the latest incarnation of this machine: a unified interface, a standardized development stack, and a chain-building engine that spans multiple virtual machines.
+
+## **The History of Substrate**
+
+Substrate, launched by Parity in 2018, is a modular blockchain development framework written in Rust that provides the core technical foundation for the Polkadot mainnet and dozens of chains in its ecosystem.
+
+Its greatest innovation is that it disassembles consensus algorithms, runtime logic, account models, governance, smart contracts, and other components into freely combinable **pallets**. Any team can piece together a custom blockchain like building with Lego bricks, making Substrate the first truly meaningful Layer-0 framework recognized in the industry.
+
+Polkadot Substrate pioneered a shift from building a chain through a closed, monolithic design to creating an “open Lego” custom blockchain. Developers can use the **FRAME** system to assemble modules for governance, staking, smart contracts, identity, decentralized exchanges, and more, enabling “chain-level modular development” and rapidly building specialized chains for DeFi, NFTs, DID, and other scenarios.
+
+This design allowed the early Polkadot ecosystem to foster a rich variety of chain-level innovations in a very short time.
+
+### **The Fragmentation Problem**
+
+However, the high degree of customization afforded by modularity also introduced fragmentation across the ecosystem. After years of iteration, the code and functionality for building a parachain became scattered across multiple repositories: `Substrate`, `Cumulus`, `Polkadot`, and others. Each project relied on different versions and used different branches, and the APIs and documentation were severely fragmented.
+
+To avoid conflicts in the main branches, many teams had to fork their own runtimes and manually maintain versions. As a result, the ecosystem struggled to merge back into a main trunk, synchronizing libraries was complex, and version updates lagged. As underlying dependencies and interfaces evolved separately, the ecosystem faced three major bottlenecks:
+
+* **Upgrading:** The main branch progressed slowly, module updates required manual synchronization, and many chains remained on outdated versions for long periods.
+* **Collaboration:** Runtimes developed by different teams could not be directly reused, and developing cross-chain or shared modules required redundant work.
+* **Dissemination:** Documentation and tooling were fragmented, the learning curve was steep, and new developers found it hard to systematically master chain-level development.
+
+The end result was that Substrate’s modular freedom created fragmentation at the ecosystem level. Therefore, Parity took a crucial step: integrating all the core modules, interfaces, and repositories into a unified, standardized **Polkadot SDK**.
+
+## **The Birth of Polkadot SDK**
+
+After years of fragmented collaboration, Parity ultimately decided to conduct a historic architectural consolidation in 2023–2024. The organization merged Substrate, Cumulus, Polkadot, as well as FRAME and node-related repositories, into a single codebase: the Polkadot SDK.
+
+| Name | Definition | Scope of Application | Current status |
+| :--- | :--- | :--- | :--- |
+| **Substrate** | A modular blockchain framework | Standalone or foundational infrastructure for Polkadot chains | Merged into the Polkadot SDK |
+| **Polkadot SDK** | An integrated development suite that includes Substrate, Cumulus, and FRAME | The unified development interface for the Polkadot and Kusama ecosystems | An active main repository, continuously updated |
+
+For a long time, the independent evolution of multiple repositories forced developers to expend enormous effort on cross-project collaboration, dependency updates, and version management.
+
+By unifying dependency management, standardizing development practices, and synchronizing code updates, Polkadot SDK eliminates the need for frequent synchronization and conflict resolution between multiple repositories.
+
+Parity stated in its merger announcement that this step is intended to transform Substrate from being merely a “flexible engineering framework” into a standardized protocol stack supporting the entire Polkadot ecosystem. The new Polkadot SDK consolidates all of Polkadot’s core components:
+
+* **Substrate:** provides the blockchain runtime, consensus mechanisms, and core modules;
+* **FRAME:** builds the pallet module system to enable pluggable runtime logic;
+* **Cumulus:** serves as the parachain adaptation layer, allowing chains to connect directly to the Relay Chain;
+* **Polkadot Node:** defines the main node protocol stack and network communication logic.
+
+### **Core Technical Structure of Polkadot SDK**
+
+| Architecture | Functionality & Documentation |
+| :--- | :--- |
+| **FRAME** | Each chain is composed of pluggable pallets and offers over 40 official functional modules, including accounts, assets, governance, decentralized exchanges, identity, and contracts so that developers can freely define their runtimes. |
+| **Pluggable consensus** | Supports mainstream consensus algorithms such as BABE, GRANDPA, Aura, and Nimbus, enabling flexible switching among PoS, PoA, or hybrid mechanisms. |
+| **XCM** | As a cross-chain protocol, XCM is natively supported by the SDK, enabling secure cross-chain asset and message transfers and becoming a default capability in multi-chain ecosystems. |
+| **Forkless upgrades** | Supports OpenGov and allows the Wasm runtime to be upgraded directly on-chain without hard forks or service interruptions, providing the technical foundation for multi-chain governance. |
+| **Multi-VM compatibility** | Simultaneously supports the Wasm runtime, REVM (EVM-compatible), and PolkaVM (a RISC-V–based zero-knowledge VM supporting multiple languages), offering openness at the language and execution environment level. |
+
+All modules, dependencies, and documentation are now unified within a single repository, complete with comprehensive migration guides and update histories.
+
+This means developers no longer have to search, piece together, and debug across multiple codebases; instead, they can build, debug, and deploy an entire chain within a single environment. The developer experience thus evolves from “flexible modularity” to “full-ecosystem composability.”
+
+The merged Polkadot SDK has received broad recognition from developers and the ecosystem community. It not only anchors the backbone of future chain-level innovation in Polkadot but also makes it easier for developers to assemble their own appchains or rollups in a modular way. With unified documentation, API structures, and build tools, the learning curve has been greatly reduced and collaborative efficiency has significantly improved.
+
+For Parity, this integration is one of the most significant architectural evolutions since the genesis of Polkadot; for the entire ecosystem, Polkadot SDK marks the true beginning of a shift from “multi-chain coexistence” to “multi-chain synergy.” Substrate offers the freedom to build chains, while the SDK provides order to the ecosystem.
+
+## **From the SDK to REVM**
+
+The native EVM has gained native support on Polkadot. The advent of **REVM** allows projects built on the Polkadot SDK to easily include all the functionality of Ethereum.
+
+It signifies that Polkadot no longer relies on bolt-on EVM compatibility solutions; instead, it brings the core execution environment of the Ethereum ecosystem directly into its own system.
+
+In the early Polkadot ecosystem, EVM compatibility was handled individually by parachains. Chains like Moonbeam, Astar, and Acala used Parity’s **Frontier**, a modular solution for implementing EVM functionality.
+
+This approach gave parachains considerable flexibility but also created engineering fragmentation: each chain had to independently maintain its Frontier modules, manage RPC compatibility, debug EVM logic, and fix compatibility issues.
+
+The Parity team embedded the EVM engine directly into the SDK in the form of **REVM**, making it a core module on par with FRAME, Cumulus, and XCM.
+
+EVM compatibility has thus been moved from an add-on maintained by parachains into the core of the system, becoming a standard capability of Polkadot. REVM has been rewritten by Parity in Rust and is natively adapted to the Polkadot SDK architecture. Its birth is not an additional compatibility layer but a system-level integration. Its key features include:
+
+* **Rust implementation:** high performance, memory safety, and seamless cooperation with other SDK components;
+* **Native integration:** REVM is compiled directly into the Polkadot SDK, eliminating the need for Frontier plug-ins;
+* **Unified developer experience:** compatible with Ethereum’s full suite of tools (Foundry, Hardhat, Ethers.js), enabling developers to use existing Ethereum tools right out of the box;
+* **Zero migration cost:** Solidity contracts can be deployed to the Polkadot mainnet or any SDK chain without modification;
+* **Ecosystem-wide unification:** all new chains have EVM execution capabilities by default, no longer dependent on individual projects like Moonbeam for compatibility gateways.
+
+This means the deployment and execution of EVM contracts will become a native function at the Polkadot mainnet level. The advent of REVM is not the result of external competition but an inevitable outcome of SDK unification. Once the underlying modules and protocol implementations become fully standardized, EVM compatibility is naturally absorbed as a system standard, rather than remaining an add-on. This also marks the first time Polkadot has truly “absorbed Ethereum” at the execution layer, representing a leap from mere “compatibility” to full “native” support.
+
+### **Read More**
+
+* **Frontier Overview:** [https://polkadot-evm.github.io/frontier/overview](https://polkadot-evm.github.io/frontier/overview)
+* **Frontier GitHub:** [https://github.com/polkadot-evm/frontier](https://github.com/polkadot-evm/frontier)
