@@ -1,0 +1,147 @@
+---
+title: 'Walkthrough: EVM vs PolkaVM on Polkadot Hub'
+date: '2025-11-28'
+authors: ['1-dustin']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en', 'evm']
+draft: false
+summary: 'PolkaVM (PVM) is a next-generation, RISC-V-based virtual machine designed by Polkadot to address the performance and scalability limitations of the Ethereum Virtual Machine'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Beginner
+
+
+-----
+
+
+### I. Introduction: EVM Context and Limitations
+
+The **EVM (Ethereum Virtual Machine)**, launched in 2015, enabled the rise of decentralized applications (dApps) like DeFi, Payments, and Identity. Despite spawning massive applications (Uniswap, OpenSea, Axie Infinity, etc.), the EVM has inherent limitations:
+
+* **Relative Gas Calculation:** The single-dimensional gas model is based only on the number of opcodes (ref: [https://ethereum.org/developers/docs/evm/opcodes/](https://ethereum.org/developers/docs/evm/opcodes/)).
+* **Complex Tasks:** The inability to perform complex tasks like ZK knowledge computation on the EVM.
+* **Performance:** Slow execution speed.
+* **Interoperability:** Limitations in cross-chain operations.
+
+---
+
+### II. The RISC-V Momentum: Industry Vision and ZK-Proof Efficiency
+
+Industry leaders are championing RISC-V VMs as the future execution layer:
+
+1.  **The Vitalik Buterin Proposal (Industry Endorsement)**
+    * **Radical Vision:** Ethereum Co-founder **Vitalik Buterin** proposed replacing the EVM with RISC-V as the long-term execution layer for Ethereum Layer 1 (L1).
+    * **Motivation:** The primary goals are to **greatly improve efficiency**, resolve a major scaling bottleneck, and simplify the execution layer specification.
+    * **Compatibility:** The proposal ensures **backward compatibility**—old EVM contracts would continue to work and interoperate with new RISC-V contracts, likely through a RISC-V-based EVM interpreter.
+    * *Link: [https://ethereum-magicians.org/t/long-term-l1-execution-layer-proposal-replace-the-evm-with-risc-v/23617](https://ethereum-magicians.org/t/long-term-l1-execution-layer-proposal-replace-the-evm-with-risc-v/23617)*
+
+2.  **RISC-V as the ZK-VM Standard**
+    * **Native ZK-Friendliness:** Many leading ZK projects (like RISC Zero, Miden, …) have chosen RISC-V as the foundation for their **zkVMs** (Zero-Knowledge Virtual Machines).
+    * **Technical Fit:** RISC-V's open, simple, and minimal Instruction Set Architecture (ISA) makes it highly suitable for conversion into cryptographic circuits, which is the core mechanism of ZK-proof generation.
+    * **Ecosystem Advantage:** Using a standard ISA like RISC-V allows developers to reuse mature toolchains (like GCC and LLVM) and write smart contracts in languages like **Rust or C++**, which is a significant advantage over the EVM's limited language support.
+    * *Link: [https://argument.xyz/blog/riscv-good-bad/](https://argument.xyz/blog/riscv-good-bad/)*
+
+3.  **Market and Scalability Imperatives**
+    * **Bottleneck Resolution:** Adopting RISC-V directly addresses L1 scaling limitations, specifically by **improving ZK-EVM proving performance** and helping to keep block production a competitive market.
+
+---
+
+### III. What is PolkaVM?
+
+**PolkaVM (PVM)** is a next-generation, **RISC-V-based virtual machine** designed by Polkadot to address the performance and scalability limitations of the Ethereum Virtual Machine (EVM). It offers significant advantages in terms of speed, resource efficiency, and future-proofing, while remaining compatible at the tool and language level with Solidity and EVM-based developer workflows.
+
+#### Technical Architecture: Stack vs Register
+
+| Feature | EVM (Ethereum Virtual Machine) | PolkaVM (Polka Virtual Machine) |
+| :--- | :--- | :--- |
+| **Architecture** | Stack-based 256-bit VM | **Register-based, RISC-V inspired 64-bit VM** |
+| **Compilation** | Bytecode interpreted step-by-step | **Just-in-time (JIT) compilation** into efficient native code |
+| **EVM Tool Compatibility** | Solidity, Hardhat, Remix, MetaMask, etc. | **Full native support** |
+| **Language Support** | Solidity, Vyper | **Solidity, future support for C, Rust via LLVM** |
+| **Resource Metering** | Gas Unit | **Multi-dimensional** (computation, storage, memory, proof sizes) |
+| **Extensibility** | Limited | **Designed for upgradeability, ZK-proofs, multi-lang future** |
+| **Speed & Efficiency** | Slower | **Near-native speed** |
+| **Developer Experience** | Very mature, huge developer base | **Seamless migration** (Solidity/EVM code), almost no learning curve |
+| **Interoperability** | Limited with cross-chain bridges, external | **Natively multi-chain** via Polkadot’s XCM, deep ecosystem integration |
+| **Cost to Users** | Higher gas costs, less precise metering, latency | **Lower overall costs, more transparent metering, faster execution** |
+
+#### Performance and Ecosystem Impact
+
+PolkaVM’s innovations translate into:
+
+* **Faster Execution:** Contracts are **JIT-compiled** to efficient native code based on the RISC-V register set, removing many of the bottlenecks and inefficiencies inherent in the EVM's stack design.
+* **Lower Resource Usage and Costs:** **Multi-dimensional resource billing** allows users to pay for actual resources consumed (computation, storage, proof size), reducing gas costs for developers and end-users.
+* **Advanced Use Cases:** The design is future-oriented, with the potential for **ZK-proof friendly execution**, broader language support, and easier upgrades.
+* **Seamless Developer Experience:** Developers can use the same Solidity contracts, familiar tools (Hardhat, MetaMask, Remix, Foundry, …), and dApp integration processes—minimizing migration cost and risk while benefiting from superior VM performance.
+
+---
+
+### IV. Compatibility and Migration Path
+
+In early phases, Polkadot adopted **REVM** for full EVM-compatibility, meaning applications from EVM-compatible chains can migrate with no code changes, familiar dev tools, apps, and knowledge.
+
+* → However, the roadmap pivots toward **full PolkaVM adoption** for higher throughput, lower costs, and more advanced application logic.
+
+#### Key Features of PolkaVM
+
+1.  **Enhanced Performance & Efficiency**
+    * **Optimized Execution:** It uses modern virtual machine design principles to deliver **faster execution speed** and **higher efficiency**, especially for computationally intensive smart contracts.
+    * **RISC-V Architecture:** PVM is built on the RISC-V architecture, a register-based model that aligns more closely with modern CPU hardware than the EVM's stack-based model.
+    * **64-bit Word Size:** PVM utilizes a 64-bit word size, which is natively supported by modern hardware, offering a performance boost for numerical computations compared to the EVM's 256-bit word size.
+2.  **Improved Gas & Resource Management**
+    * **Gas Cost Improvements:** PVM uses a **multi-dimensional gas model** (unlike EVM's single-dimensional model) to recalibrate gas fees and better reflect the true cost of different operations.
+    * **Dynamic Management:** The design allows for smarter and more dynamic decisions regarding memory allocation, CPU usage, and other system resources.
+3.  **Future-Proofing & Interoperability**
+    * **WebAssembly (Wasm) Compatibility:** PolkaVM likely supports **WebAssembly (Wasm)**, a highly efficient, platform-agnostic standard for executing code. This enables:
+        * Cross-platform compatibility and higher execution efficiency.
+        * Support for multiple programming languages (beyond Solidity, eventually including Rust, C, and others via LLVM toolchains).
+    * **Polkadot Ecosystem Integration:** It is inherently designed to align with Polkadot's core principles of interoperability and scalability, potentially allowing smart contracts to interact seamlessly across Polkadot's multiple parachains via **XCM**.
+    * **JAM Design:** Designing for the evolving **JAM (Join-Accumulate Machine)** ecosystem, giving Polkadot a long-term edge as blockchain infrastructure evolves toward increasingly complex decentralized systems.
+
+---
+
+### V. Challenges and Considerations
+
+#### 1. Early Adoption & Migration:
+* **Challenge:** Since PolkaVM is new, some complex Solidity contracts might need extra work to run perfectly, especially if they rely on very specific, quirky features of the old EVM.
+* **Status:** The tools and examples for deployment are still being rapidly developed.
+
+#### 2. Catching Up to EVM:
+* **Challenge:** The EVM has a massive head start—it has the most developers and deployed applications.
+* **Strategy:** Polkadot's plan is to attract projects by making migration easy and offering a clear advantage in speed and performance compared to the EVM.
+
+#### 3. Developer Choice:
+* **Recommendation:** Developers can first launch their projects on EVM-compatible.
+* **Future Path:** They can then switch to the native PolkaVM later for better performance and future-proofing once the remaining compatibility issues are fully resolved.
+
+---
+
+### VI. Current Limitations Compared to EVM
+
+#### 1. Account Mapping from Substrate to PolkaVM (First Use)
+* **Required:** Must Map Account from Substrate to PolkaVM in the first time.
+
+#### 2. Unsupported EVM Opcodes and Their Implications
+* **Architectural and Introspection Opcodes:** **`pc`**, **`extcodecopy`**
+* **Ethereum Rollup & Data-Sharding Opcodes:** **`blobhash`**, **`blobbasefee`**
+* **Deprecated Opcodes:** **`selfdestruct`**
+
+#### 3. Factory Pattern Limitation
+* The standard Factory Pattern used in EVM, where a deployed contract dynamically creates other contracts, is not supported natively in PolkaVM's execution model and will result in a **`CodeNotFound` error**.
+
+#### 4. PolkaVM Randomness Limitation
+* If your Solidity code uses **`block.prevrandao`** or **`block.difficulty`** for randomness, it will work on the EVM (Ethereum Virtual Machine). However, on PolkaVM, these values will always resolve to a **constant (fixed) number**.
+* **Developers must use Polkadot's native randomness sources or a VRF (Verifiable Random Function) solution instead.**
+
+#### 5. Advanced Handling of Gas and Gaslimit
+* PolkaVM treats **`gas`**, **`gas_limit`** as only the computation time (**`ref_time`**), requiring developers to use separate, advanced tools to query the full cost (including **`proof_size`** and **`storage_deposit`**).
+
+---
+
+### VII. Conclusion
+
+**PolkaVM is technically better, but the EVM has the market.** Polkadot is trying to win developers over by ensuring an easy switch and promising **superior performance** once the supporting tools mature.
+
