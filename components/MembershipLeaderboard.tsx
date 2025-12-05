@@ -2,6 +2,37 @@
 import { Player } from 'app/types'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { getDiceBearAvatar } from '@/utils'
+
+// Avatar component with DiceBear fallback
+const MemberAvatar = ({
+  src,
+  username,
+  className,
+}: {
+  src: string
+  username: string
+  className?: string
+}) => {
+  const [imageSrc, setImageSrc] = useState(src)
+  const [hasError, setHasError] = useState(false)
+
+  const handleImageError = () => {
+    if (!hasError) {
+      setHasError(true)
+      setImageSrc(getDiceBearAvatar(username))
+    }
+  }
+
+  return (
+    <img
+      src={imageSrc}
+      alt={`${username}'s avatar`}
+      className={className}
+      onError={handleImageError}
+    />
+  )
+}
 
 const MembershipLeaderboard = () => {
   const [members, setMembers] = useState<Player[]>([])
@@ -19,11 +50,11 @@ const MembershipLeaderboard = () => {
       {members.map((member, index) => (
         <li
           key={member.id}
-          className="m-2 flex items-center rounded-lg bg-white p-2 shadow-md"
+          className="m-2 flex items-center rounded-lg bg-white p-2 shadow-md dark:bg-gray-800"
           style={{ flexWrap: 'wrap' }}
         >
           <div
-            className={index <= 2 ? 'bg-purple-600' : 'bg-gray-400'}
+            className={index <= 2 ? 'bg-primary-500' : 'bg-gray-400'}
             style={{
               width: 30,
               height: 30,
@@ -41,16 +72,16 @@ const MembershipLeaderboard = () => {
             {index === 2 && '🥉'}
             {index > 2 && index + 1}
           </div>
-          <img
+          <MemberAvatar
             src={member.avatar}
-            alt={`${member.username}'s avatar`}
+            username={member.username}
             className="mr-6 h-10 w-10 rounded-full"
           />
-          <h2 className="text-xl font-semibold">{member.username}</h2>
-          <div style={{ fontSize: 16, margin: '0px 20px' }} className="text-gray-600">
+          <h2 className="text-xl font-semibold dark:text-white">{member.username}</h2>
+          <div style={{ fontSize: 16, margin: '0px 20px' }} className="text-gray-600 dark:text-gray-400">
             XP: {member.xp}
           </div>
-          <div style={{ fontSize: 16, margin: '0px 20px' }} className="text-gray-600">
+          <div style={{ fontSize: 16, margin: '0px 20px' }} className="text-gray-600 dark:text-gray-400">
             Level: {member.level}
           </div>
         </li>

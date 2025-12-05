@@ -3,16 +3,29 @@ import { Player } from 'app/types'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Marquee from 'react-fast-marquee'
+import { getDiceBearAvatar } from '@/utils'
 
 const ImageCard = ({
   imgSrc,
+  fallbackSeed,
   style,
   avatarSize,
 }: {
   imgSrc: string
+  fallbackSeed?: string
   avatarSize?: number
   style?: React.CSSProperties
 }) => {
+  const [imageSrc, setImageSrc] = useState(imgSrc)
+  const [hasError, setHasError] = useState(false)
+
+  const handleImageError = () => {
+    if (!hasError && fallbackSeed) {
+      setHasError(true)
+      setImageSrc(getDiceBearAvatar(fallbackSeed))
+    }
+  }
+
   return (
     <div
       style={{
@@ -30,12 +43,14 @@ const ImageCard = ({
       }}
     >
       <img
-        src={imgSrc}
+        src={imageSrc}
         width={avatarSize || 15}
         height={avatarSize || 15}
         style={{
           borderRadius: 15,
         }}
+        onError={handleImageError}
+        alt="Member avatar"
       />
     </div>
   )
@@ -59,6 +74,7 @@ const MembersShowcaseList = () => {
           <div key={item.id} style={{ display: 'flex', margin: '0px 5px' }}>
             <ImageCard
               imgSrc={item.avatar}
+              fallbackSeed={item.username || item.id}
               avatarSize={80}
               style={{ height: 50, width: 50, borderRadius: '50%' }}
             />

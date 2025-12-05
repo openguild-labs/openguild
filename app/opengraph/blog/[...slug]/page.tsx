@@ -67,8 +67,9 @@ const ThumbnailComponent = ({ post, authorDetails }) => {
 }
 
 // Image generation
-export default async function Image({ params }: { params: { slug: string[] } }) {
+export default async function Image(props: { params: Promise<{ slug: string[] }> }) {
   try {
+    const params = await props.params
     const slug = decodeURI(params.slug.join('/') || '')
     const post = allBlogs.find((p) => p.slug === slug)
     const authorList = post?.authors || ['default']

@@ -36,7 +36,7 @@ const MobileNav = () => {
         </svg>
       </button>
       <div
-        className={`fixed left-0 top-0 z-10 h-full w-full transform bg-white opacity-95 duration-300 ease-in-out dark:bg-gray-950 dark:opacity-[0.98] ${
+        className={`fixed left-0 top-0 z-50 h-screen w-full transform bg-white duration-300 ease-in-out dark:bg-gray-950 ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -56,18 +56,34 @@ const MobileNav = () => {
             </svg>
           </button>
         </div>
-        <nav className="fixed mt-8 h-full">
-          {headerNavLinks.map((link) => (
-            <div key={link.title} className="px-12 py-4">
-              <Link
-                href={link.href}
-                className="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-100"
-                onClick={onToggleNav}
-              >
-                {link.title}
-              </Link>
-            </div>
-          ))}
+        <nav className="mt-8 px-12">
+          {headerNavLinks.map((link) => {
+            const isCtaButton = link.className === 'cta-button'
+            return (
+              <div key={link.title} className="py-4">
+                <Link
+                  href={link.href}
+                  className={
+                    isCtaButton
+                      ? 'inline-block bg-primary-500 px-6 py-3 text-lg font-bold uppercase tracking-wider text-white'
+                      : 'text-xl font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100'
+                  }
+                  style={
+                    isCtaButton
+                      ? {
+                          fontFamily: 'var(--font-vcr)',
+                          border: '3px solid #1a1a1a',
+                          boxShadow: '4px 4px 0px #1a1a1a',
+                        }
+                      : { fontFamily: 'var(--font-vcr)' }
+                  }
+                  onClick={onToggleNav}
+                >
+                  {isCtaButton ? '🚀 Join CODECAMP!' : link.title}
+                </Link>
+              </div>
+            )
+          })}
         </nav>
       </div>
     </>

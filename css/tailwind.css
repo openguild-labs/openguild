@@ -2,6 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Font Declarations */
+@font-face {
+  font-family: 'VCR OSD Mono';
+  src: url('/static/fonts/VCR_OSD_MONO_1.001.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Minecraftia';
+  src: url('/static/fonts/MINECRAFTIA-REGULAR.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/static/fonts/SPACEGROTESK-LIGHT.TTF') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/static/fonts/SPACEGROTESK-REGULAR.TTF') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/static/fonts/SPACEGROTESK-MEDIUM.TTF') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/static/fonts/SPACEGROTESK-SEMIBOLD.TTF') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/static/fonts/SPACEGROTESK-BOLD.TTF') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-vcr: 'VCR OSD Mono', monospace;
+  --font-minecraft: 'Minecraftia', monospace;
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
+}
+
 .task-list-item::before {
   @apply hidden;
 }
@@ -32,4 +95,99 @@ input:-webkit-autofill:focus {
 
 .katex-display {
   overflow: auto hidden;
+}
+
+/* Pixel font class for headings */
+.font-pixel {
+  font-family: var(--font-vcr);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* World map background pattern */
+.bg-world-map {
+  background-image: url('/static/graphics/World Map.png');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
+}
+
+/* Dotted background pattern */
+.bg-dotted {
+  background-image: url('/static/graphics/Dotted Background.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* Shimmer animation for progress bars */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    #e6007a 0%,
+    #6366f1 25%,
+    #e6007a 50%,
+    #6366f1 75%,
+    #e6007a 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* Blinking cursor animation */
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
+/* CodeCamp Card styles */
+.codecamp-card {
+  position: relative;
+  border: 2px solid #1f2937;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.codecamp-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Corner accent styles */
+.corner-accent::before,
+.corner-accent::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #e6007a;
+  border-style: solid;
+}
+
+.corner-accent::before {
+  top: 0;
+  left: 0;
+  border-width: 4px 0 0 4px;
+}
+
+.corner-accent::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 4px 4px 0;
 }

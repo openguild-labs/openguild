@@ -51,9 +51,14 @@ export function TwitterPostsShowcase({
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <button
             onClick={() => setShowAll(true)}
-            className="dark:focus:ring-purple-800' mx-auto my-5 rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-lg shadow-purple-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-purple-300 dark:shadow-lg dark:shadow-purple-800/80"
+            className="mx-auto my-5 bg-gray-900 px-6 py-3 text-sm font-bold uppercase tracking-wider text-white transition-all hover:translate-x-1 hover:translate-y-1 dark:bg-white dark:text-gray-900"
+            style={{
+              fontFamily: 'var(--font-vcr)',
+              border: '3px solid #1a1a1a',
+              boxShadow: '6px 6px 0px #1a1a1a',
+            }}
           >
-            See more activites on X
+            See more activities on X
           </button>
         </div>
       )}

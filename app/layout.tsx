@@ -1,7 +1,6 @@
 import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 
-import { Unbounded } from 'next/font/google'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import Header from '@/components/Header'
@@ -11,12 +10,6 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import Script from 'next/script'
-
-const space_grotesk = Unbounded({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-space-grotesk',
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
@@ -60,26 +53,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang={siteMetadata.language}
-      className={`${space_grotesk.variable} scroll-smooth`}
-      suppressHydrationWarning
-    >
+    <html lang={siteMetadata.language} className="scroll-smooth" suppressHydrationWarning>
       <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/logo.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/logo.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/logo.png" />
       <link rel="manifest" href="/static/favicons/site.webmanifest" />
-      <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#5bbad5" />
-      <meta name="msapplication-TileColor" content="#000000" />
+      <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#E6007A" />
+      <meta name="msapplication-TileColor" content="#E6007A" />
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap"
-        rel="stylesheet"
-      ></link>
       <meta property="og:image" content="<generated>" />
       <head>
         {/* Google Analytics Measurement ID */}
@@ -98,12 +81,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body
         suppressHydrationWarning={true}
-        className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white"
+        className="bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-white"
       >
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <SectionContainer>
-            <div className="flex h-screen flex-col justify-between font-sans">
+            <div className="flex min-h-screen flex-col justify-between font-sans">
               <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                 <Header />
                 <main className="mb-auto">{children}</main>

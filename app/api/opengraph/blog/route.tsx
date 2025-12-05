@@ -9,73 +9,233 @@ import { coreContent } from 'pliny/utils/contentlayer'
 const ThumbnailComponent = ({ post, authorDetails }) => {
   return (
     <div
-      className="no-styles"
       style={{
-        justifyContent: 'center',
         display: 'flex',
-        alignItems: 'center',
-        boxSizing: 'border-box',
-        fontFamily: 'Arial, Helvetica, sans-serif',
-        backgroundSize: 'cover',
         width: '1200px',
         height: '630px',
+        backgroundColor: '#0a0a0a',
+        position: 'relative',
         overflow: 'hidden',
-        flexDirection: 'column',
-        cursor: 'pointer',
-        padding: '25px 55px',
-        textAlign: 'center',
       }}
     >
-      <h3
+      {/* Gradient Accent - Top Right */}
+      <div
         style={{
-          padding: '5px 20px',
-          backgroundColor: '#6D3AEE',
-          borderRadius: '20px',
-          color: 'white',
-          fontWeight: 'bold',
-          margin: '5px 0',
+          position: 'absolute',
+          top: '-100px',
+          right: '-100px',
+          width: '400px',
+          height: '400px',
+          backgroundColor: '#E6007A',
+          opacity: 0.15,
+          borderRadius: '50%',
+          filter: 'blur(80px)',
+        }}
+      />
+
+      {/* Gradient Accent - Bottom Left */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '-100px',
+          left: '-100px',
+          width: '300px',
+          height: '300px',
+          backgroundColor: '#6366f1',
+          opacity: 0.1,
+          borderRadius: '50%',
+          filter: 'blur(60px)',
+        }}
+      />
+
+      {/* Main Content Card */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          margin: '40px',
+          padding: '40px',
+          backgroundColor: '#ffffff',
+          border: '4px solid #1a1a1a',
+          boxShadow: '12px 12px 0px #1a1a1a',
+          flex: 1,
+          position: 'relative',
         }}
       >
-        OpenGuild Community
-      </h3>
-      <h1
-        style={{
-          padding: '10px 20px',
-          backgroundColor: '#D3FF33',
-          color: 'black',
-          fontSize: '2em',
-          fontWeight: 'bold',
-          margin: '10px 0',
-        }}
-      >
-        {post.title}
-      </h1>
-      <p
-        style={{
-          marginTop: '5px',
-          maxWidth: '70%',
-          fontSize: '1.3em',
-          color: 'rgb(120, 120, 150)',
-        }}
-      >
-        {post.summary?.slice(0, 250).trim()}
-      </p>
-      <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-        <img
-          src="https://openguild.wtf/_next/image?url=%2Fstatic%2Fimages%2Flogo.png&w=48&q=75"
-          style={{ borderRadius: '50%' }}
-          width={40}
-          height={40}
-        />
-        <p style={{ color: 'black', margin: '0px 20px', fontSize: 'smaller', fontWeight: 'bold' }}>
-          openguild.wtf
-        </p>
-        <img
-          src="https://openguild.wtf/_next/image?url=%2Fstatic%2Fimages%2Fpolkadot%2Fpolkadot-logo.png&w=48&q=75"
-          style={{ borderRadius: '50%' }}
-          width={40}
-          height={40}
-        />
+        {/* Top Row - Badge and Logo */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '24px',
+          }}
+        >
+          {/* OpenGuild Badge */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+            }}
+          >
+            <img src="https://openguild.wtf/static/images/logo.png" width={48} height={48} />
+            <span
+              style={{
+                fontSize: '20px',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                letterSpacing: '3px',
+                color: '#1a1a1a',
+              }}
+            >
+              OPENGUILD
+            </span>
+          </div>
+
+          {/* Polkadot Ecosystem Badge */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#E6007A',
+              padding: '10px 20px',
+            }}
+          >
+            <span
+              style={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+                color: '#ffffff',
+              }}
+            >
+              POLKADOT ECOSYSTEM
+            </span>
+          </div>
+        </div>
+
+        {/* Title */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+          }}
+        >
+          <h1
+            style={{
+              fontSize: '52px',
+              fontWeight: 'bold',
+              color: '#1a1a1a',
+              lineHeight: 1.1,
+              margin: 0,
+              marginBottom: '20px',
+              textTransform: 'uppercase',
+              letterSpacing: '-1px',
+            }}
+          >
+            {post.title.length > 55 ? post.title.slice(0, 55) + '...' : post.title}
+          </h1>
+
+          {/* Accent Line */}
+          <div
+            style={{
+              display: 'flex',
+              width: '150px',
+              height: '6px',
+              backgroundColor: '#E6007A',
+              marginBottom: '24px',
+            }}
+          />
+
+          {/* Summary */}
+          <p
+            style={{
+              fontSize: '22px',
+              color: '#666666',
+              lineHeight: 1.5,
+              margin: 0,
+            }}
+          >
+            {post.summary?.slice(0, 120).trim()}...
+          </p>
+        </div>
+
+        {/* Bottom Row - Author & URL */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '24px',
+            paddingTop: '24px',
+            borderTop: '2px dashed #e5e5e5',
+          }}
+        >
+          {/* Author */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '44px',
+                height: '44px',
+                backgroundColor: '#E6007A',
+                color: '#ffffff',
+                fontSize: '18px',
+                fontWeight: 'bold',
+              }}
+            >
+              {'</>'}
+            </div>
+            <span
+              style={{
+                fontSize: '18px',
+                color: '#666666',
+              }}
+            >
+              {authorDetails[0]?.name || 'OpenGuild Team'}
+            </span>
+          </div>
+
+          {/* URL */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+            }}
+          >
+            <span
+              style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color: '#1a1a1a',
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+              }}
+            >
+              openguild.wtf
+            </span>
+            <div
+              style={{
+                display: 'flex',
+                width: '12px',
+                height: '12px',
+                backgroundColor: '#E6007A',
+              }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )
