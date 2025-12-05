@@ -78,10 +78,16 @@ const MembershipLeaderboard = () => {
             className="mr-6 h-10 w-10 rounded-full"
           />
           <h2 className="text-xl font-semibold dark:text-white">{member.username}</h2>
-          <div style={{ fontSize: 16, margin: '0px 20px' }} className="text-gray-600 dark:text-gray-400">
+          <div
+            style={{ fontSize: 16, margin: '0px 20px' }}
+            className="text-gray-600 dark:text-gray-400"
+          >
             XP: {member.xp}
           </div>
-          <div style={{ fontSize: 16, margin: '0px 20px' }} className="text-gray-600 dark:text-gray-400">
+          <div
+            style={{ fontSize: 16, margin: '0px 20px' }}
+            className="text-gray-600 dark:text-gray-400"
+          >
             Level: {member.level}
           </div>
         </li>

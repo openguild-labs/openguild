@@ -101,10 +101,7 @@ export default function Home({ posts }) {
               OpenGuild
             </Link>{' '}
             |{' '}
-            <Link
-              href="https://web3.foundation"
-              className="font-semibold hover:text-primary-500"
-            >
+            <Link href="https://web3.foundation" className="font-semibold hover:text-primary-500">
               Web3 Foundation
             </Link>{' '}
             |{' '}
@@ -248,9 +245,7 @@ export default function Home({ posts }) {
           </div>
 
           <div className="space-y-6">
-            {!posts.length && (
-              <p className="text-center text-gray-500">No posts found.</p>
-            )}
+            {!posts.length && <p className="text-center text-gray-500">No posts found.</p>}
             {posts
               .filter((post) => !post.tags.includes('lang-vn'))
               .slice(0, MAX_DISPLAY)

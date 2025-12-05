@@ -11,11 +11,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <img
-                src="/static/images/logo.png"
-                alt="OpenGuild Logo"
-                className="h-8 w-auto"
-              />
+              <img src="/static/images/logo.png" alt="OpenGuild Logo" className="h-8 w-auto" />
               <span
                 className="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white"
                 style={{ fontFamily: 'var(--font-vcr)' }}

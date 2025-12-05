@@ -32,7 +32,13 @@ const CourseCard = (props: {
             className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-700"
             style={{ border: '2px solid #1a1a1a' }}
           >
-            <img height={48} width={48} alt={props.title} src={props.logo} className="object-contain" />
+            <img
+              height={48}
+              width={48}
+              alt={props.title}
+              src={props.logo}
+              className="object-contain"
+            />
           </div>
           {props.difficulty && (
             <span
@@ -71,7 +77,12 @@ const CourseCard = (props: {
         >
           {props.buttonPlaceholder}
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
           </svg>
         </Link>
       </div>
@@ -140,7 +151,12 @@ const FeaturedCourseCard = (props: {
         >
           {props.buttonPlaceholder}
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
           </svg>
         </Link>
       </div>
@@ -248,7 +264,11 @@ export default function LearnPage() {
         >
           📝 Technical Articles
         </h2>
-        <ModuleListSection marquee={false} modules={researchArticles} cardStyle={{ maxWidth: 350 }} />
+        <ModuleListSection
+          marquee={false}
+          modules={researchArticles}
+          cardStyle={{ maxWidth: 350 }}
+        />
       </div>
     </div>
   )
