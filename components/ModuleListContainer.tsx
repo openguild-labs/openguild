@@ -20,43 +20,73 @@ export const ModuleListSection = ({
   const content = modules.map((topic) => (
     <div
       key={topic.title}
-      style={{ maxWidth: 320, width: '100%', borderRadius: 15, paddingBottom: 20, ...cardStyle }}
-      className="mx-2 my-5 overflow-hidden bg-white shadow-lg"
+      className="mx-2 my-4 w-80 shrink-0 bg-white transition-all hover:translate-x-1 hover:translate-y-1 dark:bg-gray-800"
+      style={{
+        border: '3px solid #1a1a1a',
+        boxShadow: '6px 6px 0px #1a1a1a',
+        ...cardStyle,
+      }}
     >
+      {/* Image */}
       <div
+        className="h-44 w-full bg-cover bg-center"
         style={{
-          background: `url(${topic.img})`,
-          marginBottom: 20,
-          height: 220,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundImage: `url(${topic.img})`,
+          borderBottom: '3px solid #1a1a1a',
         }}
       />
-      <div className="px-4 py-1">
-        <div className="text-md mb-2 font-bold">{topic.title}</div>
+
+      <div className="p-5">
+        {/* Title */}
+        <h3
+          className="mb-3 text-base font-bold uppercase leading-tight text-gray-900 dark:text-white"
+          style={{ fontFamily: 'var(--font-vcr)' }}
+        >
+          {topic.title}
+        </h3>
+
+        {/* Description */}
+        <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+          {topic.description.slice(0, 80)}...
+        </p>
+
+        {/* Button */}
         {topic.released ? (
-          <div style={{ margin: '20px 0px 20px 0px' }}>
-            <Link
-              href={topic.url}
-              className="mt-5 max-w-lg rounded bg-primary-600 px-5 py-2 text-white"
-            >
-              Learn more
-            </Link>
-          </div>
+          <Link
+            href={topic.url}
+            className="flex w-full items-center justify-center gap-2 bg-primary-500 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-primary-600"
+            style={{
+              fontFamily: 'var(--font-vcr)',
+              border: '2px solid #1a1a1a',
+            }}
+          >
+            Learn more
+            <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </Link>
         ) : (
           <div
-            className="mt-5 rounded bg-gray-200 px-5 py-2 text-gray-600"
-            style={{ margin: '30px 0px 20px 0px', width: 'fit-content' }}
+            className="flex w-full items-center justify-center bg-gray-200 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-500 dark:bg-gray-700 dark:text-gray-400"
+            style={{
+              fontFamily: 'var(--font-vcr)',
+              border: '2px solid #1a1a1a',
+            }}
           >
             Coming Soon
           </div>
         )}
-        <p className="text-base text-sm text-gray-500">{topic.description}</p>
       </div>
     </div>
   ))
+
   return (
-    <div className="flex-wrap lg:flex lg:justify-evenly">
+    <div className="flex flex-wrap justify-start gap-2">
       {marquee ? <Marquee autoFill>{content}</Marquee> : <React.Fragment>{content}</React.Fragment>}
     </div>
   )

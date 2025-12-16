@@ -22,11 +22,10 @@ const layouts = {
   PostBanner,
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string[] }
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string[] }>
 }): Promise<Metadata | undefined> {
+  const params = await props.params
   const slug = decodeURI(params.slug.join('/'))
   const post = allBlogs.find((p) => p.slug === slug)
   const authorList = post?.authors || ['default']
@@ -81,7 +80,8 @@ export const generateStaticParams = async () => {
   return paths
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
+export default async function Page(props: { params: Promise<{ slug: string[] }> }) {
+  const params = await props.params
   const slug = decodeURI(params.slug.join('/'))
   // Filter out drafts in production
   const sortedCoreContents = allCoreContent(sortPosts(allBlogs))
@@ -116,12 +116,20 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev}>
-        {/* <img
-          style={{ width: '100%', aspectRatio: 1200 / 630 }}
-          width={1200}
-          src={`/api/opengraph/blog?slug=${params.slug.join(',')}`}
-          alt={'Thumbnail'}
-        />*/}
+        <div
+          className="mb-8 overflow-hidden"
+          style={{
+            border: '3px solid #1a1a1a',
+            boxShadow: '6px 6px 0px #1a1a1a',
+          }}
+        >
+          <img
+            style={{ width: '100%', aspectRatio: 1200 / 630 }}
+            width={1200}
+            src={`/api/opengraph/blog?slug=${params.slug.join(',')}`}
+            alt={`Banner for ${mainContent.title}`}
+          />
+        </div>
         <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
       </Layout>
     </>

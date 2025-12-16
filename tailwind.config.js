@@ -24,9 +24,23 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
+        pixel: ['var(--font-vcr)', 'monospace'],
+        minecraft: ['var(--font-minecraft)', 'monospace'],
       },
       colors: {
-        primary: colors.pink,
+        primary: {
+          50: '#fef1f7',
+          100: '#fee5f0',
+          200: '#fecce3',
+          300: '#ffa2cb',
+          400: '#fe68a7',
+          500: '#E6007A', // Polkadot Pink
+          600: '#d10068',
+          700: '#b30059',
+          800: '#94004a',
+          900: '#7c0040',
+          950: '#4d0025',
+        },
         gray: colors.gray,
       },
       typography: ({ theme }) => ({
@@ -47,7 +61,7 @@ module.exports = {
               fontWeight: '600',
             },
             code: {
-              color: theme('colors.indigo.500'),
+              color: theme('colors.primary.500'),
             },
           },
         },

@@ -1,0 +1,216 @@
+---
+title: 'Introduction to Polkatool'
+date: '2025-12-12'
+authors: ['1-tin-chung']
+tags: ['technical', 'blockchain', 'polkadot', 'polkatool', 'polkaVM', 'lang-en']
+draft: false
+summary: 'This guide walk through the open-source library polkatool for working with PolkaVM binary compilation and linking.'
+---
+
+_Language_: English
+
+_Author_: Tin Chung
+
+_Level_: Intermediate
+
+---
+
+**Polkatool** is the command-line utility used in the PolkaVM ecosystem to transform compiled guest programs ([ELF](https://wiki.osdev.org/ELF)/object files) into the PolkaVM module/blob format (`.polkavm`), and to inspect/disassemble those blobs. It’s part of the PolkaVM toolchain used by projects (Rust contracts, Move/LLVM backends, PVQ, etc.) and is commonly used during a **_build → link → deploy_** workflow (_Reference_: https://forum.polkadot.network/t/announcing-polkavm-a-new-risc-v-based-vm-for-smart-contracts-and-possibly-more/3811?utm_source=chatgpt.com#p-9222-the-compilation-pipeline-7).
+
+## Before you start — prerequisites
+
+You’ll typically need:
+
+- Rust toolchain (stable + appropriate target).
+- `cargo` installed and `~/.cargo/bin` on your PATH.
+- `polkatool` (installed via `cargo install` or built from the PolkaVM repo).
+- For some language backends (Move/[LLVM](https://en.wikipedia.org/wiki/LLVM)) you may need LLVM & clang toolchain (depends on the project).
+
+## **Installation**
+
+1. **Install from crates.io (recommended for most devs)**
+
+```powershell
+# install the latest published polkatool binary
+cargo install polkatool
+# ensure ~/.cargo/bin is on your PATH
+```
+
+[crates.io](https://crates.io/crates/polkatool) shows recent published versions and `cargo install` is the usual path.
+
+1. **Build & install from the polkavm repo (useful if you need unreleased features)**
+
+```powershell
+git clone https://github.com/paritytech/polkavm.git
+cd polkavm/tools/polkatool
+cargo install --path .
+# or for development:
+cargo build
+# run via: cargo run -p polkatool -- <args>
+```
+
+This is handy for bleeding-edge or when you need to match a particular `polkavm` commit. After installing the `polkatool` binary, you will find the command’s details in your local machine:
+
+```powershell
+➜ polkatool
+Usage: polkatool <COMMAND>
+
+Commands:
+  link                  Links a given ELF file into a `.polkavm` program blob
+  disassemble           Disassembles a .polkavm blob into its human-readable assembly
+  assemble              Assembles a .polkavm blob from human-readable assembly
+  stats                 Calculates various statistics for given program blobs
+  get-target-json-path  Writes a path to a JSON target file for rustc to stdout
+  help                  Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
+```
+
+---
+
+## **Typical workflow: Rust contract → `.polkavm`**
+
+The common flow (Rust examples) is:
+
+1. Write your guest program (Rust `no_std` style or using a template that targets the PolkaVM syscalls / hostcalls).
+2. `cargo build` to produce an ELF (for the correct target).
+3. Use `polkatool link` (or `polkatool` subcommand intended for linking) to convert and optimize the ELF into a `.polkavm` blob.
+4. Deploy the `.polkavm` file to chain via RPC tools (e.g., `cast`/Foundry or custom tool) or via the chain UI.
+
+### Example (from parity’s rust-contract-template)
+
+Assuming the repo uses a `Makefile` that runs `cargo build` and then `polkatool link`:
+
+```powershell
+# 1. Install polkatool if you haven't
+cargo install polkatool
+
+# 2. Build Rust contract
+cargo build --release
+
+# 3. The ELF will typically be at target/(your-target)/release/<binary>
+#    Use polkatool to link -> outputs contract.polkavm (artifact name varies)
+polkatool link target/(your-target)/release/your_contract -o contract.polkavm
+# result: contract.polkavm
+```
+
+**Notes**: The `link` step typically strips unused sections, optimizes, repacks, and emits the `.polkavm` format that the runtime expects (this is the core role of polkatool in the toolchain).
+
+---
+
+## **Inspecting and disassembling blobs**
+
+Polkatool also provides inspection/disassembly features — very useful during development and debugging.
+
+Example commands (typical usage patterns shown in community examples and discussions):
+
+```powershell
+# Disassemble or inspect a blob
+polkatool disassemble contract.polkavm     # show human-readable disassembly / metadata
+
+# If you’re building from repo or want raw bytes:
+cargo run -p polkatool -- disassemble --show-raw-bytes ./path/to/blob.pvm
+```
+
+If `polkatool` reports _“blob doesn't start with expected magic bytes”_ it usually means the file is not a PolkaVM container or you passed the wrong artifact (e.g., raw ELF instead of `.polkavm`). Use `file`/`xxd` to confirm the data if needed. (Reference: https://paritytech.github.io/matrix-archiver/archive/_21wBOJlzaOULZOALhaRh_3Apolkadot.io/index.html?utm_source=chatgpt.com)
+
+## Experiment with Polkatool
+
+```powershell
+# 1. Install polkatool
+cargo install polkatool
+
+# 2. Create a minimal rust-contract-template-based project:
+git clone https://github.com/paritytech/rust-contract-template.git my-rust-contract
+cd my-rust-contract
+
+# 3. Build
+cargo build --release
+
+# 4. Link into .polkavm (Makefile usually automates this, but manual command pattern:)
+polkatool link target/release/<binary> -o contract.polkavm
+
+# 5. Inspect
+polkatool disassemble contract.polkavm
+
+# 6. Deploy (example: using cast)
+PAYLOAD=$(xxd -p -c 99999 contract.polkavm)
+cast send --account dev-account --create "$PAYLOAD"
+```
+
+---
+
+## **Deploying `.polkavm` to a chain (Foundry / cast example)**
+
+It is recommended for you to read the tutorial on how to use Foundry with Polkadot Hub first before continuing the section below: https://docs.polkadot.com/develop/smart-contracts/dev-environments/foundry/
+
+Polkadot documentation and templates often use Foundry’s `cast` (or other **eth-rpc** tools) to deploy PolkaVM blobs because Asset Hub’s **eth-compat** tooling accepts hex blob payloads.
+
+Example pattern from the [rust-contract-template](https://github.com/paritytech/rust-contract-template):
+
+```powershell
+# turn the .polkavm file into a hex payload for create tx
+PAYLOAD=$(xxd -p -c 99999 contract.polkavm)
+
+# deploy via cast / eth-rpc endpoint
+export ETH_RPC_URL="https://<asset-hub-eth-rpc>"
+export ETH_FROM=<your-account>
+
+# create a contract
+cast send --account <account> --create "$PAYLOAD"
+# returns contract address
+```
+
+And to call
+
+```powershell
+cast call <contractAddress> "fibonacci(uint32) public pure returns (uint32)" 4
+```
+
+This shows how the `.polkavm` blob is encoded into the same deployment path used by EVM-like `eth_create` RPCs on chains that support PolkaVM/eth-compat layers.
+
+---
+
+## **Advanced workflows & integrations**
+
+### Move, LLVM and other languages
+
+- Projects exist that compile Move (via LLVM) to RISC-V object code and then rely on `polkatool` to link into `.polkavm`. These pipelines require LLVM toolchain and additional conversion steps. Example: `polkavm-move` shows how Move → LLVM → RISC-V objects → `polkatool link`. (Reference: https://github.com/eigerco/polkavm-move?utm_source=chatgpt.com)
+
+### PVQ / Cross-consensus programs
+
+- PVQ (open-web3-stack) demonstrates using `polkatool` in a chain of tools to produce PVM blobs for queries (it uses `make tools` that installs `polkatool` to do ELF → PolkaVM conversion). Useful when integrating PolkaVM guest programs into larger test runtimes. (Reference: https://github.com/open-web3-stack/PVQ)
+
+### Solana / other ecosystems
+
+- Community projects have used `polkatool` to convert pre-built binaries from other ecosystems (e.g., Solana `anchor` programs) into PolkaVM blobs for prototype cross-Vm runtime experiments — typically by compiling to ELF/object with appropriate target and then linking. (Reference: https://github.com/LollipopHQ/sbpf-on-polkavm?utm_source=chatgpt.com)
+
+---
+
+## **Debugging & testing tips**
+
+- **Check magic bytes / header** before assuming `polkatool` will accept a file — the linker expects a particular container format. If disassemble fails, confirm you passed a polkavm file not raw ELF.
+- **Use `polkatool disassemble`** to inspect entry points, exported symbols, and metadata.
+- **Use small, iterative builds** — the linker can strip a lot but debugging optimized stripped blobs is harder; keep a debug build when stepping through logic.
+- **Use mock hostcall test harnesses** when unit-testing guest logic — community repos provide hostcall stubs / PVQ test runners.
+
+---
+
+## **Common issues & troubleshooting**
+
+- **`polkatool` not found after `cargo install`** — ensure `~/.cargo/bin` is on your PATH.
+- **Disassemble fails with “magic bytes”** — you passed a wrong artifact (e.g., ELF). Run `file contract.polkavm` or `xxd` to inspect the header.
+- **Missing LLVM when compiling Move or other backends** — install the LLVM dev packages (distribution-specific) before building those backends.
+- **Runtime incompatibility** — polkavm and pallet_revive / runtime integration are evolving. Make sure the `polkatool` version matches the runtime chain expectations (e.g., gas model changes, container format updates). Check PolkaVM release notes and chain docs for the right version. [docs.polkadot.com+1](https://docs.polkadot.com/polkadot-protocol/smart-contract-basics/polkavm-design/?utm_source=chatgpt.com)
+
+---
+
+## Resources
+
+- PolkaVM repo (Parity): GitHub — contains polkatool source and tools. https://github.com/paritytech/polkavm
+- `polkatool` crate listing on crates.io (installation). https://crates.io/crates/polkatool
+- Parity `rust-contract-template` — a concrete example of `cargo build` + `polkatool link` + deployment workflow. https://github.com/paritytech/rust-contract-template
+- PVQ (open-web3-stack) — example pipeline that installs `polkatool` and builds guest programs. https://github.com/open-web3-stack/PVQ
+- `revive` (Parity) — experimental Solidity-to-PolkaVM tool (related tooling ecosystem). https://github.com/paritytech/revive

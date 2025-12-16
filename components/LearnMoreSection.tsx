@@ -1,58 +1,56 @@
-import Link from 'next/link'
+import CodeCampCard from './CodeCampCard'
 
 export default function LearnMoreSection() {
+  const resources = [
+    {
+      title: 'Community Handbook',
+      description:
+        'Find all information about OpenGuild community in the handbook. Get started with our guidelines and resources.',
+      author: 'OpenGuild Team',
+      difficulty: 'beginner' as const,
+      task: 'Read the handbook and join our Discord community',
+      href: 'https://handbook.openguild.wtf',
+    },
+    {
+      title: 'Join Community Activities',
+      description:
+        'Participate in community activities to learn and earn rewards. Complete missions and level up your skills.',
+      author: 'OpenGuild Team',
+      difficulty: 'intermediate' as const,
+      task: 'Complete your first community activity and earn XP',
+      href: '/activity',
+    },
+    {
+      title: 'Become a Member',
+      description:
+        'Discover talented people in the community. Connect with builders and grow your network in Web3.',
+      author: 'OpenGuild Team',
+      difficulty: 'beginner' as const,
+      task: 'Create your profile and introduce yourself',
+      href: 'https://handbook.openguild.wtf/general-information/membership',
+    },
+  ]
+
   return (
-    <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-        <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-3xl md:leading-14">
-          Learn more about us
-        </h1>
-        <div className="lg:flex lg:justify-evenly">
-          {[
-            {
-              title: 'Community Handbook',
-              description: 'Find all information about OpenGuild community in the handbook',
-              img: '/static/images/community_handbook.jpg',
-              href: 'https://handbook.openguild.wtf',
-            },
-            {
-              title: 'Join our Activities',
-              description: 'Participate in community activities to learn and earn rewards',
-              img: '/static/images/discussion_forum.jpg',
-              href: '/activity',
-            },
-            {
-              title: 'Become a Member',
-              description: 'Discover talented people in the community',
-              img: '/static/images/members.jpg',
-              href: 'https://handbook.openguild.wtf/general-information/membership',
-            },
-          ].map((topic) => (
-            <Link
-              href={topic.href}
-              key={topic.title}
-              style={{
-                minWidth: 350,
-                borderRadius: 20,
-              }}
-              className="mx-3 my-5 max-w-lg overflow-hidden bg-white shadow-lg"
-            >
-              <div
-                style={{
-                  background: `url(${topic.img})`,
-                  marginBottom: 5,
-                  height: 170,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
-              <div className="px-6 py-4">
-                <div className="mb-2 text-xl font-bold">{topic.title}</div>
-                <p className="text-base text-gray-500">{topic.description}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+    <div className="mx-auto max-w-6xl px-4">
+      <h2
+        className="mb-10 text-2xl font-bold uppercase tracking-tight text-gray-900 dark:text-white md:text-3xl"
+        style={{ fontFamily: 'var(--font-vcr)' }}
+      >
+        Learn More About Us
+      </h2>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {resources.map((resource) => (
+          <CodeCampCard
+            key={resource.title}
+            title={resource.title}
+            description={resource.description}
+            author={resource.author}
+            difficulty={resource.difficulty}
+            task={resource.task}
+            href={resource.href}
+          />
+        ))}
       </div>
     </div>
   )
