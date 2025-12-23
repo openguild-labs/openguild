@@ -1,0 +1,131 @@
+---
+title: 'Path of an ETH transaction on Polkadot Hub'
+date: '2025-12-23'
+authors: ['1-Dustin']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en', 'evm']
+draft: false
+summary: 'Polkadot 2025: Crossing the Threshold into the Second Age'
+---
+
+_Language_: English
+
+_Author_: Dustin
+
+_Level_: Intermediate
+
+
+# 1. Introduction to Pallet Revive
+
+A runtime module (pallet) in the Polkadot SDK that provides a highly performant execution environment for smart contracts , supported dual VM PolkaVM and REVM
+
+## 1.1 Key Concept
+
+Most EVM chains (like Ethereum or EVM-compatible Chain ) run an EVM Emulator inside their node software. **pallet-revive** takes a different approach by supporting dual VM :
+
+* **The Input:** It accepts standard Ethereum transactions and Solidity code.
+* **The Execution:** It **compiles** Solidity code into **RISC-V** instructions (via Yul → LLVM → RISC-V) or EVM Bytecode
+* **The Engine:** It executes this code on **PolkaVM or EVM**
+
+## 1.2 Revive’s Core Component
+
+| Component | Function |
+| --- | --- |
+| **pallet-revive** | The on-chain runtime module. It stores contract code (RISC-V blobs or EVM Code), manages storage, and executes the logic. It exposes the eth_transact extrinsic. |
+| **eth-rpc** | A sidecar service (separate binary) that translates standard Ethereum JSON-RPC calls (like eth_sendRawTransaction) into Polkadot-native extrinsics. |
+| **Execution Layer** | The underlying execution engine:<br>
+
+<br>• **PolkaVM** is a register-based VM (RISC-V), allowing for JIT compilation and near-native speeds.<br>
+
+<br>• **EVM** is a stack-based VM , EVM-compatible like Ethereum, Base,… |
+| **Compiler** | Two types of compilers:<br>
+
+<br>• **Resolc**: A modified Solidity compiler that takes Solidity source code and outputs PolkaVM-compatible RISC-V bytecode<br>
+
+<br>• **Solc**: EVM bytecode. |
+
+## 1.3 Architecture Overview
+
+As you can see, Pallet Revive supports a Dual VM setup. While both VMs share the same Runtime Interface and ETH RPC, they differ at the instruction level: the code is compiled into different instruction sets corresponding to either PolkaVM or EVM
+So, how do you configure the VM? It's simple: you just need to toggle AllowEVMBytecode in Pallet Revive’s Runtime Config :
+
+* **Enabled (true):** Compatibility Mode. The system accepts legacy EVM bytecode, facilitating easy migration for existing Ethereum dApps.
+* **Disabled (false):** Native Mode. The system restricts execution to PolkaVM, optimizing for maximum performance and efficiency.
+
+![Dual VM](/static/images/polkadot/blog/polkadot-path-eth/dual-vm.png)
+
+
+---
+
+# 2. ETH Transaction Lifecycle on Polkadot Hub
+
+## 2.1 Understand Revive ETH RPC
+
+The **pallet-revive-eth-rpc** is an Ethereum-compatible JSON-RPC server that provides Ethereum API endpoints for interacting with smart contracts deployed through pallet-revive on Asset Hub
+
+**Key Features:**
+
+* The server acts as a translation layer between Ethereum JSON-RPC and Polkadot's runtime APIs
+* It supports both EVM and PolkaVM contract execution through pallet-revive
+
+**Additional Knowledges**
+
+* **Substrate Client:** It receives the raw EVM transaction from Revive’s ETH RPC, validates transactions , and gossips it to other nodes
+* **Runtime API:** Client invokes specific API traits (ReviveApi) to pass the EVM transaction data into the Runtime for processing
+* **Pallet-Revive Execution :** it is the execution layer, where the actual state change happens
+
+
+![Dual VM](/static/images/polkadot/blog/polkadot-path-eth/revive-eth-adapter.png)
+
+
+## 2.2 ETH Transaction Lifecycle
+
+Having understood the roles of the Revive ETH RPC and Substrate’s Client Relationship, let's break down the EVM transaction lifecycle step by step:
+
+1. **Transaction Submission:** The transaction originates from an Ethereum client as a raw RLP-encoded transaction sent via `eth_sendRawTransaction` . The RPC server receives this and submits it through the client's `submit` method
+2. **Transaction Conversion:** The raw transaction is converted to a checked extrinsic through `EthExtra::try_into_checked_extrinsic` . This process:
+* Decodes the RLP transaction
+* Recovers the signer address
+* Validates transaction type (rejects EIP-7702 and EIP-4844)
+
+
+3. **Block Processing:** Once included in a block, the `ReceiptExtractor` processes the extrinsic to extract Ethereum transaction data
+4. **Runtime Execution:** The transaction executes through the `ReviveApi::eth_transact` runtime API
+5. **Execution Routing:**
+* **5.1. Runtime Call Path** (to == RUNTIME_PALLETS_ADDR)
+* When you send a transaction to this special address, the input data is decoded as a Substrate runtime call
+* It directly executes pallet functions like `balances.transfer`, `staking.bond`, etc.
+* This lets Ethereum wallets interact with native Substrate features
+* Link PR: [https://github.com/paritytech/polkadot-sdk/pull/10159](https://github.com/paritytech/polkadot-sdk/pull/10159)
+
+
+* **5.2. Contract Call Path** (any other address)
+* Normal smart contract execution through `bare_call`
+* Supports both EVM and PolkaVM bytecode
+* Standard Ethereum contract interaction
+
+6. **Receipt Generation:** After execution, a receipt is generated with all transaction details and stored in the `ReceiptProvider`
+7. **Revive ETH RPC** get response from Execution, then `eth_getTransactionReciept` → return to Client
+
+![Dual VM](/static/images/polkadot/blog/polkadot-path-eth/transaction-lifecycle.png)
+
+
+---
+
+# 3. Conclusions
+
+The ETH transaction lifecycle on Polkadot Asset Hub is EVM-compatible, but Substrate-powered The four main differentiators to remember are:
+
+* **Mapping & Deposit:** Required only when bridging Substrate native tokens to the EVM environment (optional if already funded)
+* **Format:** ETH transactions are wrapped into Substrate extrinsics.
+* **Fees:** Costs are calculated using Substrate's Weight/Gas Meter.
+* **Decimals:** The protocol manages the precision shift from  (ETH) to  (Native)
+
+# 4. Resources
+
+* **Revive Compiler aka Resolc :** [https://github.com/paritytech/revive](https://github.com/paritytech/revive)
+* **PolkaVM:** [https://github.com/paritytech/polkavm](https://github.com/paritytech/polkavm)
+* **Pallet Revive:** [https://github.com/paritytech/polkadot-sdk/tree/master/substrate/frame/revive](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/frame/revive)
+
+---
+
+
