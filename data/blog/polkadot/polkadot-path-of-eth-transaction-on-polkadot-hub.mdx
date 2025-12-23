@@ -29,19 +29,11 @@ Most EVM chains (like Ethereum or EVM-compatible Chain ) run an EVM Emulator ins
 ## 1.2 Revive’s Core Component
 
 | Component | Function |
-| --- | --- |
+| :--- | :--- |
 | **pallet-revive** | The on-chain runtime module. It stores contract code (RISC-V blobs or EVM Code), manages storage, and executes the logic. It exposes the eth_transact extrinsic. |
 | **eth-rpc** | A sidecar service (separate binary) that translates standard Ethereum JSON-RPC calls (like eth_sendRawTransaction) into Polkadot-native extrinsics. |
-| **Execution Layer** | The underlying execution engine:<br>
-
-<br>• **PolkaVM** is a register-based VM (RISC-V), allowing for JIT compilation and near-native speeds.<br>
-
-<br>• **EVM** is a stack-based VM , EVM-compatible like Ethereum, Base,… |
-| **Compiler** | Two types of compilers:<br>
-
-<br>• **Resolc**: A modified Solidity compiler that takes Solidity source code and outputs PolkaVM-compatible RISC-V bytecode<br>
-
-<br>• **Solc**: EVM bytecode. |
+| **Execution Layer** | The underlying execution engine:<br /><br />• **PolkaVM** is a register-based VM (RISC-V), allowing for JIT compilation and near-native speeds.<br /><br />• **EVM** is a stack-based VM , EVM-compatible like Ethereum, Base,… |
+| **Compiler** | Two types of compilers:<br /><br />• **Resolc**: A modified Solidity compiler that takes Solidity source code and outputs PolkaVM-compatible RISC-V bytecode<br /><br />• **Solc**: EVM bytecode. |
 
 ## 1.3 Architecture Overview
 
