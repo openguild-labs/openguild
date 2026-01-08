@@ -2,7 +2,7 @@
 title: 'Is Polkadot Hub just another EVM-compatible chain?'
 date: '2026-01-06'
 authors: ['1-Daniel']
-tags: ['technical', 'EVM', 'pallet-revive', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
+tags: ['EVM', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
 draft: false
 summary: "The Polkadot Hub is about to become EVM-compatible. What makes it different from other EVM blockchains and why should you care?"
 ---
@@ -21,7 +21,7 @@ That’s right. The Polkadot Hub will be EVM-Compatible. Connect to it with your
 
 As you are reading this there are probably loads of questions running through your mind. Is Polkadot abandoning WASM? Is Ink! dead? (It’s not!) Will your assets on the Polkadot Hub vanish? How do those “zero-ex” Ethereum wallets even work on Polkadot Hub?
 
-# Funds are #SAFU!
+## Funds are #SAFU!
 
 Let’s go through what it means when Polkadot Hub becomes EVM equivalent. We will start by clarifying that this upgrade is NOT a chain regenesis. You have nothing to be afraid of.
 
@@ -29,7 +29,7 @@ Perhaps this might sound like an unnecessary move. After all, don’t we already
 
 What is happening to the Polkadot Hub is the implementation of functionality on `pallet_revive` which brings the Polkadot Hub one step closer to PolkaVM. With this upgrade, the Polkadot Hub’s ETH Proxy will be going live, which is where things get interesting.
 
-# Another way to interact with Polkadot Hub
+## Another way to interact with Polkadot Hub
 
 The ETH Proxy is a JSON-RPC server that you can connect to with virtually any EVM wallet like Metamask. It works just like an EVM blockchain with the usual bells and whistles of an EVM chain but under the hood, the server is just a proxy that repackages EVM transactions into extrinsics that can be processed by `pallet_revive` on the Polkadt Hub and executed on PolkaVM.
 
@@ -37,7 +37,7 @@ So there’s no new chain involved here. It’s the Polkadot Hub you know and lo
 
 This explanation sounds simple - but it creates more questions. If you’re thinking about how Ethereum wallets can work on a chain with a completely different wallet system, then you are asking the right questions.
 
-# 0xPolkadot
+## 0xPolkadot
 
 Polkadot Hub is a Substrate blockchain. It is fundamentally different from Ethereum and its rollups or sidechains. Instead of transactions, Substrate chains have extrinsics and intrinsics.
 
@@ -49,7 +49,7 @@ This will look a bit different from the SS58 address that you may be familiar wi
 
 Polkadot and other Substrate chains use the **SS58** or Sub58 address format. This is a Base58 address that’s between 48 and 50 characters long - which means that unlike H160 Ethereum addresses and `AccountId32` public keys which are in hex, Substrate addresses are case-sensitive.
 
-# Where your EVM transaction goes
+## Where your EVM transaction goes
 
 When you submit a transaction through an EVM wallet connected to the Polkadot Hub via the ETH Proxy, here's what happens under the hood:
 
@@ -63,7 +63,7 @@ When you submit a transaction through an EVM wallet connected to the Polkadot Hu
 
 The critical insight is that your actual Ethereum transaction payload stays intact throughout this process. The ETH Proxy does not modify your contract calls or signatures. All that just gets wrapped in a Substrate-compatible envelope payload that `pallet_revive` will then pick up and execute.
 
-# Fuel for the journey
+## Fuel for the journey
 
 Gas calculations on Ethereum are quite different from how transaction fees are handled on Substarate chains. As such, it’s not advised to try to min/max gas fees (or to engage in gas-golfing) when using the ETH Proxy.
 
@@ -79,7 +79,7 @@ PolkaVM meters three distinct resources:
 
 When you estimate gas using `eth_estimateGas`, the ETH Proxy queries the actual execution weight from the Polkadot runtime and converts it into a gas estimate that makes sense to your Ethereum tools. While the ETH Proxy can also translate user-defined gas limits and gas price into the appropriate Substrate fee parameters, remember that there are multiple steps to this process. Only tweak with these values if you know what you are doing.
 
-# Solidity on Polkadot Hub
+## Solidity on Polkadot Hub
 
 Deploying contracts to Polkadot Hub requires some changes from how things are done on Ethereum. This is where there is a difference between an EVM-compatibility and EVM-equivalence becomes prevalent.
 
@@ -91,7 +91,7 @@ For Polkadot Hub’s `pallet_revive`, you will need to use `resolc` to compile S
 
 You can use the official [Polkadot Remix IDE](remix.polkadot.io), `@parity/hardhat-polkadot` and/or `foundry-polkadot` to get started with an environment that has `resolc` baked into existing familiar Ethereum tools.
 
-# Ready to venture into the Ether?
+## Ready to venture into the Ether?
 
 You can take the ETH Proxy for a spin today using the Westend Asset Hub Testnet and experience this exciting convergence of two contrasting blockchain ecosystems.
 
