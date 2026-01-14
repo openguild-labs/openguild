@@ -2,9 +2,9 @@
 title: 'How Polkadot enables multi chain applications'
 date: '2026-1-8'
 authors: ['1-Dustin']
-tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en', 'evm']
+tags: ['technical', 'blockchain', 'polkadot', 'solidity', 'polkaVM', 'lang-en']
 draft: false
-summary: 'Polkadot transforms dApp development by moving away from the "one-chain-fits-all" model toward a **modular, interoperable ecosystem**. Instead of a single monolithic blockchain, it enables a microservices-based architecture for Web3'
+summary: 'Polkadot Hub brings native smart contract execution to Polkadot through PolkaVM, enabling developers to build multi-chain applications with seamless cross-chain messaging and shared security.'
 ---
 
 _Language_: English
@@ -15,92 +15,207 @@ _Level_: Beginner
 
 ---
 
+Polkadot enables multi-chain dApps by providing a shared-security network where specialized blockchains run in parallel and communicate natively. With the introduction of **Polkadot Hub** (formerly Asset Hub), developers can now deploy smart contracts directly on a system chain that benefits from Polkadot's shared security and native cross-chain messaging (XCM).
 
-Polkadot enables multi-chain dApps by providing a shared-security multi-chain network where many specialized blockchains can run in parallel and communicate with each other natively. Instead of building one “monolithic” chain that does everything (smart contracts, DeFi, identity, gaming, privacy), Polkadot lets developers compose an application across multiple chains—each optimized for a purpose—while still behaving like one integrated system.
+Instead of relying on third-party parachains for smart contract execution, Polkadot Hub offers a first-class, native environment powered by **PolkaVM**—a next-generation virtual machine built on RISC-V architecture.
 
+---
 
+## 1. The Core Model: Relay Chain, System Chains & Parachains
 
-## 1. The Core Model: Relay Chain & Parachains
+Polkadot operates on a hub-and-spoke model with three key components:
 
-Polkadot operates on a hub-and-spoke model to provide shared security and native communication.
+| Component         | Role                        | Responsibility                                            |
+| ----------------- | --------------------------- | --------------------------------------------------------- |
+| **Relay Chain**   | Central Security Hub        | Consensus, Validator Management, Shared Security          |
+| **System Chains** | Core Infrastructure         | Assets, Bridges, Identity, Smart Contracts (Polkadot Hub) |
+| **Parachains**    | Application-Specific Chains | Custom Logic, Governance, Specialized Execution           |
 
-| Feature | Relay Chain | Parachains |
-| --- | --- | --- |
-| **Role** | The Central Hub | Application-Specific Spokes |
-| **Responsibility** | Security, Consensus, Validator Management | Custom Logic, Governance, Execution |
-| **Execution** | Minimal (No smart contracts) | Flexible (EVM, WASM, Custom) |
+### System Chains: The Backbone
 
-> **Why this matters:** A single dApp can split functionality across multiple parachains (e.g., trading on one, identity on another) without sacrificing security.
+System chains are privileged parachains maintained by Polkadot governance. They provide essential infrastructure:
 
+- **Polkadot Hub (Asset Hub)**: Native asset management and smart contract execution via PolkaVM
+- **Bridge Hub**: Trustless bridges to external networks (Ethereum, Kusama)
+- **Coretime Chain**: Manages blockspace allocation for parachains
+- **People Chain**: Decentralized identity services
+
+> **Why this matters:** Polkadot Hub allows developers to deploy smart contracts with native access to XCM, shared security, and low fees—without needing to launch or depend on a separate parachain.
 
 ![Core Model](/static/images/polkadot/blog/polkadot-enable-multichain-apps/core_model.png)
 
+---
+
+## 2. PolkaVM: Native Smart Contracts on Polkadot Hub
+
+**PolkaVM** is Polkadot's native virtual machine, designed from the ground up for the multi-chain ecosystem. Unlike EVM-based solutions on parachains, PolkaVM runs directly on Polkadot Hub as a first-class citizen.
+
+### Key Features
+
+| Feature                 | Description                                                           |
+| ----------------------- | --------------------------------------------------------------------- |
+| **RISC-V Architecture** | Modern, efficient instruction set with excellent tooling support      |
+| **Solidity Support**    | Write contracts in Solidity, compiled to RISC-V via `resolc` compiler |
+| **ink! Support**        | Native Rust-based smart contracts using the ink! framework            |
+| **Native XCM**          | Built-in cross-chain messaging without bridges or adapters            |
+| **Lower Fees**          | Optimized execution costs compared to legacy L1 platforms             |
+
+### Development Options
+
+Developers can choose their preferred approach:
+
+**Option A: Solidity on PolkaVM**
+
+- Use familiar Ethereum tooling (Hardhat, Foundry, Remix)
+- Compile Solidity to RISC-V using the `resolc` compiler
+- Deploy to Polkadot Hub with Ethereum-compatible RPC
+
+**Option B: ink! (Rust)**
+
+- Write contracts in Rust using the ink! eDSL
+- Compile to PolkaVM bytecode
+- Leverage Rust's type safety and performance
+
+```solidity
+// Example: Simple storage contract on PolkaVM
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract SimpleStorage {
+    uint256 private value;
+
+    event ValueChanged(uint256 newValue);
+
+    function setValue(uint256 _value) public {
+        value = _value;
+        emit ValueChanged(_value);
+    }
+
+    function getValue() public view returns (uint256) {
+        return value;
+    }
+}
+```
+
+> **Note:** PolkaVM is currently in preview release. Check the [official documentation](https://docs.polkadot.com/develop/smart-contracts/) for the latest updates.
 
 ---
 
-## 2. XCM: The Engine of Interoperability
+## 3. XCM: Cross-Chain Messaging from Polkadot Hub
 
-**Cross-Consensus Messaging (XCM)** is the universal language that allows dApps to function as a unified system across fragmented networks. It enables:
+**Cross-Consensus Messaging (XCM)** is the universal language that allows dApps on Polkadot Hub to interact with the entire ecosystem. Smart contracts deployed on Polkadot Hub have native access to XCM capabilities.
 
-* **Asset Movement:** Seamlessly transfer tokens between chains.
-* **Workflow Coordination:** Lock assets on Chain A to trigger an action on Chain B.
-* **Coherent UX:** Users interact with one interface, unaware of the underlying multi-chain complexity.
+### What XCM Enables
 
-### 🛠️ XCM in Action: Moonbeam Examples
+- **Asset Transfers:** Move tokens between Polkadot Hub and any parachain
+- **Remote Execution:** Trigger actions on other chains from your smart contract
+- **Cross-Chain Queries:** Read state from connected parachains
+- **Unified UX:** Users interact with one interface while actions happen across multiple chains
 
-Moonbeam demonstrates how developers can leverage XCM through two primary methods:
+### XCM Precompile on Polkadot Hub
 
-#### **A. XCM Precompiles (Substrate + Solidity)**
+Smart contracts on Polkadot Hub can access XCM functionality through precompiled contracts:
 
-Allows Solidity developers to "remote control" assets on other parachains using standard Ethereum-style interfaces.
+```solidity
+// Example: Transfer DOT to another parachain using XCM precompile
+interface IXCM {
+    function transferAssets(
+        uint32 destParaId,
+        bytes calldata beneficiary,
+        uint256 amount
+    ) external;
+}
 
-* **Use Case:** A smart contract on Moonbeam triggers a token transfer on another parachain without leaving the EVM.
-* [Full Tutorial: Substrate Calls](https://docs.moonbeam.network/builders/interoperability/xcm/remote-execution/substrate-calls/xcm-transactor-precompile/)
+contract CrossChainTransfer {
+    IXCM constant xcm = IXCM(0x0000000000000000000000000000000000000803);
 
-![Substrate to EVM](/static/images/polkadot/blog/polkadot-enable-multichain-apps/substrate_to_evm.png)
+    function sendToParachain(
+        uint32 paraId,
+        bytes calldata recipient,
+        uint256 amount
+    ) external {
+        xcm.transferAssets(paraId, recipient, amount);
+    }
+}
+```
 
+### Multi-Chain Application Architecture
 
-#### **B. Remote EVM Calls (Contract-to-Contract)**
+With Polkadot Hub as your smart contract layer, you can build applications that span multiple chains:
 
-Enables smart contracts on different chains to talk to each other directly.
+<Mermaid chart={`
+flowchart TB
+    subgraph frontend [Your dApp Frontend]
+        UI[User Interface]
+    end
 
-* **Use Case:** A Lending Protocol on Moonbeam accesses liquidity from a DEX on Astar Network to perform a swap via XCM.
-* [Full Tutorial: Remote EVM Calls](https://docs.moonbeam.network/builders/interoperability/xcm/remote-execution/remote-evm-calls/)
+    subgraph hub [Polkadot Hub - Smart Contracts on PolkaVM]
+        DeFi[DeFi Logic]
+        NFT[NFT Mint]
+        Gov[Governance]
+    end
 
-![Contract to Contract](/static/images/polkadot/blog/polkadot-enable-multichain-apps/contract_to_contract.png)
+    subgraph parachains [Parachains]
+        P1[DeFi Parachain]
+        P2[Gaming Parachain]
+    end
 
----
+    subgraph bridges [Bridge Hub]
+        BH[Bridge Hub]
+    end
 
-## 3. Application-Specific Chains (App-Chains)
+    subgraph external [External Networks]
+        ETH[Ethereum]
+    end
 
-Polkadot empowers teams to build custom blockchains tailored to specific needs rather than sharing a generic VM. Developers can customize:
+    UI --> hub
+    DeFi -->|XCM| P1
+    NFT -->|XCM| P2
+    Gov -->|XCM| BH
+    BH --> ETH
 
-* **Fee Models:** Design how users pay for transactions.
-* **Runtime Logic:** Optimize the chain for gaming, privacy, or DeFi.
-* **Tokenomics:** Create custom governance and incentive structures.
-* **Environment:** Choose between WASM, EVM compatibility, or PolkaVM.
+`} />
 
 ---
 
 ## 4. Bridging to External Ecosystems
 
-Multi-chain dApps on Polkadot aren't limited to the "Dot-Sama" ecosystem. They can extend to Ethereum, Bitcoin, and beyond via:
+Multi-chain dApps on Polkadot Hub can extend beyond the Polkadot ecosystem through trustless bridges:
 
-* **Native Bridges:** SnowBridge, HyperBridge, Interlay.
-* **Cross-Chain Protocols:** Wormhole, LayerZero.
+### Native Bridges (via Bridge Hub)
 
-**Result:** You get the native composability of Polkadot internally while maintaining access to external liquidity and users.
+- **Snowbridge:** Trustless bridge to Ethereum, enabling ETH and ERC-20 transfers
+- **Hyperbridge:** Cross-chain messaging protocol for broader interoperability
+
+### How It Works
+
+1. Deploy your smart contract on Polkadot Hub
+2. Use XCM to send messages to Bridge Hub
+3. Bridge Hub relays messages to external networks
+4. External assets flow back through the same path
+
+**Result:** Your Polkadot Hub smart contract can interact with Ethereum liquidity and users while maintaining Polkadot's security guarantees.
 
 ---
 
-## Conclusion: The Three Pillars
+## Conclusion: Why Build on Polkadot Hub?
 
-The success of Polkadot’s multi-chain model rests on three foundational strengths:
+Polkadot Hub represents a paradigm shift for multi-chain application development:
 
-1. **Shared Security:** Launch specialized chains without the burden of building your own validator set.
-2. **Native Interoperability (XCM):** A trustless "universal language" for exchanging assets and data.
-3. **Scalable Specialization:** Processing transactions in parallel across purpose-built chains to prevent congestion.
+| Benefit                    | Description                                                            |
+| -------------------------- | ---------------------------------------------------------------------- |
+| **Native Smart Contracts** | Deploy directly on a system chain without launching your own parachain |
+| **Shared Security**        | Inherit Polkadot's validator set and consensus from day one            |
+| **Native XCM**             | First-class cross-chain messaging without adapters or bridges          |
+| **Developer Familiarity**  | Use Solidity, Hardhat, and existing Ethereum tooling                   |
+| **Lower Barrier**          | No need to acquire coretime or manage parachain infrastructure         |
+
+The combination of PolkaVM's modern architecture, native XCM integration, and Polkadot's shared security makes Polkadot Hub the ideal foundation for building the next generation of multi-chain applications.
 
 ---
 
+**Resources:**
 
+- [Polkadot Smart Contracts Documentation](https://docs.polkadot.com/develop/smart-contracts/)
+- [PolkaVM Design Overview](https://docs.polkadot.com/polkadot-protocol/smart-contract-basics/polkavm-design/)
+- [XCM Documentation](https://docs.polkadot.com/develop/interoperability/intro-to-xcm/)

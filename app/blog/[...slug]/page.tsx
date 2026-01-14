@@ -46,7 +46,7 @@ export async function generateMetadata(props: {
       width: 1200,
       height: 630,
       type: 'image/png',
-      url: `/api/opengraph/blog?slug=${params.slug.join(',')}`,
+      url: `/api/opengraph/blog?slug=${encodeURIComponent(params.slug.join(','))}`,
     },
   ]
 
@@ -126,7 +126,7 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
           <img
             style={{ width: '100%', aspectRatio: 1200 / 630 }}
             width={1200}
-            src={`/api/opengraph/blog?slug=${params.slug.join(',')}`}
+            src={`/api/opengraph/blog?slug=${encodeURIComponent(params.slug.join(','))}`}
             alt={`Banner for ${mainContent.title}`}
           />
         </div>

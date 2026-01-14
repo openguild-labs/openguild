@@ -1,0 +1,150 @@
+---
+title: 'PolkaVM: Missing Opcodes and Workarounds'
+date: '2026-01-14'
+authors: ['1-Tin']
+tags: ['technical', 'blockchain', 'polkadot', 'polkaVM', 'evm', 'lang-en']
+draft: false
+summary: 'A deep dive into EVM opcodes that are unsupported or altered in PolkaVM, and the architectural workarounds developers need to adopt when migrating Solidity contracts to Polkadot Hub.'
+---
+
+_Language_: English
+
+_Author_: Tin Chung
+
+_Level_: Advanced
+
+---
+
+The transition from the [**Ethereum Virtual Machine (EVM)**](https://ethereum.org/developers/docs/evm/) and [**WebAssembly (Wasm)**](https://webassembly.org/) to PolkaVM represents a fundamental architectural pivot in the design of decentralized execution environments. By adopting the [**RISC-V Instruction Set Architecture (ISA)**](https://riscv.org/specifications/ratified/), PolkaVM seeks to leverage a standard, modular, and register-based architecture to achieve performance parity with native execution while maintaining the strict sandboxing and determinism required for consensus protocols.
+
+However, this transition is not a simple adoption of off-the-shelf RISC-V hardware specifications. To meet the unique constraints of a blockchain runtime—specifically regarding binary size, execution metering, and absolute deterministic consensus—PolkaVM implements a rigorously constrained subset of the RISC-V specification, designated as [**RV64EMAC**](https://ethereum-magicians.org/t/long-term-l1-execution-layer-proposal-replace-the-evm-with-risc-v/23617/32).
+
+## Stack vs. Register Dissonance
+
+To understand the necessity of workarounds, one must first appreciate the friction between the source (EVM) and the target (PolkaVM/RISC-V). The EVM is a quasi-Turing-complete stack machine with a maximum stack depth of 1024 items. It relies on opcodes like `DUP` and `SWAP` to manage variable access. Conversely, `pallet-revive` utilizes PolkaVM, a RISC-V based engine that employs a finite set of registers for argument passing and computation.
+
+This divergence necessitates a **translation layer.** The compiler (`resolc`) does not merely translate opcodes 1:1; it "lowers" high-level EVM intent into sequences of RISC-V instructions. Consequently, "missing opcodes" fall into two categories:
+
+1. **Architecturally Irrelevant:** Opcodes like `PC` (Program Counter) or `SWAP` which manage the stack machine's internal state but have no meaning in a compiled, register-based binary.
+2. **Architecturally Incompatible:** Opcodes like `SELFDESTRUCT` or `EXTCODECOPY` which violate the state management or code-loading principles of the host environment.
+
+> Check the EVM Opcodes here: https://ethervm.io/
+
+The following sections dissect these categories, exploring the implications for developer tooling, security, and contract design patterns.
+
+## The Lifecycle Opcodes: Creation, Destruction, and the Crisis of Immutability
+
+The most disruptive divergences occur in the lifecycle of a smart contract. The EVM's model of instantiation and deletion is deeply rooted in its original monolithic design. Modern modular architectures found in Polkadot and rollups like zkSync require a fundamental rethinking of these operations, leading to the deprecation of key opcodes.
+
+> For details about the differences between the two architectures, you can check the official developer documentation of the Polkadot Hub's design: https://docs.polkadot.com/polkadot-protocol/smart-contract-basics/evm-vs-polkavm/#solidity-and-yul-ir-translation-incompatibilities
+
+### The Deprecation of `SELFDESTRUCT`
+
+The `SELFDESTRUCT` opcode (originally `SUICIDE`) allowed a contract to remove its code and storage from the state trie and send remaining Ether to a target address. It was historically incentivized with a gas refund to encourage state cleanup.
+
+**Architectural Incompatibility**
+
+In `pallet-revive` and PolkaVM, `SELFDESTRUCT` is strictly [unsupported](https://docs.polkadot.com/polkadot-protocol/smart-contract-basics/evm-vs-polkavm/#unsupported-operations). The reasons are multifaceted:
+
+- **The Code Blob/Instance Separation:** In PolkaVM, contract code is uploaded once as an immutable "blob" (referenced by `code_hash`), and multiple contract instances (accounts) point to this hash. "Destroying" a contract instance is semantically ambiguous. Does it delete the shared code blob? If so, it would brick every other contract sharing that logic. If it only deletes the instance storage, it leaves the code hash orphaned.
+- **The [EIP-6780](https://eips.ethereum.org/EIPS/eip-6780) Precedent:** Even Ethereum Mainnet has recognized the dangers of `SELFDESTRUCT`, particularly regarding re-entrancy protection and transaction atomicity. The Cancun upgrade (EIP-6780) neutered the opcode, preventing it from deleting code unless created in the same transaction. Polkadot takes this a step further by removing it entirely to ensure stability for its advanced storage rent models.
+
+**Functional Workarounds and Mitigation**
+
+Since the opcode triggers a compile-time error in [`resolc`](https://github.com/paritytech/revive), developers must adopt alternative patterns:
+
+- **The "Deactivation" Pattern:** Instead of removing state, developers must introduce a boolean flag (e.g., `bool public isDefunct;`) in the storage layout. All public functions must check this flag via a modifier (`modifier onlyActive`) and revert if set.
+- **Asset Reclamation:** The fund-transfer functionality of `SELFDESTRUCT` must be replaced by a standard internal transfer function using `call` (or `seal_transfer` in the host function layer) to send the contract's balance to a beneficiary before deactivation.
+
+![Deactivation Pattern](/static/images/polkavm-missing-opcodes/image.png)
+
+- **Storage Rent as Cleanup:** The economic argument for `SELFDESTRUCT` (state clearing) is replaced by [Polkadot's "Storage Deposit" (or rent)](https://substrate.stackexchange.com/questions/9644/what-is-a-storage-deposit) system. Accounts that do not maintain an ["Existential Deposit" (ED)](https://support.polkadot.network/support/solutions/articles/65000168651-what-is-the-existential-deposit-) are automatically reaped by the runtime. Thus, to "destroy" a contract, a developer can simply withdraw all funds (below the ED), causing the runtime to purge the storage natively without an explicit opcode.
+
+### `CREATE` and `CREATE2`
+
+![CREATE and CREATE2](</static/images/polkavm-missing-opcodes/image_(3).png>)
+
+The [`CREATE2`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Create2.sol) opcode is the cornerstone of counterfactual deployment, allowing users to predict a contract's address before it is deployed based on the salt, sender, and initialization code.
+
+**The Bytecode Mismatch**
+
+```
+Address = keccak256(0xff ++ sender ++ salt ++ keccak256(init_code))
+```
+
+In `pallet-revive`, this formula breaks fundamentally because the `init_code` is different. The contract logic is compiled to RISC-V, not EVM bytecode. Therefore, `keccak256(init_code)` yields a completely different hash than on Ethereum Mainnet. Consequently, a contract deployed from the exact same Solidity source code will have a different address on Polkadot than on Ethereum.
+
+**The "Baking" Workaround**
+
+The workaround involves a deep integration between the compiler (`resolc`) and the deployment tooling:
+
+- **Hash Substitution:** The `resolc` compiler calculates the hash of the _PolkaVM_ binary. When `CREATE2` is invoked in Yul/Solidity, the compiler effectively substitutes the EVM bytecode hash with the PolkaVM code hash in the address derivation logic.
+- **Blueprint Uploads:** Unlike Ethereum, where the `init_code` payload contains the constructor logic _and_ the runtime code, PolkaVM requires the code to be pre-uploaded (or "baked" into the transaction) as a blueprint. The `create` and `create2` functions in the `revive` environment operate by referencing this `code_hash` rather than processing raw bytecode bytes.
+- **Tooling Adaptation:** To maintain developer sanity, tools like Hardhat and Foundry must be patched (e.g., via `hardhat-polkadot`) to predict addresses using the PolkaVM hashing algorithm. This ensures that unit tests asserting address equality pass, provided the test environment is consistent.
+
+**The "Init Code" Gap**
+
+In EVM, `CREATE` returns the memory slice that constitutes the runtime code. In PolkaVM, constructors are "on-chain" functions that initialize storage but do not return code (since code is pre-uploaded).
+
+- **Implication:** Patterns that dynamically generate bytecode in memory (e.g., for minimal proxies) and pass it to `CREATE` will fail. The compiler cannot translate dynamic assembly construction of RISC-V code.
+- **Workaround:** Developers must use the `instantiate` host function which takes a `code_hash` of a previously uploaded contract. Dynamic code generation is replaced by dynamic _instantiation_ of static blueprints.
+
+Below is the comparison table between the creation / destruction opcodes in the **EVM vs PolkaVM**:
+
+| EVM Opcode               | Status in PolkaVM          | Reason                                                                                     | Replacement / Workaround                                                  |
+| ------------------------ | -------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| `SELFDESTRUCT`           | Unsupported                | Incompatible with code-blob / instance separation; breaks storage rent & safety guarantees | Deactivation flag + balance transfer; rely on existential deposit reaping |
+| `CREATE`                 | Semantically different     | No dynamic bytecode execution; code must be pre-uploaded                                   | `instantiate` host function using `code_hash`                             |
+| `CREATE2`                | Address derivation differs | Hash uses PolkaVM (RISC-V) binary, not EVM bytecode                                        | Compiler "hash substitution"; tooling must predict PolkaVM addresses      |
+| Dynamic init-code return | Unsupported                | Constructors don't return runtime code                                                     | Static blueprint upload + instantiation                                   |
+
+### Introspection Gap: Code-as-Data vs. Code-as-Blob
+
+EVM treats code as readable data, but PolkaVM treats code as an opaque executable artifact. Introspection opcodes are removed to enable JIT compilation and memory safety. Integrity verification moves from bytecode inspection to hash-based identity checks, enforced at compile and deployment time.
+
+| EVM Opcode    | Status in PolkaVM | Reason                                    | Replacement / Workaround                   |
+| ------------- | ----------------- | ----------------------------------------- | ------------------------------------------ |
+| `EXTCODECOPY` | Unsupported       | Code is JIT/native, not readable bytecode | Use `code_hash` identity checks            |
+| `CODECOPY`    | Unsupported       | No readable in-memory bytecode            | Compiler polyfills (`datasize` → 32 bytes) |
+| `EXTCODESIZE` | Altered           | No meaningful bytecode size               | Returns hash size (32 bytes)               |
+| `PC`          | Unsupported       | No virtual PC in JIT/native execution     | Not needed in modern Solidity              |
+
+### Contextual Opcodes: Consensus, Randomness, and Time
+
+Block-context opcodes embed Ethereum-specific assumptions about mining, randomness, and history depth. PolkaVM reinterprets these opcodes using Polkadot's consensus primitives, resulting in semantic—but not cryptographic—equivalence.
+
+| EVM Opcode    | Status in PolkaVM | Reason                           | Replacement / Mapping            |
+| ------------- | ----------------- | -------------------------------- | -------------------------------- |
+| `DIFFICULTY`  | Stubbed           | No mining difficulty in Polkadot | Constant or mapped randomness    |
+| `PREVRANDAO`  | Mapped            | Different randomness model       | Polkadot VRF via host function   |
+| `BLOCKHASH`   | Limited window    | Depends on runtime pruning       | Oracle contract for persistence  |
+| `BLOBHASH`    | Unsupported       | No EIP-4844 blob model           | Rewrite using Polkadot DA proofs |
+| `BLOBBASEFEE` | Unsupported       | No blob fee market               | Remove logic                     |
+
+### Structural Divergence: Delegation and Proxy Patterns
+
+`DELEGATECALL` survives but becomes constrained by storage layout compatibility. Cross-language delegation is unsafe due to divergent storage models, reinforcing the need for homogeneous contract languages within proxy architectures.
+
+### Execution Metering: Gas vs. Weight
+
+Ethereum's single-dimensional gas model collapses in Polkadot's multidimensional weight system. GAS becomes an approximation rather than a guarantee, shifting cost predictability from on-chain logic to off-chain simulation.
+
+| EVM Opcode        | Status in PolkaVM | Reason                               | Implication                    |
+| ----------------- | ----------------- | ------------------------------------ | ------------------------------ |
+| `GAS`             | Misleading        | Only reflects RefTime, not ProofSize | Must rely on `eth_estimateGas` |
+| Exact gas refunds | Unsupported       | Weight ≠ gas; no refund model        | Economic model differs         |
+
+### Address & Identity
+
+| EVM Feature                | Status        | Reason                       | Workaround                          |
+| -------------------------- | ------------- | ---------------------------- | ----------------------------------- |
+| Native H160 accounts       | Not supported | Polkadot uses AccountId32    | Address aliasing + suffix mapping   |
+| Reversible address mapping | Not supported | Hash-based aliasing is lossy | Explicit `map_account` registration |
+
+## Conclusion
+
+The "missing opcodes" in `pallet-revive` and PolkaVM are the scar tissue of innovation. They represent the necessary trade-offs required to run Ethereum-compatible logic on a modern, sharded, asynchronous, and register-based architecture.
+
+While the absence of `SELFDESTRUCT`, `EXTCODECOPY`, and exact `CREATE2` determinism creates friction, the workarounds—compiler-level lowering, host function virtualization, and address masquerading—demonstrate a robust engineering solution. They allow developers to write in Solidity, use standard libraries (OpenZeppelin), and deploy to Polkadot, while the system transparently swaps the engine underneath.
+
+The future of "EVM Compatibility" is not about opcode-perfect emulation, which limits innovation to the constraints of 2015-era design. It is about **Interface Compatibility**—ensuring that `call`, `store`, and `deploy` work semantically, even if the underlying instructions—the "missing opcodes"—have been replaced by something far more powerful.

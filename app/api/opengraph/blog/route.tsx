@@ -6,6 +6,9 @@ import { Authors, allAuthors, allBlogs } from 'contentlayer/generated'
 import { ImageResponse, NextRequest } from 'next/server'
 import { coreContent } from 'pliny/utils/contentlayer'
 
+// Force dynamic to prevent caching issues with the image generation
+export const dynamic = 'force-dynamic'
+
 const ThumbnailComponent = ({ post, authorDetails }) => {
   return (
     <div
@@ -246,7 +249,7 @@ export async function GET(req: NextRequest) {
   const params = searchParams.get('slug')
   if (!params) throw new Error('No params found')
 
-  const slug = decodeURI(params.split(',').join('/') || '')
+  const slug = decodeURIComponent(params).split(',').join('/')
   const post = allBlogs.find((p) => p.slug === slug)
   const authorList = post?.authors || ['default']
   const authorDetails = authorList.map((author) => {
