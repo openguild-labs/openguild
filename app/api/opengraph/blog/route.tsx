@@ -259,8 +259,19 @@ export async function GET(req: NextRequest) {
   if (!post) {
     throw new Error('No post found')
   }
-  return new ImageResponse(<ThumbnailComponent authorDetails={authorDetails} post={post} />, {
-    width: 1200,
-    height: 630,
-  })
+
+  const response = new ImageResponse(
+    <ThumbnailComponent authorDetails={authorDetails} post={post} />,
+    {
+      width: 1200,
+      height: 630,
+    }
+  )
+
+  // Disable browser caching completely
+  response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  response.headers.set('Pragma', 'no-cache')
+  response.headers.set('Expires', '0')
+
+  return response
 }

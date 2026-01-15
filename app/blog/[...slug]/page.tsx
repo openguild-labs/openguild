@@ -40,13 +40,14 @@ export async function generateMetadata(props: {
   const publishedAt = new Date(post.date).toISOString()
   const modifiedAt = new Date(post.lastmod || post.date).toISOString()
   const authors = authorDetails.map((author) => author.name)
+  const cacheVersion = new Date(post.lastmod || post.date).getTime()
   const ogImages = [
     {
       alt: `${siteMetadata.title} | ${post.title}`,
       width: 1200,
       height: 630,
       type: 'image/png',
-      url: `/api/opengraph/blog?slug=${encodeURIComponent(params.slug.join(','))}`,
+      url: `/api/opengraph/blog?slug=${encodeURIComponent(params.slug.join(','))}&v=${cacheVersion}`,
     },
   ]
 
@@ -109,6 +110,10 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
 
   const Layout = layouts[post.layout || defaultLayout]
 
+  // Use post date as cache version to ensure fresh images when content changes
+  const cacheVersion = new Date(post.lastmod || post.date).getTime()
+  const bannerUrl = `/api/opengraph/blog?slug=${encodeURIComponent(params.slug.join(','))}&v=${cacheVersion}`
+
   return (
     <>
       <script
@@ -124,9 +129,10 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
           }}
         >
           <img
+            key={slug}
             style={{ width: '100%', aspectRatio: 1200 / 630 }}
             width={1200}
-            src={`/api/opengraph/blog?slug=${encodeURIComponent(params.slug.join(','))}`}
+            src={bannerUrl}
             alt={`Banner for ${mainContent.title}`}
           />
         </div>
